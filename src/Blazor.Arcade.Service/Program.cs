@@ -15,7 +15,18 @@ namespace Blazor.Arcade.Service
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("https://localhost:7238")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -31,9 +42,9 @@ namespace Blazor.Arcade.Service
 
             app.UseHttpsRedirection();
 
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
