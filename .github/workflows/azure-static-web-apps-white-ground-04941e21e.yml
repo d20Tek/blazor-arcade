@@ -1,13 +1,10 @@
-name: Azure Static Web Apps CI/CD
+name: arcade-service ci/cd
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
+    tags:
+    - "v[0-9]+.[0-9]+.[0-9]+*"
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_job:
