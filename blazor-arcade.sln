@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Arcade.Service", "src\Blazor.Arcade.Service\Blazor.Arcade.Service.csproj", "{E95D8DBA-5AAB-4C16-A97D-B640F28842C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Arcade.Service", "src\Blazor.Arcade.Service\Blazor.Arcade.Service.csproj", "{E95D8DBA-5AAB-4C16-A97D-B640F28842C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Arcade.Client", "src\Blazor.Arcade.Client\Blazor.Arcade.Client.csproj", "{DDE8F335-F4C0-450C-890E-1E4C852BE281}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Arcade.Client", "src\Blazor.Arcade.Client\Blazor.Arcade.Client.csproj", "{DDE8F335-F4C0-450C-890E-1E4C852BE281}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".items", ".items", "{5BE48AAD-3173-4AB0-8A9F-600EBB8E5E2F}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\azure-static-web-apps-white-ground-04941e21e.yml = .github\workflows\azure-static-web-apps-white-ground-04941e21e.yml
 		.github\workflows\ci-build.yml = .github\workflows\ci-build.yml
+		.github\workflows\main_arcade-service.yml = .github\workflows\main_arcade-service.yml
 		.github\workflows\official-build.yml = .github\workflows\official-build.yml
 		README.md = README.md
 	EndProjectSection
