@@ -1,4 +1,4 @@
-name: arcade-service ci/cd
+name: arcade-client ci/cd
 
 on:
   push:
