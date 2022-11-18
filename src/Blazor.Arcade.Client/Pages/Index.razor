@@ -1,0 +1,21 @@
+﻿@page "/"
+
+<PageTitle>Blazor Arcade</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to Blazor Arcade.
+<hr />
+
+<AuthorizeView>
+    <Authorized>
+        <div>Name: @context.User.Identity?.Name</div>
+        @foreach (var claim in context.User.Claims)
+        {
+            <div>@claim.ToString()</div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>User not logged in.</p>
+    </NotAuthorized>
+</AuthorizeView>
