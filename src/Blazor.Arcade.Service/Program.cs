@@ -23,7 +23,7 @@ namespace Blazor.Arcade.Service
                 options.AddDefaultPolicy(policy =>
                 {
                     policy.WithOrigins(
-                            "https://white-ground-04941e21e.2.azurestaticapps.net/",
+                            "https://white-ground-04941e21e.2.azurestaticapps.net",
                             "https://localhost:7238")
                           .AllowAnyHeader()
                           .AllowAnyMethod();
