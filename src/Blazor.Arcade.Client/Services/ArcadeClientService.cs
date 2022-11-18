@@ -1,13 +1,13 @@
 ﻿using System.Net.Http.Json;
 using static Blazor.Arcade.Client.Pages.FetchData;
 
-namespace Blazor.Arcade.Client.Client
+namespace Blazor.Arcade.Client.Services
 {
-    public class WeatherForecastHttpClient
+    public class ArcadeClientService
     {
         public HttpClient _httpClient;
 
-        public WeatherForecastHttpClient(HttpClient client)
+        public ArcadeClientService(HttpClient client)
         {
             _httpClient = client;
         }

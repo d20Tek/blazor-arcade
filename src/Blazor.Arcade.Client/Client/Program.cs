@@ -1,4 +1,5 @@
 using Blazor.Arcade.Client.Client;
+using Blazor.Arcade.Client.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -15,7 +16,7 @@ namespace Blazor.Arcade.Client
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<WeatherForecastHttpClient>(client =>
+            builder.Services.AddHttpClient<ArcadeClientService>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7027");
             }).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
