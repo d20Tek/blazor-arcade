@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Service.Controllers
 {
@@ -11,6 +12,7 @@ namespace Blazor.Arcade.Service.Controllers
     [ApiController]
     [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [ExcludeFromCodeCoverage]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

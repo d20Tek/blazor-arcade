@@ -1,19 +1,26 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.Resource;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Service
 {
     public class Program
     {
+        [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            ConfigureServices(builder);
 
+            var app = builder.Build();
+            ConfigureApp(app).Run();
+        }
+
+        public static WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
+        {
             // Add services to the container.
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
@@ -36,8 +43,11 @@ namespace Blazor.Arcade.Service
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            return builder;
+        }
 
+        public static WebApplication ConfigureApp(WebApplication app)
+        {
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -53,7 +63,7 @@ namespace Blazor.Arcade.Service
 
             app.MapControllers();
 
-            app.Run();
+            return app;
         }
     }
 }

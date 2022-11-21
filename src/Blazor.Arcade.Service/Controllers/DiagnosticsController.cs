@@ -31,10 +31,8 @@ namespace Blazor.Arcade.Service.Controllers
         public ServiceDiagnostics GetAuth()
         {
             string userId = AuthClaims.GetAuthUserId(User);
-            Console.WriteLine($"Request-UserId: {userId}");
-
             string userName = AuthClaims.GetAuthUserName(User);
-            Console.WriteLine($"Request-UserName: {userName}");
+            Console.WriteLine($"Request-UserId: {userId}; Request-UserName: {userName}");
 
             var diag = CreateBaseDiagnostics();
             diag.CallerId = userId;
