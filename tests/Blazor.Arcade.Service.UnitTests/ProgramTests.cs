@@ -25,7 +25,7 @@ namespace Blazor.Arcade.Service.UnitTests
 
             // assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(218, result.Services.Count);
+            Assert.IsTrue(result.Services.Count > 210);
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IWebHostEnvironment)));
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IAuthenticationService)));
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(JwtBearerHandler)));
