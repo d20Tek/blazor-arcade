@@ -1,5 +1,6 @@
 ﻿@page "/diagnostics"
 @attribute [Authorize]
+@inject ArcadeClientService _serviceClient
 
 <PageTitle>Arcade - Diagnostics</PageTitle>
 <h3>Diagnostics</h3>
@@ -14,7 +15,23 @@
         {
             <div>@claim.ToString()</div>
         }
+
         <hr />
+        <h4>Arcade Service Diagnostics:</h4>
+        <hr />
+
+        @if (_diag != null)
+        {
+            <div>Result: @_diag.Result</div>
+            <div>Endpoint Url: @_diag.EndpointUrl</div>
+            <div>Caller Id: @_diag.CallerId</div>
+            <div>Caller Name: @_diag.CallerName</div>
+            <div>Timestamp: @ConvertToDateTime(_diag.Timestamp) (UTC)</div>
+        }
+        else
+        {
+            <p>Service diagnostics request failed.</p>
+        }
     </Authorized>
     <NotAuthorized>
         <h4>Authenticated User:</h4>
@@ -24,9 +41,14 @@
     </NotAuthorized>
 </AuthorizeView>
 
-<h4>Arcade Service Diagnostics:</h4>
-<hr />
-
 @code {
+    private ServiceDiagnostics? _diag = null;
 
+    protected override async Task OnInitializedAsync()
+    {
+        _diag = await _serviceClient.GetAuthDiagnosticsAsync();
+    }
+
+    private DateTime ConvertToDateTime(long ticks) =>
+        new DateTime(ticks);
 }

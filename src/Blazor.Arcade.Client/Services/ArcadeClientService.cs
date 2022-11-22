@@ -1,8 +1,8 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Common.Models;
 using System.Net.Http.Json;
-using static Blazor.Arcade.Client.Pages.FetchData;
 
 namespace Blazor.Arcade.Client.Services
 {
@@ -15,12 +15,12 @@ namespace Blazor.Arcade.Client.Services
             _httpClient = client;
         }
 
-        public async Task<WeatherForecast[]> GetWeatherForecastsAsync()
+        public async Task<ServiceDiagnostics?> GetAuthDiagnosticsAsync()
         {
-            var response = await _httpClient.GetAsync("/WeatherForecast");
+            var response = await _httpClient.GetAsync("/api/v1/diag/auth");
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<WeatherForecast[]>();
+            return await response.Content.ReadFromJsonAsync<ServiceDiagnostics>();
         }
     }
 }
