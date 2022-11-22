@@ -12,9 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".items", ".items", "{5BE48A
 		.github\workflows\azure-static-web-apps-white-ground-04941e21e.yml = .github\workflows\azure-static-web-apps-white-ground-04941e21e.yml
 		.github\workflows\ci-build.yml = .github\workflows\ci-build.yml
 		.github\workflows\main_arcade-service.yml = .github\workflows\main_arcade-service.yml
-		.github\workflows\official-build.yml = .github\workflows\official-build.yml
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Arcade.Common", "src\Blazor.Arcade.Common\Blazor.Arcade.Common.csproj", "{B07E1326-EF30-46D8-8604-90EB55C210C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Arcade.Service.UnitTests", "tests\Blazor.Arcade.Service.UnitTests\Blazor.Arcade.Service.UnitTests.csproj", "{8B4A9077-FEDB-41A4-AEE5-0B62B1DD47BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +33,14 @@ Global
 		{DDE8F335-F4C0-450C-890E-1E4C852BE281}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDE8F335-F4C0-450C-890E-1E4C852BE281}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDE8F335-F4C0-450C-890E-1E4C852BE281}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B07E1326-EF30-46D8-8604-90EB55C210C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B07E1326-EF30-46D8-8604-90EB55C210C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B07E1326-EF30-46D8-8604-90EB55C210C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B07E1326-EF30-46D8-8604-90EB55C210C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B4A9077-FEDB-41A4-AEE5-0B62B1DD47BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B4A9077-FEDB-41A4-AEE5-0B62B1DD47BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B4A9077-FEDB-41A4-AEE5-0B62B1DD47BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4A9077-FEDB-41A4-AEE5-0B62B1DD47BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
