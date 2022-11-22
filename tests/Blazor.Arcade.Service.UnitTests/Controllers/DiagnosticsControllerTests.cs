@@ -26,11 +26,12 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
 
             // assert
             Assert.IsNotNull(results);
-            Assert.AreEqual("Ok", results.Result);
-            Assert.AreEqual("https://test.com/test/method", results.EndpointUrl);
-            Assert.IsTrue(results.Timestamp > 0);
-            Assert.IsNull(results.CallerId);
-            Assert.IsNull(results.CallerName);
+            Assert.IsNotNull(results.Value);
+            Assert.AreEqual("Ok", results.Value.Result);
+            Assert.AreEqual("https://test.com/test/method", results.Value.EndpointUrl);
+            Assert.IsTrue(results.Value.Timestamp > 0);
+            Assert.IsNull(results.Value.CallerId);
+            Assert.IsNull(results.Value.CallerName);
         }
 
         [TestMethod]
@@ -47,11 +48,12 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
 
             // assert
             Assert.IsNotNull(results);
-            Assert.AreEqual("Ok", results.Result);
-            Assert.AreEqual("https://test.com/test/method", results.EndpointUrl);
-            Assert.IsTrue(results.Timestamp > 0);
-            Assert.AreEqual(ControllerContextHelper.DefaultUserId, results.CallerId);
-            Assert.AreEqual(ControllerContextHelper.DefaultUserName, results.CallerName);
+            Assert.IsNotNull(results.Value);
+            Assert.AreEqual("Ok", results.Value.Result);
+            Assert.AreEqual("https://test.com/test/method", results.Value.EndpointUrl);
+            Assert.IsTrue(results.Value.Timestamp > 0);
+            Assert.AreEqual(ControllerContextHelper.DefaultUserId, results.Value.CallerId);
+            Assert.AreEqual(ControllerContextHelper.DefaultUserName, results.Value.CallerName);
         }
 
         [TestMethod]
@@ -68,11 +70,12 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
 
             // assert
             Assert.IsNotNull(results);
-            Assert.AreEqual("Ok", results.Result);
-            Assert.AreEqual("https://test.com/test/method", results.EndpointUrl);
-            Assert.IsTrue(results.Timestamp > 0);
-            Assert.AreEqual(string.Empty, results.CallerId);
-            Assert.AreEqual(string.Empty, results.CallerName);
+            Assert.IsNotNull(results.Value);
+            Assert.AreEqual("Ok", results.Value.Result);
+            Assert.AreEqual("https://test.com/test/method", results.Value.EndpointUrl);
+            Assert.IsTrue(results.Value.Timestamp > 0);
+            Assert.AreEqual(string.Empty, results.Value.CallerId);
+            Assert.AreEqual(string.Empty, results.Value.CallerName);
         }
     }
 }

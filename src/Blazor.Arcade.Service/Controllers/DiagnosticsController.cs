@@ -11,34 +11,38 @@ namespace Blazor.Arcade.Service.Controllers
 {
     [ApiController]
     [Route("api/v1/diag")]
-    public class DiagnosticsController : ControllerBase
+    public class DiagnosticsController : ArcadeControllerBase
     {
-        private readonly ILogger<DiagnosticsController> _logger;
-
         public DiagnosticsController(ILogger<DiagnosticsController> logger)
+            : base(logger)
         {
-            _logger = logger;
         }
 
         [HttpGet(Name = "GetDiagnostics")]
-        public ServiceDiagnostics Get()
+        public ActionResult<ServiceDiagnostics> Get()
         {
-            return CreateBaseDiagnostics();
+            return EndpointOperation<ServiceDiagnostics>("GetDiagnostics", () =>
+            {
+                return CreateBaseDiagnostics();
+            });
         }
 
         [Authorize]
         [HttpGet("auth", Name = "GetAuthDiagnostics")]
-        public ServiceDiagnostics GetAuth()
+        public ActionResult<ServiceDiagnostics> GetAuth()
         {
-            string userId = AuthClaims.GetAuthUserId(User);
-            string userName = AuthClaims.GetAuthUserName(User);
-            Console.WriteLine($"Request-UserId: {userId}; Request-UserName: {userName}");
+            return EndpointOperation<ServiceDiagnostics>("GetAuthDiagnostics", () =>
+            {
+                string userId = AuthClaims.GetAuthUserId(User);
+                string userName = AuthClaims.GetAuthUserName(User);
+                Console.WriteLine($"Request-UserId: {userId}; Request-UserName: {userName}");
 
-            var diag = CreateBaseDiagnostics();
-            diag.CallerId = userId;
-            diag.CallerName = userName;
+                var diag = CreateBaseDiagnostics();
+                diag.CallerId = userId;
+                diag.CallerName = userName;
 
-            return diag;
+                return diag;
+            });
         }
 
         private ServiceDiagnostics CreateBaseDiagnostics()
