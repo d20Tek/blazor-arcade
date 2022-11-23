@@ -38,7 +38,7 @@ namespace Blazor.Arcade.Client.UnitTests
         public void GetConfiguredServices()
         {
             // arrange
-            var services = new ServiceCollection();
+            // setup mock services for config and host environment
             var mockConfig = new Mock<IConfiguration>();
             mockConfig.Setup(p => p.GetSection(It.IsAny<string>()))
                       .Returns(new Mock<IConfigurationSection>().Object);
@@ -47,6 +47,8 @@ namespace Blazor.Arcade.Client.UnitTests
             var mockHostEnv = new Mock<IWebAssemblyHostEnvironment>();
             mockHostEnv.Setup(p => p.BaseAddress).Returns("https://test.com");
 
+            // setup service collection with some required base services
+            var services = new ServiceCollection();
             services.AddSingleton<NavigationManager>(new MockNavigationManager());
             services.AddSingleton<IConfiguration>(mockConfig.Object);
             services.AddSingleton<IJSRuntime>(new Mock<IJSRuntime>().Object);

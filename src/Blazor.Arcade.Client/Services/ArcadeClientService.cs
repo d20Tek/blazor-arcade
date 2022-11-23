@@ -8,7 +8,8 @@ namespace Blazor.Arcade.Client.Services
 {
     public class ArcadeClientService : IArcadeClientService
     {
-        public HttpClient _httpClient;
+        private const string _diagUri = "/api/v1/diag/auth";
+        private HttpClient _httpClient;
 
         public ArcadeClientService(HttpClient client)
         {
@@ -17,7 +18,7 @@ namespace Blazor.Arcade.Client.Services
 
         public async Task<ServiceDiagnostics?> GetAuthDiagnosticsAsync()
         {
-            var response = await _httpClient.GetAsync("/api/v1/diag/auth");
+            var response = await _httpClient.GetAsync(_diagUri);
             response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadFromJsonAsync<ServiceDiagnostics>();

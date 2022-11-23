@@ -13,6 +13,8 @@ namespace Blazor.Arcade.Service.Controllers
     [Route("api/v1/diag")]
     public class DiagnosticsController : ArcadeControllerBase
     {
+        private const string _okResponse = "Ok";
+
         public DiagnosticsController(ILogger<DiagnosticsController> logger)
             : base(logger)
         {
@@ -49,7 +51,7 @@ namespace Blazor.Arcade.Service.Controllers
         {
             return new ServiceDiagnostics
             {
-                Result = "Ok",
+                Result = _okResponse,
                 EndpointUrl = this.HttpContext.Request.GetDisplayUrl(),
                 Timestamp = DateTimeOffset.UtcNow.Ticks,
             };
