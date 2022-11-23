@@ -80,7 +80,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages
     <div>Endpoint Url: /test/url</div>
     <div>Caller Id: test-user-id</div>
     <div>Caller Name: Test User</div>
-    <div>Timestamp: 1/1/0001 12:00:00 AM (UTC)</div>
+    <div diff:ignore></div>
 ";
             comp.MarkupMatches(expectedHtml);
         }
