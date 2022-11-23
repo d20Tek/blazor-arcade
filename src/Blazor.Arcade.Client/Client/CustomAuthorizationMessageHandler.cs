@@ -13,7 +13,7 @@ namespace Blazor.Arcade.Client
             IConfiguration configuration)
             : base(provider, navigationManager)
         {
-            var serviceUrl = configuration["ArcadeServiceUrl"] ?? string.Empty;
+            var serviceUrl = configuration["ArcadeServiceUrl"];
 
             ConfigureHandler(
                 authorizedUrls: new[] { serviceUrl },
