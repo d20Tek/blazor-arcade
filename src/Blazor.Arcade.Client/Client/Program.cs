@@ -4,33 +4,45 @@
 using Blazor.Arcade.Client.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Client
 {
     public class Program
     {
+        [ExcludeFromCodeCoverage]
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            var serviceUrl = builder.Configuration["ArcadeServiceUrl"] ?? string.Empty;
+            ConfigureServices(builder.Services, builder.Configuration, builder.HostEnvironment);
+            await builder.Build().RunAsync();
+        }
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        public static void ConfigureServices(
+            IServiceCollection services,
+            IConfiguration config,
+            IWebAssemblyHostEnvironment hostEnv)
+        {
+            services.AddScoped(sp =>
+                new HttpClient
+                {
+                    BaseAddress = new Uri(hostEnv.BaseAddress)
+                });
 
-            builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<ArcadeClientService>(client =>
+            services.AddScoped<CustomAuthorizationMessageHandler>();
+            services.AddHttpClient<IArcadeClientService, ArcadeClientService>(client =>
             {
+                var serviceUrl = config["ArcadeServiceUrl"];
                 client.BaseAddress = new Uri(serviceUrl);
             }).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
-            builder.Services.AddMsalAuthentication(options =>
+            services.AddMsalAuthentication(options =>
             {
-                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+                config.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
-
-            await builder.Build().RunAsync();
         }
     }
 }
