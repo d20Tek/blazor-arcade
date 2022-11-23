@@ -1,6 +1,6 @@
 ﻿@page "/diagnostics"
 @attribute [Authorize]
-@inject ArcadeClientService _serviceClient
+@inject IArcadeClientService _serviceClient
 
 <PageTitle>Arcade - Diagnostics</PageTitle>
 <h3>Diagnostics</h3>
@@ -10,7 +10,7 @@
     <Authorized>
         <h4>Authenticated User:</h4>
         <hr />
-        <div>Name: @context.User.Identity?.Name</div>
+        <div>Name: @context.User.Identity.Name</div>
         @foreach (var claim in context.User.Claims)
         {
             <div>@claim.ToString()</div>

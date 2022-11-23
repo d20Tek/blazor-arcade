@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 namespace Blazor.Arcade.Client.Services
 {
-    public class ArcadeClientService
+    public class ArcadeClientService : IArcadeClientService
     {
         public HttpClient _httpClient;
 

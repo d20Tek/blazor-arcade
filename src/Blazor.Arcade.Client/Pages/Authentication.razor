@@ -1,5 +1,7 @@
 ﻿@page "/authentication/{action}"
+@attribute [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
 <RemoteAuthenticatorView Action="@Action" />
 
 @code{

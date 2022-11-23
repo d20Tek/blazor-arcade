@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="bunit" Version="1.12.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
@@ -20,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Blazor.Arcade.Service\Blazor.Arcade.Service.csproj" />
+    <ProjectReference Include="..\..\src\Blazor.Arcade.Client\Blazor.Arcade.Client.csproj" />
   </ItemGroup>
 
 </Project>
