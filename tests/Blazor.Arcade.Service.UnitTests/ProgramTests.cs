@@ -1,6 +1,7 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +32,9 @@ namespace Blazor.Arcade.Service.UnitTests
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(JwtBearerHandler)));
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(ICorsService)));
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IControllerFactory)));
+
+            // assert project-specific services
+            Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IGameMetadataRepository)));
         }
 
         [TestMethod]
