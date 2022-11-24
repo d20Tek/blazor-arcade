@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazor.Arcade.Client
 {
-    public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
+    internal class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
     {
         public CustomAuthorizationMessageHandler(IAccessTokenProvider provider,
             NavigationManager navigationManager,

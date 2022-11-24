@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 namespace Blazor.Arcade.Client.Services
 {
-    public class ArcadeClientService : IArcadeClientService
+    internal class ArcadeClientService : IArcadeClientService
     {
         private const string _diagUri = "/api/v1/diag/auth";
         private HttpClient _httpClient;

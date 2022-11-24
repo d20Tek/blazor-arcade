@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using System.Diagnostics.CodeAnalysis;
@@ -19,7 +20,7 @@ namespace Blazor.Arcade.Service
             ConfigureApp(app).Run();
         }
 
-        public static WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
+        internal static WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
         {
             // Add services to the container.
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -38,6 +39,7 @@ namespace Blazor.Arcade.Service
             });
 
             builder.Services.AddControllers();
+            builder.Services.AddRepositoryServices();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -46,7 +48,7 @@ namespace Blazor.Arcade.Service
             return builder;
         }
 
-        public static WebApplication ConfigureApp(WebApplication app)
+        internal static WebApplication ConfigureApp(WebApplication app)
         {
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
