@@ -21,7 +21,7 @@ namespace Blazor.Arcade.Client
             await builder.Build().RunAsync();
         }
 
-        public static void ConfigureServices(
+        internal static void ConfigureServices(
             IServiceCollection services,
             IConfiguration config,
             IWebAssemblyHostEnvironment hostEnv)

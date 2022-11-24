@@ -20,7 +20,7 @@ namespace Blazor.Arcade.Service
             ConfigureApp(app).Run();
         }
 
-        public static WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
+        internal static WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
         {
             // Add services to the container.
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -48,7 +48,7 @@ namespace Blazor.Arcade.Service
             return builder;
         }
 
-        public static WebApplication ConfigureApp(WebApplication app)
+        internal static WebApplication ConfigureApp(WebApplication app)
         {
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
