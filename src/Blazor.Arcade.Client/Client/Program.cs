@@ -21,7 +21,7 @@ namespace Blazor.Arcade.Client
             await builder.Build().RunAsync();
         }
 
-        internal static void ConfigureServices(
+        public static void ConfigureServices(
             IServiceCollection services,
             IConfiguration config,
             IWebAssemblyHostEnvironment hostEnv)
@@ -33,7 +33,7 @@ namespace Blazor.Arcade.Client
                 });
 
             services.AddScoped<CustomAuthorizationMessageHandler>();
-            services.AddHttpClient<IArcadeClientService, ArcadeClientService>(client =>
+            services.AddHttpClient<IArcadeService, ArcadeService>(client =>
             {
                 var serviceUrl = config["ArcadeServiceUrl"];
                 client.BaseAddress = new Uri(serviceUrl);

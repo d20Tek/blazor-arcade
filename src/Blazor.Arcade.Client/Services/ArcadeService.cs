@@ -6,22 +6,28 @@ using System.Net.Http.Json;
 
 namespace Blazor.Arcade.Client.Services
 {
-    internal class ArcadeClientService : IArcadeClientService
+    internal class ArcadeService : IArcadeService
     {
         private const string _diagUri = "/api/v1/diag/auth";
         private HttpClient _httpClient;
 
-        public ArcadeClientService(HttpClient client)
+        public ArcadeService(HttpClient client)
         {
             _httpClient = client;
         }
 
         public async Task<ServiceDiagnostics?> GetAuthDiagnosticsAsync()
         {
-            var response = await _httpClient.GetAsync(_diagUri);
+            var response = await GetAsync(_diagUri);
+            return await response.Content.ReadFromJsonAsync<ServiceDiagnostics>();
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(string requestUri)
+        {
+            var response = await _httpClient.GetAsync(requestUri);
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<ServiceDiagnostics>();
+            return response;
         }
     }
 }

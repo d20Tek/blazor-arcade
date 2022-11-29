@@ -5,8 +5,10 @@ using Blazor.Arcade.Common.Models;
 
 namespace Blazor.Arcade.Client.Services
 {
-    public interface IArcadeClientService
+    public interface IArcadeService
     {
         public Task<ServiceDiagnostics?> GetAuthDiagnosticsAsync();
+
+        public Task<HttpResponseMessage> GetAsync(string requestUri);
     }
 }

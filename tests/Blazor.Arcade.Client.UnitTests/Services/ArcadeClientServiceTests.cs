@@ -24,7 +24,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             }";
 
             var httpClient = CreateHttpClient(responseContent);
-            var service = new ArcadeClientService(httpClient);
+            var service = new ArcadeService(httpClient);
 
             // act
             var result = await service.GetAuthDiagnosticsAsync();

@@ -18,11 +18,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages
         public void InitialRender_Unauthenticated()
         {
             // arrange
-            var mockClientService = new Mock<IArcadeClientService>();
+            var mockClientService = new Mock<IArcadeService>();
 
             var ctx = new b.TestContext();
             ctx.AddTestAuthorization();
-            ctx.Services.AddScoped<IArcadeClientService>(f => mockClientService.Object);
+            ctx.Services.AddScoped<IArcadeService>(f => mockClientService.Object);
 
             // act
             var comp = ctx.RenderComponent<Diagnostics>();
@@ -51,7 +51,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages
                 CallerName = "Test User",
             };
 
-            var mockClientService = new Mock<IArcadeClientService>();
+            var mockClientService = new Mock<IArcadeService>();
             mockClientService.Setup(p => p.GetAuthDiagnosticsAsync())
                              .ReturnsAsync(diag);
 
@@ -59,7 +59,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
-            ctx.Services.AddScoped<IArcadeClientService>(f => mockClientService.Object);
+            ctx.Services.AddScoped<IArcadeService>(f => mockClientService.Object);
 
             // act
             var comp = ctx.RenderComponent<Diagnostics>();
@@ -89,13 +89,13 @@ namespace Blazor.Arcade.Client.UnitTests.Pages
         public void Render_WithClientServiceError()
         {
             // arrange
-            var mockClientService = new Mock<IArcadeClientService>();
+            var mockClientService = new Mock<IArcadeService>();
 
             var ctx = new b.TestContext();
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
-            ctx.Services.AddScoped<IArcadeClientService>(f => mockClientService.Object);
+            ctx.Services.AddScoped<IArcadeService>(f => mockClientService.Object);
 
             // act
             var comp = ctx.RenderComponent<Diagnostics>();
