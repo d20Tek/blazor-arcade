@@ -25,9 +25,9 @@ namespace Blazor.Arcade.Service.Controllers
 
             try
             {
-                this.Logger.LogTrace($"Begin Operation '{endpointName}'");
+                this.Logger.LogTrace($"Begin Operation: '{endpointName}'");
                 var result = await operation();
-                this.Logger.LogTrace($"End Operation '{endpointName}'");
+                this.Logger.LogTrace($"End Operation: '{endpointName}'");
 
                 return result;
             }
@@ -54,9 +54,9 @@ namespace Blazor.Arcade.Service.Controllers
 
             try
             {
-                this.Logger.LogTrace($"Begin Operation '{endpointName}'");
+                this.Logger.LogTrace($"Begin Operation: '{endpointName}'");
                 var result = operation();
-                this.Logger.LogTrace($"End Operation '{endpointName}'");
+                this.Logger.LogTrace($"End Operation: '{endpointName}'");
 
                 return result;
             }

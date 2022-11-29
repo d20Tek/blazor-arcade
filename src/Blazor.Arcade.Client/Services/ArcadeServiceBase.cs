@@ -26,24 +26,23 @@ namespace Blazor.Arcade.Client.Services
 
             try
             {
-                Logger.LogTrace($"Begin Service Call '{serviceName}'");
-                var result = await operation();
-                Logger.LogTrace($"End Service Call '{serviceName}'");
+                while (retries > 0)
+                {
+                    Logger.LogTrace($"Begin Service Call: '{serviceName}'");
+                    var result = await operation();
+                    Logger.LogTrace($"End Service Call: '{serviceName}'");
 
-                return result;
+                    return result;
+                }
             }
             catch (Exception ex)
             {
-                if (retries > 0)
-                {
-                    Logger.LogWarning($"Retrying ServiceOperation '{serviceName}' with errror '{ex.Message}'");
-                    return await ServiceOperationAsync<T>(methodName, operation, --retries);
-                }
-
-                Logger.LogError(ex, $"Failed ServiceOperation '{serviceName}' with errror '{ex.Message}'");
-
-                throw;
+                Logger.LogWarning($"Retrying ServiceOperation: '{serviceName}' with error '{ex.Message}'");
+                return await ServiceOperationAsync<T>(methodName, operation, --retries);
             }
+
+            Logger.LogError($"Failed ServiceOperation request '{serviceName}'.");
+            throw new InvalidOperationException();
         }
     }
 }
