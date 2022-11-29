@@ -43,6 +43,8 @@ namespace Blazor.Arcade.Client
             {
                 config.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
+
+            services.AddClientServices();
         }
     }
 }

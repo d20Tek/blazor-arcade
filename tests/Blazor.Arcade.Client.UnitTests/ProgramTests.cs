@@ -32,6 +32,7 @@ namespace Blazor.Arcade.Client.UnitTests
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(HttpClient)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IAuthorizationService)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(CustomAuthorizationMessageHandler)));
+            Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IArcadeMetadataService)));
         }
 
         [TestMethod]
@@ -59,8 +60,9 @@ namespace Blazor.Arcade.Client.UnitTests
 
             // assert
             Assert.IsNotNull(provider);
-            Assert.IsNotNull(provider.GetService<IArcadeService>());
             Assert.IsNotNull(provider.GetService<HttpClient>());
+            Assert.IsNotNull(provider.GetService<IArcadeService>());
+            Assert.IsNotNull(provider.GetService<IArcadeMetadataService>());
         }
     }
 }

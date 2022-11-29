@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 namespace Blazor.Arcade.Service.Repositories
 {
-    internal static class RepositoryExtensions
+    internal static class RepositoryRegistrations
     {
         public static IServiceCollection AddRepositoryServices(this IServiceCollection services)
         {
