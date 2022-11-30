@@ -52,7 +52,7 @@ namespace Blazor.Arcade.Service.Controllers
             return new ServiceDiagnostics
             {
                 Result = _okResponse,
-                EndpointUrl = this.HttpContext.Request.GetDisplayUrl(),
+                EndpointUrl = HttpContext.Request.GetDisplayUrl(),
                 Timestamp = DateTimeOffset.UtcNow.Ticks,
             };
         }

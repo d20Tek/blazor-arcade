@@ -30,7 +30,7 @@ namespace Blazor.Arcade.Service.Repositories
 
         private async Task EnsureMetadataLoaded()
         {
-            if (this._gameMetadata.Any() == false)
+            if (_gameMetadata.Any() == false)
             {
                 var stream = File.OpenRead(_gameMetadataFile);
 

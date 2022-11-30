@@ -12,7 +12,7 @@ namespace Blazor.Arcade.Client.Services
         public ArcadeServiceBase(ILogger logger)
         {
             Logger = logger;
-            _typeName = this.GetType().Name;
+            _typeName = GetType().Name;
         }
 
         protected ILogger Logger { get; }

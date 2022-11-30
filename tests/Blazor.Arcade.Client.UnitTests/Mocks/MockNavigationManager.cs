@@ -9,7 +9,7 @@ namespace Blazor.Arcade.Client.UnitTests.Mocks
     {
         public MockNavigationManager()
         {
-            this.Initialize("https://test.com/", "https://test.com/api");
+            Initialize("https://test.com/", "https://test.com/api");
         }
     }
 }
