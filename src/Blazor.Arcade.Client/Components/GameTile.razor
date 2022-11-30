@@ -1,6 +1,7 @@
 ﻿<div class="nav-item px-3">
     <NavLink class="nav-link" href="@GameMetadata?.Locations.GameLobbyUrl" Match="NavLinkMatch.All">
-        <span class="oi oi-media-play" aria-hidden="true"></span> @GameMetadata?.Name
+        <img class="game-tile" src="@GameMetadata?.Locations.IconUrl" />
+        <span class="game-tile-title">@GameMetadata?.Name</span>
     </NavLink>
 </div>
 

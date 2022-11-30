@@ -43,7 +43,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.AreEqual(1, metadata.Duration.Max);
             Assert.AreEqual(100, metadata.SortOrder);
             Assert.AreEqual("/games/tic-tac-toe", metadata.Locations.GameUrl);
-            Assert.AreEqual("/images/games/ttt/icon.png", metadata.Locations.IconUrl);
+            Assert.AreEqual("/images/games/tic-tac-toe/icon.png", metadata.Locations.IconUrl);
         }
     }
 }
