@@ -1,0 +1,41 @@
+﻿@inject IArcadeMetadataService _metadata
+@inject AuthenticationStateProvider _authProvider
+
+@if (_games != null)
+{
+    foreach (var game in _games)
+    {
+    <GameTile GameMetadata=game />
+    }
+}
+
+@code {
+    internal IList<GameMetadata>? _games = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _authProvider.AuthenticationStateChanged += OnAuthStateChanged;
+        var authState = await _authProvider.GetAuthenticationStateAsync();
+        await HandleAuthChanges(authState, false);
+    }
+
+    internal async void OnAuthStateChanged(Task<AuthenticationState> task)
+    {
+        var authState = await task;
+        await HandleAuthChanges(authState);
+    }
+
+    private async Task HandleAuthChanges(AuthenticationState state, bool forceRefresh = true)
+    {
+        var user = state.User;
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            _games = await _metadata.GetGamesMetadataAsync();
+        }
+
+        if (forceRefresh)
+        {
+            StateHasChanged();
+        }
+    }
+}

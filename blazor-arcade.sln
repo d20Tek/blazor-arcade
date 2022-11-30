@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Arcade.Service.UnitT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{78DFD269-CC59-468F-B6A5-1C0300A6AA04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Arcade.Client.UnitTests", "tests\Blazor.Arcade.Client.UnitTests\Blazor.Arcade.Client.UnitTests.csproj", "{0CC22FCD-5CE9-4E08-9F8F-2AD1AD822840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Arcade.Client.UnitTests", "tests\Blazor.Arcade.Client.UnitTests\Blazor.Arcade.Client.UnitTests.csproj", "{0CC22FCD-5CE9-4E08-9F8F-2AD1AD822840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
