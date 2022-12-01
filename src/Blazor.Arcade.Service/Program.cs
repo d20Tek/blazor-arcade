@@ -1,9 +1,11 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Service.Hubs;
 using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Service
@@ -44,6 +46,8 @@ namespace Blazor.Arcade.Service
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSignalR()
+                            .AddAzureSignalR();
 
             return builder;
         }
@@ -64,6 +68,10 @@ namespace Blazor.Arcade.Service
             app.UseAuthorization();
 
             app.MapControllers();
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/api/v1/chat");
+            });
 
             return app;
         }
