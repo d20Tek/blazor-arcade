@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Client.Types;
 using Blazor.Arcade.Common.Models;
 using Bunit;
 using Bunit.TestDoubles;
@@ -14,6 +15,7 @@ namespace Blazor.Arcade.Client.UnitTests
     public class AppTests
     {
         private IArcadeMetadataService _metadataService = new Mock<IArcadeMetadataService>().Object;
+        private ArcadeConfiguration _config = new ArcadeConfiguration { ServiceUrl = "https://test.com" };
 
         [TestMethod]
         public void Render_App()
@@ -30,6 +32,7 @@ namespace Blazor.Arcade.Client.UnitTests
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(mockMetadata.Object);
+            ctx.Services.AddSingleton<ArcadeConfiguration>(_config);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
@@ -49,6 +52,7 @@ namespace Blazor.Arcade.Client.UnitTests
             // arrange
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(_metadataService);
+            ctx.Services.AddSingleton<ArcadeConfiguration>(_config);
             ctx.AddTestAuthorization();
 
             // act
@@ -65,6 +69,7 @@ namespace Blazor.Arcade.Client.UnitTests
             // arrange
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(_metadataService);
+            ctx.Services.AddSingleton<ArcadeConfiguration>(_config);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"), new Claim("given_name", "Foo"));
@@ -83,6 +88,7 @@ namespace Blazor.Arcade.Client.UnitTests
             // arrange
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(_metadataService);
+            ctx.Services.AddSingleton<ArcadeConfiguration>(_config);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));

@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.SignalR.Client;
+@inject ArcadeConfiguration _config
 
 <PageTitle>Blazor Arcade</PageTitle>
 
@@ -13,10 +14,11 @@ Welcome to Blazor Arcade.
         <h4>Global Chat:</h4>
         <div class="row">
             <div class="col-10 col-md-6">
-                <input type="text" class="form-control" placeholder="Enter message..." @bind-value=@_currentMessage/>
+                <input type="text" id="message-input" class="form-control" 
+                       placeholder="Enter message..." @bind-value=@_currentMessage/>
             </div>
             <div class="col-2 col-md-6">
-                <button class="btn btn-primary" @onclick=sendClicked>
+                <button id="send-button" class="btn btn-primary" @onclick=sendClicked>
                     Send
                 </button>
             </div>
@@ -29,22 +31,14 @@ Welcome to Blazor Arcade.
         </div>
     </Authorized>
     <NotAuthorized>
-        <div>To get in on the action, you must <LoginDisplay /></div>
+        <div>To get in on the action, you must: <LoginDisplay /></div>
     </NotAuthorized>
 </AuthorizeView>
 
 @code {
-    HubConnection _connection;
+    HubConnection? _connection;
     IList<string> _messages = new List<string>();
     string _currentMessage = string.Empty;
-
-    public Index()
-    {
-        _connection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7027/api/v1/chat")
-            .WithAutomaticReconnect()
-            .Build();
-    }
 
     [CascadingParameter]
     public Task<AuthenticationState>? AuthState { get; set; }
@@ -53,6 +47,11 @@ Welcome to Blazor Arcade.
     {
         if (await IsUserAuthenticated() == false)
             return;
+
+        _connection = new HubConnectionBuilder()
+            .WithUrl($"{_config.ServiceUrl}/api/v1/chat")
+            .WithAutomaticReconnect()
+            .Build();
 
         _connection.On<string, string>("ReceiveMessage", (user, message) =>
         {
@@ -64,7 +63,7 @@ Welcome to Blazor Arcade.
         try
         {
             await _connection.StartAsync();
-            _messages.Add("Connection started");
+            _messages.Add("Chat Server: Connection started");
         }
         catch (Exception ex)
         {
@@ -74,11 +73,11 @@ Welcome to Blazor Arcade.
 
     private async Task sendClicked()
     {
+        if (AuthState == null || _connection == null) return;
         try
         {
             if (string.IsNullOrEmpty(_currentMessage) == false)
             {
-                if (AuthState == null) return;
                 var authState = await AuthState;
                 var userId = authState.User.FindFirst("oid")?.Value ?? "Unknown User";
 
