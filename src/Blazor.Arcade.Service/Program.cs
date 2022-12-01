@@ -5,7 +5,6 @@ using Blazor.Arcade.Service.Hubs;
 using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Service
@@ -19,7 +18,14 @@ namespace Blazor.Arcade.Service
             ConfigureServices(builder);
 
             var app = builder.Build();
-            ConfigureApp(app).Run();
+            ConfigureApp(app)
+                // todo: find right spot to do this configuraion.
+                .UseAzureSignalR(routes =>
+                {
+                    routes.MapHub<ChatHub>("/api/v1/chat");
+                });
+
+            app.Run();
         }
 
         internal static WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
@@ -68,10 +74,6 @@ namespace Blazor.Arcade.Service
             app.UseAuthorization();
 
             app.MapControllers();
-            app.UseAzureSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/api/v1/chat");
-            });
 
             return app;
         }

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.SignalR.Client;
 
 <PageTitle>Blazor Arcade</PageTitle>
 
@@ -6,3 +7,97 @@
 
 Welcome to Blazor Arcade.
 <hr />
+
+<AuthorizeView>
+    <Authorized>
+        <h4>Global Chat:</h4>
+        <div class="row">
+            <div class="col-10 col-md-6">
+                <input type="text" class="form-control" placeholder="Enter message..." @bind-value=@_currentMessage/>
+            </div>
+            <div class="col-2 col-md-6">
+                <button class="btn btn-primary" @onclick=sendClicked>
+                    Send
+                </button>
+            </div>
+        </div>
+        <div>
+        @foreach(var m in _messages)
+        {
+            <div>@m</div>
+        }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div>To get in on the action, you must <LoginDisplay /></div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    HubConnection _connection;
+    IList<string> _messages = new List<string>();
+    string _currentMessage = string.Empty;
+
+    public Index()
+    {
+        _connection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:7027/api/v1/chat")
+            .WithAutomaticReconnect()
+            .Build();
+    }
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await IsUserAuthenticated() == false)
+            return;
+
+        _connection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            var newMessage = $"{user}: {message}";
+            _messages.Add(newMessage);
+            StateHasChanged();
+        });
+
+        try
+        {
+            await _connection.StartAsync();
+            _messages.Add("Connection started");
+        }
+        catch (Exception ex)
+        {
+            _messages.Add(ex.Message);
+        }
+    }
+
+    private async Task sendClicked()
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(_currentMessage) == false)
+            {
+                if (AuthState == null) return;
+                var authState = await AuthState;
+                var userId = authState.User.FindFirst("oid")?.Value ?? "Unknown User";
+
+                await _connection.InvokeAsync("SendMessage", userId, _currentMessage);
+
+                _currentMessage = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            _messages.Add(ex.Message);
+        }
+    }
+
+    private async Task<bool> IsUserAuthenticated()
+    {
+        if (AuthState == null) return false;
+
+        var authState = await AuthState;
+        return authState.User.Identity?.IsAuthenticated ?? false;
+    }
+}
