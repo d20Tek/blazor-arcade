@@ -53,7 +53,7 @@ namespace Blazor.Arcade.Service
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR()
-                            .AddAzureSignalR();
+                            .AddAzureSignalR("Endpoint=https://blazorarcadeservice-signalr.service.signalr.net;AccessKey=f03iWsUGiCQg/3QWutJ3WA+fxtCPSS84uDkWd/oLFwg=;Version=1.0;");
 
             return builder;
         }
