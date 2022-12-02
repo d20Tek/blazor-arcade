@@ -4,6 +4,7 @@
 using Blazor.Arcade.Common.Models;
 using Blazor.Arcade.Service.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Service.UnitTests.Hubs
 {
@@ -27,7 +28,6 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
             // arrange
             var message = new ChatMessage
             {
-                MessageId = "global-message-1",
                 AccountId = "test-user-1",
                 AccountName = "Test User",
                 Message = "Hi there!"
@@ -42,35 +42,29 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
             _mockClientProxy.Verify(
                 proxy => proxy.SendCoreAsync(
                     "onReceiveMessage",
-                    It.Is<object[]>(o => o != null && o.Length == 1 && o[0].GetType() == typeof(ChatMessage)),
+                    It.Is<object[]>(o => o != null && o.Length == 1 && ValidateChatMessage(o[0], message)),
                     default(CancellationToken)),
                 Times.Once);
         }
 
-        [TestMethod]
-        public async Task SendMessage()
+        [ExcludeFromCodeCoverage]
+        private bool ValidateChatMessage(object objMessage, ChatMessage expected)
         {
-            // arrange
-            var hub = InitializeChatHub();
-
-            // act
-            await hub.SendMessage("Test User", "Hi there!");
-
-            // assert
-            _mockClients.Verify(clients => clients.All, Times.Once);
-            _mockClientProxy.Verify(
-                proxy => proxy.SendCoreAsync(
-                    "ReceiveMessage",
-                    It.Is<object[]>(o => o != null && o.Length == 2 && o[0].ToString() == "Test User" && o[1].ToString() == "Hi there!"),
-                    default(CancellationToken)),
-                Times.Once);
+            var message = (ChatMessage)objMessage;
+            return message.MessageId != string.Empty &&
+                   message.ChannelId == "channel:global" &&
+                   message.AccountId == expected.AccountId &&
+                   message.AccountName == expected.AccountName &&
+                   message.Message == expected.Message;
         }
 
         private ChatHub InitializeChatHub()
         {
-            var hub = new ChatHub();
-            hub.Clients = _mockClients.Object;
-            hub.Groups = _mockGroups.Object;
+            var hub = new ChatHub
+            {
+                Clients = _mockClients.Object,
+                Groups = _mockGroups.Object
+            };
 
             return hub;
         }

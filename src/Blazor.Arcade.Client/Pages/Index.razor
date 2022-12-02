@@ -27,7 +27,7 @@ Welcome to Blazor Arcade.
         <div>
         @foreach(var m in _messages)
         {
-            <div>@m</div>
+            <div>@m.AccountName: @m.Message</div>
         }
         </div>
     </Authorized>
@@ -38,7 +38,7 @@ Welcome to Blazor Arcade.
 
 @code {
     HubConnection? _connection;
-    IList<string> _messages = new List<string>();
+    IList<ChatMessage> _messages = new List<ChatMessage>();
     string _currentMessage = string.Empty;
 
     [CascadingParameter]
@@ -54,21 +54,20 @@ Welcome to Blazor Arcade.
             .WithAutomaticReconnect()
             .Build();
 
-        _connection.On<string, string>("ReceiveMessage", (user, message) =>
+        _connection.On<ChatMessage>("onReceiveMessage", (message) =>
         {
-            var newMessage = $"{user}: {message}";
-            _messages.Add(newMessage);
+            _messages.Add(message);
             StateHasChanged();
         });
 
         try
         {
             await _connection.StartAsync();
-            _messages.Add("Chat Server: Connection started");
+            _messages.Add(new ChatMessage { AccountName = "Chat Server", Message = "Connection started" });
         }
         catch (Exception ex)
         {
-            _messages.Add(ex.Message);
+            _messages.Add(new ChatMessage { AccountName = "Chat Server", Message = ex.Message });
         }
     }
 
@@ -82,14 +81,20 @@ Welcome to Blazor Arcade.
                 var authState = await AuthState;
                 var userId = authState.User.FindFirst("oid")?.Value ?? "Unknown User";
 
-                await _connection.InvokeAsync("SendMessage", userId, _currentMessage);
+                var message = new ChatMessage
+                {
+                    AccountId = userId,
+                    AccountName = userId,
+                    Message = _currentMessage
+                };
+                await _connection.InvokeAsync("SendGlobalMessage", message);
 
                 _currentMessage = string.Empty;
             }
         }
         catch (Exception ex)
         {
-            _messages.Add(ex.Message);
+            _messages.Add(new ChatMessage { AccountName = "Chat Server", Message = ex.Message });
         }
     }
 

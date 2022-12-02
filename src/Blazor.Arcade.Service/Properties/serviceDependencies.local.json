@@ -6,7 +6,7 @@
     },
     "signalr1": {
       "secretStore": "LocalSecretsFile",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.SignalRService/SignalR/BlazorArcadeService-SignalR",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.SignalRService/SignalR/BlazorArcadeService-SignalR-dev",
       "type": "signalr.azure",
       "connectionId": "Azure:SignalR:ConnectionString"
     }

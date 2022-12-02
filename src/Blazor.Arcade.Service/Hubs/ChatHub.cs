@@ -10,12 +10,14 @@ namespace Blazor.Arcade.Service.Hubs
     {
         private const string _globalChannelId = "channel:global";
 
-        // todo: remove this api when client updates dependency.
-        public async Task SendMessage(string user, string message)
-            => await Clients.All.SendAsync("ReceiveMessage", user, message);
-
+        [HubMethodName(nameof(SendGlobalMessage))]
         public async Task SendGlobalMessage(ChatMessage message)
         {
+            if (string.IsNullOrEmpty(message.MessageId))
+            {
+                message.MessageId = Guid.NewGuid().ToString();
+            }
+
             message.ChannelId = _globalChannelId;
             await Clients.All.SendAsync("onReceiveMessage", message);
         }
