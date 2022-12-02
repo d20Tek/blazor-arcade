@@ -11,6 +11,8 @@ namespace Blazor.Arcade.Service
 {
     public class Program
     {
+        private const string _configSignalRConnection = "Azure.SignalR.ConnectionString";
+
         [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
         {
@@ -18,14 +20,7 @@ namespace Blazor.Arcade.Service
             ConfigureServices(builder);
 
             var app = builder.Build();
-            ConfigureApp(app)
-                // todo: find right spot to do this configuraion.
-                .UseAzureSignalR(routes =>
-                {
-                    routes.MapHub<ChatHub>("/api/v1/chat");
-                });
-
-            app.Run();
+            ConfigureApp(app).Run();
         }
 
         internal static WebApplicationBuilder ConfigureServices(WebApplicationBuilder builder)
@@ -53,7 +48,7 @@ namespace Blazor.Arcade.Service
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR()
-                            .AddAzureSignalR("Endpoint=https://blazorarcadeservice-signalr.service.signalr.net;AccessKey=f03iWsUGiCQg/3QWutJ3WA+fxtCPSS84uDkWd/oLFwg=;Version=1.0;");
+                            .AddAzureSignalR(builder.Configuration[_configSignalRConnection]);
 
             return builder;
         }
@@ -74,6 +69,11 @@ namespace Blazor.Arcade.Service
             app.UseAuthorization();
 
             app.MapControllers();
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/api/v1/chat");
+            });
+
 
             return app;
         }
