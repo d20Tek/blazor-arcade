@@ -5,6 +5,7 @@ using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.Types;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Client
@@ -22,7 +23,7 @@ namespace Blazor.Arcade.Client
             await builder.Build().RunAsync();
         }
 
-        public static void ConfigureServices(
+        internal static void ConfigureServices(
             IServiceCollection services,
             IConfiguration config,
             IWebAssemblyHostEnvironment hostEnv)
@@ -51,6 +52,7 @@ namespace Blazor.Arcade.Client
                 config.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
 
+            services.AddHubProxies(arcadeconfig);
             services.AddClientServices();
         }
     }

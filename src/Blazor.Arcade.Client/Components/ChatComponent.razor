@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client;
+@inject IChatHubClient _chatHub
+
+<AuthorizeView>
+    <Authorized>
+        <h4>Global Chat:</h4>
+        <div class="row">
+            <div class="col-10 col-md-6">
+                <input type="text" id="message-input" class="form-control"
+                       placeholder="Enter message..." @bind-value=@_currentMessage />
+            </div>
+            <div class="col-2 col-md-6">
+                <button id="send-button" class="btn btn-primary" @onclick=sendClicked>
+                    Send
+                </button>
+            </div>
+        </div>
+        <div>
+            @foreach (var m in _messages)
+            {
+                <div>@m.AccountName: @m.Message</div>
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div>To get in on the action, you must: <LoginDisplay /></div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    IList<ChatMessage> _messages = new List<ChatMessage>();
+    string _currentMessage = string.Empty;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await IsUserAuthenticated() == false)
+            return;
+
+        await _chatHub.InitializeAsync();
+        _chatHub.OnReceiveMessageHandler((message) =>
+        {
+            _messages.Add(message);
+            StateHasChanged();
+        });
+    }
+
+    private async Task sendClicked()
+    {
+        if (AuthState == null) return;
+
+        if (string.IsNullOrEmpty(_currentMessage) == false)
+        {
+            var authState = await AuthState;
+            var userId = authState.User.FindFirst("oid")?.Value ?? "Unknown User";
+
+            var message = new ChatMessage
+                {
+                    AccountId = userId,
+                    AccountName = userId,
+                    Message = _currentMessage
+                };
+            await _chatHub.SendGlobalMessageAsync(message);
+
+            _currentMessage = string.Empty;
+        }
+    }
+
+    private async Task<bool> IsUserAuthenticated()
+    {
+        if (AuthState == null) return false;
+
+        var authState = await AuthState;
+        return authState.User.Identity?.IsAuthenticated ?? false;
+    }
+}
