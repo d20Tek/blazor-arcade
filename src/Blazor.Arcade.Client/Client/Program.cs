@@ -5,7 +5,6 @@ using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.Types;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.SignalR.Client;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Client

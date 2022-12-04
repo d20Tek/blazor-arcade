@@ -10,7 +10,7 @@
                        placeholder="Enter message..." @bind-value=@_currentMessage />
             </div>
             <div class="col-2 col-md-6">
-                <button id="send-button" class="btn btn-primary" @onclick=sendClicked>
+                <button id="send-button" class="btn btn-primary" @onclick=SendClicked>
                     Send
                 </button>
             </div>
@@ -36,18 +36,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (await IsUserAuthenticated() == false)
+        if (await AuthenticationHelper.IsUserAuthenticated(AuthState) == false)
             return;
 
         await _chatHub.InitializeAsync();
-        _chatHub.OnReceiveMessageHandler((message) =>
-        {
-            _messages.Add(message);
-            StateHasChanged();
-        });
+        _chatHub.OnReceiveMessageHandler(OnReceivedMessage);
     }
 
-    private async Task sendClicked()
+    internal void OnReceivedMessage(ChatMessage message)
+    {
+        _messages.Add(message);
+        StateHasChanged();
+    }
+
+    internal async Task SendClicked()
     {
         if (AuthState == null) return;
 
@@ -66,13 +68,5 @@
 
             _currentMessage = string.Empty;
         }
-    }
-
-    private async Task<bool> IsUserAuthenticated()
-    {
-        if (AuthState == null) return false;
-
-        var authState = await AuthState;
-        return authState.User.Identity?.IsAuthenticated ?? false;
     }
 }

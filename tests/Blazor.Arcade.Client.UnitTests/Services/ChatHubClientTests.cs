@@ -6,7 +6,6 @@ using Blazor.Arcade.Common.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
 namespace Blazor.Arcade.Client.UnitTests.Services
 {
