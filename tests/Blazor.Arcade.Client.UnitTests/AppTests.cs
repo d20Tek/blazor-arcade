@@ -14,6 +14,7 @@ namespace Blazor.Arcade.Client.UnitTests
     public class AppTests
     {
         private IArcadeMetadataService _metadataService = new Mock<IArcadeMetadataService>().Object;
+        private IChatHubClient _chatHub = new Mock<IChatHubClient>().Object;
 
         [TestMethod]
         public void Render_App()
@@ -30,6 +31,7 @@ namespace Blazor.Arcade.Client.UnitTests
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(mockMetadata.Object);
+            ctx.Services.AddSingleton<IChatHubClient>(_chatHub);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
@@ -49,6 +51,7 @@ namespace Blazor.Arcade.Client.UnitTests
             // arrange
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(_metadataService);
+            ctx.Services.AddSingleton<IChatHubClient>(_chatHub);
             ctx.AddTestAuthorization();
 
             // act
@@ -65,6 +68,7 @@ namespace Blazor.Arcade.Client.UnitTests
             // arrange
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(_metadataService);
+            ctx.Services.AddSingleton<IChatHubClient>(_chatHub);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"), new Claim("given_name", "Foo"));
@@ -83,6 +87,7 @@ namespace Blazor.Arcade.Client.UnitTests
             // arrange
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(_metadataService);
+            ctx.Services.AddSingleton<IChatHubClient>(_chatHub);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));

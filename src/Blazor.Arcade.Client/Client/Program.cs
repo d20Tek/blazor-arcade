@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Client.Types;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Diagnostics.CodeAnalysis;
@@ -21,7 +22,7 @@ namespace Blazor.Arcade.Client
             await builder.Build().RunAsync();
         }
 
-        public static void ConfigureServices(
+        internal static void ConfigureServices(
             IServiceCollection services,
             IConfiguration config,
             IWebAssemblyHostEnvironment hostEnv)
@@ -32,10 +33,16 @@ namespace Blazor.Arcade.Client
                     BaseAddress = new Uri(hostEnv.BaseAddress)
                 });
 
+            var arcadeconfig = new ArcadeConfiguration
+            {
+                ServiceUrl = config["ArcadeServiceUrl"]
+            };
+
+            services.AddSingleton<ArcadeConfiguration>(arcadeconfig);
             services.AddScoped<CustomAuthorizationMessageHandler>();
             services.AddHttpClient<IArcadeService, ArcadeService>(client =>
             {
-                var serviceUrl = config["ArcadeServiceUrl"];
+                var serviceUrl = arcadeconfig.ServiceUrl;
                 client.BaseAddress = new Uri(serviceUrl);
             }).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
@@ -44,6 +51,7 @@ namespace Blazor.Arcade.Client
                 config.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
 
+            services.AddHubProxies(arcadeconfig);
             services.AddClientServices();
         }
     }

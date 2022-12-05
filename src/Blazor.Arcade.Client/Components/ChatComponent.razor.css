@@ -1,0 +1,5 @@
+﻿.chat-message-list {
+    max-height: 300px;
+    display: flex;
+    flex-direction: column-reverse;
+}

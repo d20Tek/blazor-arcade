@@ -21,6 +21,8 @@ namespace Blazor.Arcade.Client.UnitTests
             // arrange
             var services = new ServiceCollection();
             var mockConfig = new Mock<IConfiguration>();
+            mockConfig.Setup(p => p["ArcadeServiceUrl"])
+                      .Returns("https://test/.com");
             var mockHostEnv = new Mock<IWebAssemblyHostEnvironment>();
 
             // act
