@@ -6,8 +6,9 @@
         <h4>Global Chat:</h4>
         <div class="row">
             <div class="col-10 col-md-6">
-                <input type="text" id="message-input" class="form-control"
-                       placeholder="Enter message..." @bind-value=@_currentMessage />
+                <input type="text" id="message-input" class="form-control" maxlength="140"
+                       placeholder="Enter message..." @bind-value=@_currentMessage
+                       @onkeydown=@OnEnter @oninput=@OnInputChanged />
             </div>
             <div class="col-2 col-md-6">
                 <button id="send-button" class="btn btn-primary" @onclick=SendClicked>
@@ -15,7 +16,7 @@
                 </button>
             </div>
         </div>
-        <div>
+        <div class="overflow-auto chat-message-list">
             @foreach (var m in _messages)
             {
                 <div>@m.AccountName: @m.Message</div>
@@ -45,8 +46,19 @@
 
     internal void OnReceivedMessage(ChatMessage message)
     {
-        _messages.Add(message);
+        _messages.Insert(0, message);
         StateHasChanged();
+    }
+
+    internal void OnInputChanged(ChangeEventArgs e) =>
+        _currentMessage = e.Value?.ToString() ?? string.Empty;
+
+    internal async Task OnEnter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            await SendClicked();
+        }
     }
 
     internal async Task SendClicked()
