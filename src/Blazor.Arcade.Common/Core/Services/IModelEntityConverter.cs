@@ -7,8 +7,8 @@ namespace Blazor.Arcade.Common.Core.Services
         where T : new()
         where TEntity : CosmosStoreEntity, new()
     {
-        public TEntity? ConvertToEntity(T? model);
+        public TEntity ConvertToEntity(T model);
 
-        public T? ConvertToModel(TEntity? entity);
+        public T ConvertToModel(TEntity entity);
     }
 }

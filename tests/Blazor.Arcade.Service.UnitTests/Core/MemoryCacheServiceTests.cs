@@ -2,7 +2,6 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Common.Core.Services;
-using Blazor.Arcade.Common.Models;
 using Blazor.Arcade.Service.Entities;
 using Blazor.Arcade.Service.UnitTests.Mocks;
 

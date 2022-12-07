@@ -9,13 +9,8 @@ namespace Blazor.Arcade.Service.Converters
 {
     internal class UserAccountToEntityConverter : IModelEntityConverter<UserAccount, UserAccountEntity>
     {
-        public UserAccountEntity? ConvertToEntity(UserAccount? model)
+        public UserAccountEntity ConvertToEntity(UserAccount model)
         {
-            if (model == default)
-            {
-                return default;
-            }
-
             return new UserAccountEntity
             {
                 AccountId = model.Id,
@@ -28,13 +23,8 @@ namespace Blazor.Arcade.Service.Converters
             };
         }
 
-        public UserAccount? ConvertToModel(UserAccountEntity? entity)
+        public UserAccount ConvertToModel(UserAccountEntity entity)
         {
-            if (entity == default)
-            {
-                return default;
-            }
-
             return new UserAccount
             {
                 Id = entity.AccountId,

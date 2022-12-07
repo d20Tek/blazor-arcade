@@ -43,19 +43,6 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
         }
 
         [TestMethod]
-        public void ConvertToEntity_WithNullModel()
-        {
-            // arrange
-            var conv = new UserAccountToEntityConverter();
-
-            // act
-            var result = conv.ConvertToEntity(null);
-
-            // assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
         public void ConvertToModel()
         {
             // arrange
@@ -86,19 +73,6 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
             Assert.AreEqual(entity.Exp, result.Exp);
             Assert.AreEqual(entity.UserId, result.UserId);
             Assert.AreEqual(entity.PartitionId, result.UserId);
-        }
-
-        [TestMethod]
-        public void ConvertToModel_WithNullEntity()
-        {
-            // arrange
-            var conv = new UserAccountToEntityConverter();
-
-            // act
-            var result = conv.ConvertToModel(null);
-
-            // assert
-            Assert.IsNull(result);
         }
     }
 }
