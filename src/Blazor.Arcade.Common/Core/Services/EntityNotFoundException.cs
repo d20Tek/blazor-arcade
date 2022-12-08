@@ -5,7 +5,7 @@ namespace Blazor.Arcade.Common.Core.Services
 {
     public class EntityNotFoundException : Exception
     {
-        public EntityNotFoundException(string entityIdName, object entityIdValue, Exception innerException = null)
+        public EntityNotFoundException(string entityIdName, object entityIdValue, Exception? innerException = null)
             : base($"Entity with {entityIdName} = {entityIdValue} was not found in repository.", innerException)
         {
             EntityIdName = entityIdName;

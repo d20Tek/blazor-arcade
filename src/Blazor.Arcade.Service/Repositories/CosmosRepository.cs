@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Azure.Cosmos;
 using Blazor.Arcade.Common.Core.Services;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Sockets;
 
@@ -12,7 +13,7 @@ namespace Blazor.Arcade.Service.Repositories
         where T : new()
         where TEntity : CosmosStoreEntity, new()
     {
-        private const int _defaultRetryAmount = 5;
+        private const int _defaultRetryAmount = 3;
         private readonly TimeSpan _operationTimeout = TimeSpan.FromSeconds(4);
 
         private CosmosClient _cosmosClient;
@@ -56,7 +57,7 @@ namespace Blazor.Arcade.Service.Repositories
                     }
 
                     var container = await VerifyContainerInitialized();
-                    partitionId ??= itemId;
+                    partitionId = VerifyPartitionId(itemId, partitionId);
                     var response = await container.ReadItemAsync<TEntity>(
                         itemId,
                         new PartitionKey(partitionId),
@@ -81,7 +82,7 @@ namespace Blazor.Arcade.Service.Repositories
 
         public async Task<IList<T>> GetPartitionItemsAsync(string partitionId)
         {
-            var list =  await this.CosmosOperationAsync(nameof(GetPartitionItemsAsync), async (c) =>
+            var list =  await CosmosOperationAsync(nameof(GetPartitionItemsAsync), async (c) =>
             {
                 if (_cache != null && _cache.ContainsList<TEntity>(partitionId))
                 {
@@ -117,7 +118,7 @@ namespace Blazor.Arcade.Service.Repositories
         public async Task<IList<T>> GetItemsAsync(List<string> itemIds, string? partitionId = null)
         {
             var items = await Task.WhenAll(
-                itemIds.Select(async id => await this.GetItemAsync(id, partitionId ??= id))
+                itemIds.Select(async id => await GetItemAsync(id, partitionId))
                 );
 
             return items.ToList();
@@ -191,7 +192,7 @@ namespace Blazor.Arcade.Service.Repositories
                 try
                 {
                     var container = await VerifyContainerInitialized();
-                    partitionId ??= itemId;
+                    partitionId = VerifyPartitionId(itemId, partitionId);
 
                     var response = await container.DeleteItemAsync<TEntity>(
                             itemId,
@@ -212,6 +213,13 @@ namespace Blazor.Arcade.Service.Repositories
             });
         }
 
+        private static string VerifyPartitionId(string itemId, string? partitionId)
+        {
+            partitionId ??= itemId;
+            return partitionId;
+        }
+
+        [ExcludeFromCodeCoverage]
         private async Task<TResult> CosmosOperationAsync<TResult>(
             string methodName,
             Func<CancellationToken, Task<TResult>> operation,
@@ -233,6 +241,9 @@ namespace Blazor.Arcade.Service.Repositories
 
                     return result;
                 }
+
+                _logger.LogError($"Failed CosmosOperation request '{serviceName}'.");
+                throw new InvalidOperationException();
             }
             catch (Exception ex)
             {
@@ -241,16 +252,12 @@ namespace Blazor.Arcade.Service.Repositories
                     _logger.LogWarning($"Retrying Cosmos Operation: '{serviceName}' with error '{ex.Message}'");
                     return await CosmosOperationAsync<TResult>(methodName, operation, --retries);
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            _logger.LogError($"Failed CosmosOperation request '{serviceName}'.");
-            throw new InvalidOperationException();
+                throw;
+            }
         }
 
+        [ExcludeFromCodeCoverage]
         private async Task CosmosOperationAsync(
             string methodName,
             Func<CancellationToken, Task> operation,
@@ -271,6 +278,9 @@ namespace Blazor.Arcade.Service.Repositories
                     _logger.LogTrace($"End Cosmos Call: '{serviceName}'");
                     return;
                 }
+
+                _logger.LogError($"Failed CosmosOperation request '{serviceName}'.");
+                throw new InvalidOperationException();
             }
             catch (Exception ex)
             {
@@ -279,14 +289,9 @@ namespace Blazor.Arcade.Service.Repositories
                     _logger.LogWarning($"Retrying Cosmos Operation: '{serviceName}' with error '{ex.Message}'");
                     await CosmosOperationAsync(methodName, operation, --retries);
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            _logger.LogError($"Failed CosmosOperation request '{serviceName}'.");
-            throw new InvalidOperationException();
+                throw;
+            }
         }
 
         protected virtual async Task<CosmosContainer> VerifyContainerInitialized()

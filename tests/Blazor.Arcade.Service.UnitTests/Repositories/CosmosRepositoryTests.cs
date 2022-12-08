@@ -5,10 +5,12 @@ using Azure.Cosmos;
 using Blazor.Arcade.Common.Models;
 using Blazor.Arcade.Service.Repositories;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Service.UnitTests.Repositories
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class CosmosRepositoryTests
     {
         private readonly ILogger<UserAccountRepository> _logger = new Mock<ILogger<UserAccountRepository>>().Object;

@@ -5,7 +5,7 @@ namespace Blazor.Arcade.Common.Core.Services
 {
     public class EntityAlreadyExistsException : Exception
     {
-        public EntityAlreadyExistsException(string entityIdName, object entityIdValue, Exception innerException = null)
+        public EntityAlreadyExistsException(string entityIdName, object entityIdValue, Exception? innerException = null)
             : base($"Entity with {entityIdName} = {entityIdValue} already exists in this repository.", innerException)
         {
             EntityIdName = entityIdName;
