@@ -41,6 +41,7 @@ namespace Blazor.Arcade.Common.Core.Services
         {
             var key = FormatKey<T>(entityId);
             _entityCache.Set(key, entity, _cachePolicy);
+            FixupListEntities(entity.PartitionId, entity, false);
 
             return entity;
         }
@@ -49,7 +50,10 @@ namespace Blazor.Arcade.Common.Core.Services
             where T : CosmosStoreEntity, new()
         {
             var key = FormatKey<T>(entityId);
-            return (T)_entityCache.Remove(key);
+            var entity = (T)_entityCache.Remove(key);
+            FixupListEntities(entity.PartitionId, entity, true);
+
+            return entity;
         }
 
         public bool ContainsList<T>(string keyId)
@@ -81,6 +85,32 @@ namespace Blazor.Arcade.Common.Core.Services
             where T : CosmosStoreEntity, new()
         {
             return string.Format("{0}_{1}", typeof(T).Name, entityId);
+        }
+
+        private void FixupListEntities<T>(string listKey, T entity, bool isDeleted)
+            where T : CosmosStoreEntity, new()
+        {
+            if (ContainsList<T>(listKey))
+            {
+                var cachedPartition = GetList<T>(listKey);
+
+                if (isDeleted)
+                {
+                    cachedPartition = cachedPartition.Where(
+                        cached => cached.Id != entity.Id).ToList();
+                }
+                else if (cachedPartition.Any(cached => cached.Id == entity.Id))
+                {
+                    cachedPartition = cachedPartition.Select(
+                        cached => cached.Id == entity.Id ? entity : cached).ToList();
+                }
+                else
+                {
+                    cachedPartition.Add(entity);
+                }
+
+                SetList<T>(listKey, cachedPartition);
+            }
         }
     }
 }
