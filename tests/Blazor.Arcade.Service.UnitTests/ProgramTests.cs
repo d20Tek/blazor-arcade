@@ -1,6 +1,9 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Azure.Cosmos;
+using Blazor.Arcade.Common.Core.Services;
+using Blazor.Arcade.Common.Models;
 using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,6 +38,7 @@ namespace Blazor.Arcade.Service.UnitTests
 
             // assert project-specific services
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IGameMetadataRepository)));
+            Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IRepository<UserAccount>)));
         }
 
         [TestMethod]
@@ -76,6 +80,7 @@ namespace Blazor.Arcade.Service.UnitTests
             // assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Services.GetService<ICorsService>());
+            Assert.IsNotNull(result.Services.GetService<CosmosClient>());
         }
     }
 }

@@ -1,6 +1,10 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Azure.Cosmos;
+using Blazor.Arcade.Common.Core.Services;
+using Blazor.Arcade.Common.Models;
+
 namespace Blazor.Arcade.Service.Repositories
 {
     internal static class RepositoryRegistrations
@@ -8,6 +12,21 @@ namespace Blazor.Arcade.Service.Repositories
         public static IServiceCollection AddRepositoryServices(this IServiceCollection services)
         {
             services.AddSingleton<IGameMetadataRepository, GameMetadataRepository>();
+            services.AddSingleton<ICacheService, MemoryCacheService>(); 
+            services.AddSingleton<IRepository<UserAccount>, UserAccountRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCosmosClient(this IServiceCollection services, string connectionString)
+        {
+            if (string.IsNullOrWhiteSpace(connectionString) == false)
+            {
+                services.AddSingleton<CosmosClient>(sp =>
+                {
+                    return new CosmosClient(connectionString);
+                });
+            }
             return services;
         }
     }

@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Azure.Cosmos;
 using Blazor.Arcade.Service.Hubs;
 using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,6 +13,7 @@ namespace Blazor.Arcade.Service
     public class Program
     {
         private const string _configSignalRConnection = "Azure.SignalR.ConnectionString";
+        private const string _configCosmosDbConnection = "CosmosDb.ConnectionString";
 
         [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
@@ -49,6 +51,7 @@ namespace Blazor.Arcade.Service
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR()
                             .AddAzureSignalR(builder.Configuration[_configSignalRConnection]);
+            builder.Services.AddCosmosClient(builder.Configuration[_configCosmosDbConnection]);
 
             return builder;
         }
