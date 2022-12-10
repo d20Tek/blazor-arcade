@@ -13,7 +13,7 @@ namespace Blazor.Arcade.Service.UnitTests.Mocks
     internal static class ControllerContextHelper
     {
         internal const string DefaultUserName = "Test User";
-        internal const string DefaultUserId = "E14E5BEC-8700-4BE5-9E7B-14FAE1B2BA82";
+        internal const string DefaultUserId = "e14e5bec-8700-4be5-9e7B-14fae1b2ba82";
 
         internal static ControllerContext CreateContextAnonymous()
         {

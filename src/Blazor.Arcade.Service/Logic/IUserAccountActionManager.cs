@@ -5,7 +5,7 @@ using Blazor.Arcade.Common.Models;
 
 namespace Blazor.Arcade.Service.Logic
 {
-    internal interface IUserAccountActionManager
+    public interface IUserAccountActionManager
     {
         Task<UserAccount> GetAccountForUserAsync(string accountId, string userId);
 
