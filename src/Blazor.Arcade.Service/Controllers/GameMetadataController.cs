@@ -1,8 +1,8 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Common.Core.Services;
 using Blazor.Arcade.Common.Models;
-using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +13,10 @@ namespace Blazor.Arcade.Service.Controllers
     [Authorize]
     public class GameMetadataController : ArcadeControllerBase
     {
-        private readonly IGameMetadataRepository _repo;
+        private readonly IReadRepository<GameMetadata> _repo;
 
         public GameMetadataController(
-            IGameMetadataRepository repository,
+            IReadRepository<GameMetadata> repository,
             ILogger<GameMetadataController> logger)
             : base(logger)
         {

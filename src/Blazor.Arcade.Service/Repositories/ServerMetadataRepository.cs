@@ -7,39 +7,39 @@ using System.Text.Json;
 
 namespace Blazor.Arcade.Service.Repositories
 {
-    internal class GameMetadataRepository : IReadRepository<GameMetadata>
+    public class ServerMetadataRepository : IReadRepository<ServerMetadata>
     {
-        private const string _gameMetadataFile = "./Data/game-metadata.json";
+        private const string _gameMetadataFile = "./Data/game-servers.json";
         private static readonly JsonSerializerOptions _options = new()
         {
             AllowTrailingCommas = true,
             PropertyNameCaseInsensitive = true,
         };
-        private IList<GameMetadata> _gameMetadata = new List<GameMetadata>();
+        private IList<ServerMetadata> _serverMetadata = new List<ServerMetadata>();
 
-        public async Task<IList<GameMetadata>> GetAll()
+        public async Task<IList<ServerMetadata>> GetAll()
         {
             await EnsureMetadataLoaded();
-            return _gameMetadata;
+            return _serverMetadata;
         }
 
-        public async Task<GameMetadata?> GetById(string id)
+        public async Task<ServerMetadata?> GetById(string name)
         {
             await EnsureMetadataLoaded();
-            return _gameMetadata.FirstOrDefault(m => m.Id == id);
+            return _serverMetadata.FirstOrDefault(m => m.Name == name);
         }
 
         private async Task EnsureMetadataLoaded()
         {
-            if (_gameMetadata.Any() == false)
+            if (_serverMetadata.Any() == false)
             {
                 var stream = File.OpenRead(_gameMetadataFile);
 
                 var list =
-                    await JsonSerializer.DeserializeAsync<IList<GameMetadata>>(stream, _options) ??
+                    await JsonSerializer.DeserializeAsync<IList<ServerMetadata>>(stream, _options) ??
                     throw new FormatException();
 
-                _gameMetadata = list.OrderBy(m => m.SortOrder).ThenBy(m => m.Name).ToList();
+                _serverMetadata = list.OrderBy(m => m.Name).ToList();
             }
         }
     }

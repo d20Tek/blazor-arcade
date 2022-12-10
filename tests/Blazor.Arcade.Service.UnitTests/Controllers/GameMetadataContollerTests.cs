@@ -1,9 +1,9 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Common.Core.Services;
 using Blazor.Arcade.Common.Models;
 using Blazor.Arcade.Service.Controllers;
-using Blazor.Arcade.Service.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace Blazor.Arcade.Service.UnitTests.Controllers
@@ -23,7 +23,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
                 new GameMetadata { Id = "two" },
                 new GameMetadata { Id = "three" },
             };
-            var mockRepo = new Mock<IGameMetadataRepository>();
+            var mockRepo = new Mock<IReadRepository<GameMetadata>>();
             mockRepo.Setup(p => p.GetAll()).ReturnsAsync(games);
 
             var c = new GameMetadataController(mockRepo.Object, _logger);
@@ -42,7 +42,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         {
             // arrange
             var game = new GameMetadata { Id = "one", Name = "Test One" };
-            var mockRepo = new Mock<IGameMetadataRepository>();
+            var mockRepo = new Mock<IReadRepository<GameMetadata>>();
             mockRepo.Setup(p => p.GetById(It.IsAny<string>())).ReturnsAsync(game);
 
             var c = new GameMetadataController(mockRepo.Object, _logger);
@@ -60,7 +60,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         public async Task GetGameMetadataById_MissingItem()
         {
             // arrange
-            var mockRepo = new Mock<IGameMetadataRepository>();
+            var mockRepo = new Mock<IReadRepository<GameMetadata>>();
             var c = new GameMetadataController(mockRepo.Object, _logger);
 
             // act

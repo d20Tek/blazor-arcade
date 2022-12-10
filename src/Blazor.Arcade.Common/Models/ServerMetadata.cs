@@ -1,14 +1,12 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Blazor.Arcade.Common.Models;
-
-namespace Blazor.Arcade.Service.Repositories
+namespace Blazor.Arcade.Common.Models
 {
-    public interface IGameMetadataRepository
+    public class ServerMetadata
     {
-        public Task<IList<GameMetadata>> GetAll();
+        public string Name { get; set; } = string.Empty;
 
-        public Task<GameMetadata?> GetById(string id);
+        public string Prefix { get; set; } = string.Empty;
     }
 }

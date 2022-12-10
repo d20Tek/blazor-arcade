@@ -13,7 +13,7 @@ namespace Blazor.Arcade.Common.Models
 
         public string Avatar { get; set; } = string.Empty;
 
-        public string Gender { get; set; } = string.Empty;
+        public string Gender { get; set; } = "U";
 
         public int Exp { get; set; } = 0;
 
@@ -39,6 +39,17 @@ namespace Blazor.Arcade.Common.Models
         public override int GetHashCode()
         {
             return HashCode.Combine(Id, Server, Name, Avatar, Gender, Exp, UserId);
+        }
+
+        public void ValidateModel()
+        {
+            Id.ThrowIfEmpty(new FormatException("UserAccount must have a valid id"));
+
+            UserId.ThrowIfEmpty(new FormatException("UserAccount must have a valid user id"));
+
+            Server.ThrowIfEmpty(new FormatException("UserAccount must have a valid server id"));
+
+            Name.ThrowIfEmpty(new FormatException("UserAccount must have a valid account name"));
         }
     }
 }
