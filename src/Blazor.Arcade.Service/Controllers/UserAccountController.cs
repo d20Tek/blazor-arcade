@@ -56,7 +56,9 @@ namespace Blazor.Arcade.Service.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserAccount>> UpdateAccount(string id, [FromBody] UserAccount account)
+        public async Task<ActionResult<UserAccount>> UpdateAccount(
+            string id,
+            [FromBody] UserAccount account)
         {
             return await EndpointOperationAsync<UserAccount>(nameof(UpdateAccount), async () =>
             {

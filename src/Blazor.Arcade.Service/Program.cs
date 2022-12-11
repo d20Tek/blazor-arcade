@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Azure.Cosmos;
 using Blazor.Arcade.Service.Hubs;
+using Blazor.Arcade.Service.Logic;
 using Blazor.Arcade.Service.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
@@ -43,8 +44,9 @@ namespace Blazor.Arcade.Service
                 });
             });
 
-            builder.Services.AddControllers();
             builder.Services.AddRepositoryServices();
+            builder.Services.AddLogicServices();
+            builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
