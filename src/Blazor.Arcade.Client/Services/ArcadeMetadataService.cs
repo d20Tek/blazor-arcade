@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 
 namespace Blazor.Arcade.Client.Services
 {
-    public class ArcadeMetadataService : ArcadeServiceBase, IArcadeMetadataService
+    public class ArcadeMetadataService : ClientServiceBase, IArcadeMetadataService
     {
         private const string _baseServiceUri = "api/v1/game-metadata";
         private readonly ITypedHttpClient _client;

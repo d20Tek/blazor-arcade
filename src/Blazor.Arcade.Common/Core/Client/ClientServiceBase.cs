@@ -1,14 +1,16 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Microsoft.Extensions.Logging;
+
 namespace Blazor.Arcade.Client.Services
 {
-    public class ArcadeServiceBase
+    public class ClientServiceBase
     {
         private const int _defaultRetryAmount = 3;
         private readonly string _typeName;
 
-        public ArcadeServiceBase(ILogger logger)
+        public ClientServiceBase(ILogger logger)
         {
             Logger = logger;
             _typeName = GetType().Name;

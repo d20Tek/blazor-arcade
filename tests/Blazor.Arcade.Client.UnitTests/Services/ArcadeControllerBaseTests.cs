@@ -10,7 +10,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
     [TestClass]
     public class ArcadeControllerBaseTests
     {
-        public sealed class TestService : ArcadeServiceBase
+        public sealed class TestService : ClientServiceBase
         {
             public TestService()
                 : base(new Mock<ILogger<TestService>>().Object)
