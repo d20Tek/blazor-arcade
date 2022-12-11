@@ -1,17 +1,17 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Common.Core.Client;
 using Moq.Protected;
 using System.Net;
 
 namespace Blazor.Arcade.Client.UnitTests.Services
 {
     [TestClass]
-    public class ArcadeClientServiceTests
+    public class TypedHttpClientTests
     {
         [TestMethod]
-        public async Task GetAuthDiagnosticsAsync()
+        public async Task GetAsync()
         {
             // arrange
             var responseContent = @"
@@ -24,18 +24,15 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             }";
 
             var httpClient = CreateHttpClient(responseContent);
-            var service = new ArcadeService(httpClient);
+            var service = new TypedHttpClient(httpClient);
 
             // act
-            var result = await service.GetAuthDiagnosticsAsync();
+            var result = await service.GetAsync("http://test.com/");
 
             // assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("Ok", result.Result);
-            Assert.AreEqual("https://test.com/api", result.EndpointUrl);
-            Assert.AreEqual("test-user-id", result.CallerId);
-            Assert.AreEqual("Test User", result.CallerName);
-            Assert.AreEqual(1234, result.Timestamp);
+            Assert.IsTrue(result.IsSuccessStatusCode);
+            Assert.IsNotNull(result.Content);
         }
 
         private HttpClient CreateHttpClient(string returnedContent)

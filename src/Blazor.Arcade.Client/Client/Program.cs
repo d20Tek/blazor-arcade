@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.Types;
+using Blazor.Arcade.Common.Core.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Diagnostics.CodeAnalysis;
@@ -27,32 +28,40 @@ namespace Blazor.Arcade.Client
             IConfiguration config,
             IWebAssemblyHostEnvironment hostEnv)
         {
-            services.AddScoped(sp =>
-                new HttpClient
-                {
-                    BaseAddress = new Uri(hostEnv.BaseAddress)
-                });
-
             var arcadeconfig = new ArcadeConfiguration
             {
-                ServiceUrl = config["ArcadeServiceUrl"]
+                ServiceUrl = config["ArcadeServiceUrl"],
+                BaseDefaultUrl = hostEnv.BaseAddress
             };
 
             services.AddSingleton<ArcadeConfiguration>(arcadeconfig);
-            services.AddScoped<CustomAuthorizationMessageHandler>();
-            services.AddHttpClient<IArcadeService, ArcadeService>(client =>
-            {
-                var serviceUrl = arcadeconfig.ServiceUrl;
-                client.BaseAddress = new Uri(serviceUrl);
-            }).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
             services.AddMsalAuthentication(options =>
             {
                 config.Bind("AzureAd", options.ProviderOptions.Authentication);
             });
 
+            ConfigureHttpClients(services, arcadeconfig);
             services.AddHubProxies(arcadeconfig);
             services.AddClientServices();
+        }
+
+        private static void ConfigureHttpClients(
+            IServiceCollection services,
+            ArcadeConfiguration config)
+        {
+            services.AddScoped(sp =>
+                new HttpClient
+                {
+                    BaseAddress = new Uri(config.BaseDefaultUrl)
+                });
+
+            services.AddScoped<CustomAuthorizationMessageHandler>();
+            services.AddHttpClient<ITypedHttpClient, TypedHttpClient>(client =>
+            {
+                var serviceUrl = config.ServiceUrl;
+                client.BaseAddress = new Uri(serviceUrl);
+            }).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
         }
     }
 }

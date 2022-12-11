@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Common.Core.Client;
 using Blazor.Arcade.Common.Models;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -29,7 +30,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
                 Content = JsonContent.Create<List<GameMetadata>>(metadata)
             };
 
-            var mockClient = new Mock<IArcadeService>();
+            var mockClient = new Mock<ITypedHttpClient>();
             mockClient.Setup(p => p.GetAsync(_baseServiceUri))
                       .ReturnsAsync(testResponse);
 

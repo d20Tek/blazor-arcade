@@ -1,12 +1,12 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-namespace Blazor.Arcade.Client.Types
-{
-    public class ArcadeConfiguration
-    {
-        public string BaseDefaultUrl { get; set; } = string.Empty;
+using Blazor.Arcade.Common.Models;
 
-        public string ServiceUrl { get; set; } = string.Empty;
+namespace Blazor.Arcade.Client.Services
+{
+    public interface IDiagnosticsService
+    {
+        public Task<ServiceDiagnostics?> GetAuthDiagnosticsAsync();
     }
 }
