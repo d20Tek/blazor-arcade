@@ -10,10 +10,18 @@ namespace Blazor.Arcade.Service.UnitTests.Helpers
         internal static void AssertStatusCode<T>(int expectedStatusCode, ActionResult<T> actionResult)
         {
             Assert.IsNotNull(actionResult.Result);
-            Assert.IsInstanceOfType(actionResult.Result, typeof(ObjectResult));
+            if (actionResult.Result.GetType() == typeof(StatusCodeResult))
+            {
+                var objRes = (StatusCodeResult)actionResult.Result;
+                Assert.AreEqual(expectedStatusCode, objRes.StatusCode);
+            }
+            else
+            {
+                Assert.IsInstanceOfType(actionResult.Result, typeof(ObjectResult));
 
-            var objRes = (ObjectResult)actionResult.Result;
-            Assert.AreEqual(expectedStatusCode, objRes.StatusCode);
+                var objRes = (ObjectResult)actionResult.Result;
+                Assert.AreEqual(expectedStatusCode, objRes.StatusCode);
+            }
         }
 
         internal static void AssertSuccess<T>(ActionResult<T> actionResult)

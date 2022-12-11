@@ -5,7 +5,7 @@ namespace Blazor.Arcade.Client.Services
 {
     public class ArcadeServiceBase
     {
-        private const int _defaultRetryAmount = 2;
+        private const int _defaultRetryAmount = 3;
         private readonly string _typeName;
 
         public ArcadeServiceBase(ILogger logger)

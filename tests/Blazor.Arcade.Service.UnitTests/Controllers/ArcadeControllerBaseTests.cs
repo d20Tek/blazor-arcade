@@ -1,6 +1,7 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Common.Core.Services;
 using Blazor.Arcade.Service.Controllers;
 using Blazor.Arcade.Service.UnitTests.Helpers;
 using Microsoft.AspNetCore.Http;
@@ -64,6 +65,22 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
                 return await EndpointOperationAsync<bool>("UnexpectedError", () =>
                 {
                     throw new InvalidOperationException();
+                });
+            }
+
+            public async Task<ActionResult<bool>> NotFoundErrorAsync()
+            {
+                return await EndpointOperationAsync<bool>("NotFoundError", () =>
+                {
+                    throw new EntityNotFoundException("test", "value");
+                });
+            }
+
+            public async Task<ActionResult<bool>> AlreadyExistsErrorAsync()
+            {
+                return await EndpointOperationAsync<bool>("AlreadyExistsError", () =>
+                {
+                    throw new EntityAlreadyExistsException("test", "value");
                 });
             }
         }
@@ -150,6 +167,34 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(result);
             ObjectResultValidation.AssertStatusCode(StatusCodes.Status500InternalServerError, result);
+        }
+
+        [TestMethod]
+        public async Task EndpointOperationAsync_AlreadyExistsError()
+        {
+            // arrange
+            var c = new TestController();
+
+            // act
+            var result = await c.AlreadyExistsErrorAsync();
+
+            // assert
+            Assert.IsNotNull(result);
+            ObjectResultValidation.AssertStatusCode(StatusCodes.Status409Conflict, result);
+        }
+
+        [TestMethod]
+        public async Task EndpointOperationAsync_NotFoundError()
+        {
+            // arrange
+            var c = new TestController();
+
+            // act
+            var result = await c.NotFoundErrorAsync();
+
+            // assert
+            Assert.IsNotNull(result);
+            ObjectResultValidation.AssertStatusCode(StatusCodes.Status404NotFound, result);
         }
     }
 }

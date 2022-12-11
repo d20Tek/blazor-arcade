@@ -1,6 +1,7 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Common.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blazor.Arcade.Service.Controllers
@@ -37,6 +38,14 @@ namespace Blazor.Arcade.Service.Controllers
                 Logger.LogWarning(errorMessage);
 
                 return StatusCode(StatusCodes.Status422UnprocessableEntity, errorMessage);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return StatusCode(StatusCodes.Status409Conflict);
+            }
+            catch (EntityNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             catch (Exception ex)
             {
