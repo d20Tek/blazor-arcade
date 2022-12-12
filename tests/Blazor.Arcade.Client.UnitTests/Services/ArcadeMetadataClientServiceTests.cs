@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Client.UnitTests.Mocks;
 using Blazor.Arcade.Common.Core.Client;
 using Blazor.Arcade.Common.Models;
 using Microsoft.Extensions.Logging;
@@ -20,21 +21,17 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         public async Task GetGameMetadataAll()
         {
             // arrange
-            var metadata = new List<GameMetadata>
-            { 
-                new GameMetadata { Id = "game.test.1" },
-                new GameMetadata { Id = "game.test.2" }
-            };
-            var testResponse = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = JsonContent.Create<List<GameMetadata>>(metadata)
-            };
+            // arrange
+            var responseContent = @"
+            [
+                { ""id"": ""game.test.1"" },
+                { ""id"": ""game.test.2"" }
+            ]";
 
-            var mockClient = new Mock<ITypedHttpClient>();
-            mockClient.Setup(p => p.GetAsync(_baseServiceUri))
-                      .ReturnsAsync(testResponse);
+            var httpClient = MockHttpClientHelper.CreateHttpClient(responseContent);
+            var typedClient = new TypedHttpClient(httpClient);
 
-            var service = new ArcadeMetadataService(mockClient.Object, _logger);
+            var service = new ArcadeMetadataService(typedClient, _logger);
 
             // act
             var results = await service.GetGamesMetadataAsync();

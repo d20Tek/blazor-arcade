@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Microsoft.Extensions.Logging;
 
-namespace Blazor.Arcade.Client.Services
+namespace Blazor.Arcade.Common.Core.Client
 {
     public class ClientServiceBase
     {

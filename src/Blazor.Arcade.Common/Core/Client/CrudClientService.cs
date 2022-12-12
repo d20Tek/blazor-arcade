@@ -1,27 +1,77 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Common.Core.Services;
+using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Net.Http.Json;
+using System.Text.Json;
+
 namespace Blazor.Arcade.Common.Core.Client
 {
-    public class CrudClientService<T> : ICrudClientService<T>
+    public class CrudClientService<T> : ClientServiceBase, ICrudClientService<T>
+        where T: class, new()
     {
-        public CrudClientService()
+        private readonly string _serviceUrl;
+        private readonly HttpClient _client;
+        private readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
-           
-        }
-        public Task<T> GetEntitiesAsync()
+            AllowTrailingCommas = true,
+            PropertyNameCaseInsensitive = true,
+        };
+
+        public CrudClientService(string serviceUrl, ITypedHttpClient typedClient, ILogger<CrudClientService<T>> logger)
+            : base(logger)
         {
-            throw new NotImplementedException();
+            serviceUrl.ThrowIfEmpty(nameof(serviceUrl));
+            _serviceUrl = serviceUrl;
+            _client = typedClient.HttpClient;
         }
 
-        public Task<T?> GetEntityAsync(string id)
+        public async Task<IList<T>> GetEntitiesAsync()
         {
-            throw new NotImplementedException();
+            return await ServiceOperationAsync<List<T>>(
+                nameof(GetEntitiesAsync),
+                async () =>
+                {
+                    var response = await _client.GetAsync(_serviceUrl);
+                    response.EnsureSuccessStatusCode();
+
+                    var results = await response.Content.ReadFromJsonAsync<List<T>>();
+                    return results ?? new List<T>();
+                });
         }
 
-        public Task<T> CreateEntityAsync(T entity)
+        public async Task<T?> GetEntityAsync(string id)
         {
-            throw new NotImplementedException();
+            return await ServiceOperationAsync<T?>(
+                nameof(GetEntityAsync),
+                async () =>
+                {
+                    string fullUrl = $"{_serviceUrl}/{id}";
+                    var response = await _client.GetAsync(fullUrl);
+                    response.EnsureSuccessStatusCode();
+
+                    return await response.Content.ReadFromJsonAsync<T>();
+                });
+        }
+
+        public async Task<T> CreateEntityAsync(T entity)
+        {
+            return await ServiceOperationAsync<T>(
+                nameof(CreateEntityAsync),
+                async () =>
+                {
+                    var response = await _client.GetAsync(_serviceUrl);
+                    if (response.StatusCode == HttpStatusCode.Conflict)
+                    {
+                        throw new EntityAlreadyExistsException("Id", entity.ToString() ?? string.Empty);
+                    }
+
+                    response.EnsureSuccessStatusCode();
+                    var result = await response.Content.ReadFromJsonAsync<T>();
+                    return result ?? new T();
+                });
         }
 
         public Task<T> UpdateEntityAsync(string id, T entity)

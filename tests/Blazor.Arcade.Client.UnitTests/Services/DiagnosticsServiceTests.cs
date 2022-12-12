@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Client.UnitTests.Mocks;
 using Blazor.Arcade.Common.Core.Client;
 using Blazor.Arcade.Common.Models;
 using Microsoft.Extensions.Logging;
@@ -20,25 +21,17 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         public async Task GetAuthDiagnosticsAsync()
         {
             // arrange
-            var diags = new ServiceDiagnostics
+            var responseContent = @"
             {
-                Result = "Ok",
-                EndpointUrl = "https://test.com/api",
-                CallerId = "test-user-id",
-                CallerName = "Test User",
-                Timestamp = 1234
-            };
+                ""result"": ""Ok"",
+                ""endpointUrl"": ""https://test.com/api"",
+                ""callerId"": ""test-user-id"",
+                ""callerName"": ""Test User"",
+                ""timestamp"": 1234
+            }";
 
-            var testResponse = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = JsonContent.Create<ServiceDiagnostics>(diags)
-            };
-
-            var mockClient = new Mock<ITypedHttpClient>();
-            mockClient.Setup(p => p.GetAsync(_baseServiceUri))
-                      .ReturnsAsync(testResponse);
-
-            var service = new DiagnosticsService(mockClient.Object, _logger);
+            var typedClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
+            var service = new DiagnosticsService(typedClient, _logger);
 
             // act
             var result = await service.GetAuthDiagnosticsAsync();

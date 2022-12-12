@@ -4,8 +4,9 @@
 namespace Blazor.Arcade.Common.Core.Client
 {
     public interface ICrudClientService<T>
+        where T : class, new()
     {
-        public Task<T> GetEntitiesAsync();
+        public Task<IList<T>> GetEntitiesAsync();
 
         public Task<T?> GetEntityAsync(string id);
 

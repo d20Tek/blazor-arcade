@@ -10,17 +10,19 @@ namespace Blazor.Arcade.Client.Services
     internal class DiagnosticsService : ClientServiceBase, IDiagnosticsService
     {
         private const string _diagUri = "/api/v1/diag/auth";
-        private readonly ITypedHttpClient _client;
+        private readonly HttpClient _client;
 
-        public DiagnosticsService(ITypedHttpClient client, ILogger<DiagnosticsService> logger)
+        public DiagnosticsService(ITypedHttpClient typedClient, ILogger<DiagnosticsService> logger)
             : base(logger)
         {
-            _client = client;
+            _client = typedClient.HttpClient;
         }
 
         public async Task<ServiceDiagnostics?> GetAuthDiagnosticsAsync()
         {
             var response = await _client.GetAsync(_diagUri);
+            response.EnsureSuccessStatusCode();
+
             return await response.Content.ReadFromJsonAsync<ServiceDiagnostics>();
         }
     }

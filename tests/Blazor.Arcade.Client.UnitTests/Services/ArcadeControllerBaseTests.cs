@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Common.Core.Client;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 

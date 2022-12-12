@@ -5,37 +5,16 @@ using Blazor.Arcade.Common.Core.Client;
 using Moq.Protected;
 using System.Net;
 
-namespace Blazor.Arcade.Client.UnitTests.Services
+namespace Blazor.Arcade.Client.UnitTests.Mocks
 {
-    [TestClass]
-    public class TypedHttpClientTests
+    internal class MockHttpClientHelper
     {
-        [TestMethod]
-        public async Task GetAsync()
+        public static ITypedHttpClient CreateTypedHttpClient(string returnedContent)
         {
-            // arrange
-            var responseContent = @"
-            {
-                ""result"": ""Ok"",
-                ""endpointUrl"": ""https://test.com/api"",
-                ""callerId"": ""test-user-id"",
-                ""callerName"": ""Test User"",
-                ""timestamp"": 1234
-            }";
-
-            var httpClient = CreateHttpClient(responseContent);
-            var service = new TypedHttpClient(httpClient);
-
-            // act
-            var result = await service.GetAsync("http://test.com/");
-
-            // assert
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.IsSuccessStatusCode);
-            Assert.IsNotNull(result.Content);
+            return new TypedHttpClient(CreateHttpClient(returnedContent));
         }
 
-        private HttpClient CreateHttpClient(string returnedContent)
+        public static HttpClient CreateHttpClient(string returnedContent)
         {
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock.Protected()
