@@ -4,6 +4,7 @@
 using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.UnitTests.Mocks;
 using Blazor.Arcade.Common.Core.Client;
+using Blazor.Arcade.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -36,6 +37,7 @@ namespace Blazor.Arcade.Client.UnitTests
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IAuthorizationService)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(CustomAuthorizationMessageHandler)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IArcadeMetadataService)));
+            Assert.IsTrue(services.Any(p => p.ServiceType == typeof(ICrudClientService<UserAccount>)));
         }
 
         [TestMethod]
@@ -66,6 +68,7 @@ namespace Blazor.Arcade.Client.UnitTests
             Assert.IsNotNull(provider.GetService<HttpClient>());
             Assert.IsNotNull(provider.GetService<ITypedHttpClient>());
             Assert.IsNotNull(provider.GetService<IArcadeMetadataService>());
+            Assert.IsNotNull(provider.GetService<ICrudClientService<UserAccount>>());
         }
     }
 }

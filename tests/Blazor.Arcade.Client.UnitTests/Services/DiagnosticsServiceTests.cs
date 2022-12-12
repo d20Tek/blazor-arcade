@@ -3,18 +3,13 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.UnitTests.Mocks;
-using Blazor.Arcade.Common.Core.Client;
-using Blazor.Arcade.Common.Models;
 using Microsoft.Extensions.Logging;
-using System.Net;
-using System.Net.Http.Json;
 
 namespace Blazor.Arcade.Client.UnitTests.Services
 {
     [TestClass]
     public class DiagnosticsServiceTests
     {
-        private const string _baseServiceUri = "/api/v1/diag/auth";
         private readonly ILogger<DiagnosticsService> _logger = new Mock<ILogger<DiagnosticsService>>().Object;
 
         [TestMethod]

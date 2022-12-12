@@ -30,7 +30,7 @@ namespace Blazor.Arcade.Common.Core.Client
 
         public async Task<IList<T>> GetEntitiesAsync()
         {
-            return await ServiceOperationAsync<List<T>>(
+            return await ServiceOperationAsync<IList<T>>(
                 nameof(GetEntitiesAsync),
                 async () =>
                 {
@@ -38,7 +38,7 @@ namespace Blazor.Arcade.Common.Core.Client
                     response.EnsureSuccessStatusCode();
 
                     var results = await response.Content.ReadFromJsonAsync<List<T>>();
-                    return results ?? new List<T>();
+                    return results.ListOrDefault();
                 });
         }
 
@@ -62,26 +62,60 @@ namespace Blazor.Arcade.Common.Core.Client
                 nameof(CreateEntityAsync),
                 async () =>
                 {
-                    var response = await _client.GetAsync(_serviceUrl);
+                    var json = JsonSerializer.Serialize(entity);
+                    using var content = new StringContent(json);
+
+                    var response = await _client.PostAsync(_serviceUrl, content);
                     if (response.StatusCode == HttpStatusCode.Conflict)
                     {
-                        throw new EntityAlreadyExistsException("Id", entity.ToString() ?? string.Empty);
+                        throw new EntityAlreadyExistsException("Id", entity.ToString().ValueOrDefault());
                     }
 
                     response.EnsureSuccessStatusCode();
                     var result = await response.Content.ReadFromJsonAsync<T>();
-                    return result ?? new T();
+                    return result.ObjectOrDefault();
                 });
         }
 
-        public Task<T> UpdateEntityAsync(string id, T entity)
+        public async Task<T> UpdateEntityAsync(string id, T entity)
         {
-            throw new NotImplementedException();
+            return await ServiceOperationAsync<T>(
+                nameof(UpdateEntityAsync),
+                async () =>
+                {
+                    string fullUrl = $"{_serviceUrl}/{id}";
+                    var json = JsonSerializer.Serialize(entity);
+                    using var content = new StringContent(json);
+
+                    var response = await _client.PutAsync(fullUrl, content);
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new EntityNotFoundException("Id", id);
+                    }
+
+                    response.EnsureSuccessStatusCode();
+                    var result = await response.Content.ReadFromJsonAsync<T>();
+                    return result.ObjectOrDefault();
+                });
         }
 
-        public Task DeleteEntityAsync(string id)
+        public async Task DeleteEntityAsync(string id)
         {
-            throw new NotImplementedException();
+            await ServiceOperationAsync<bool>(
+                nameof(DeleteEntityAsync),
+                async () =>
+                {
+                    string fullUrl = $"{_serviceUrl}/{id}";
+
+                    var response = await _client.DeleteAsync(fullUrl);
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new EntityNotFoundException("Id", id);
+                    }
+
+                    response.EnsureSuccessStatusCode();
+                    return true;
+                });
         }
     }
 }

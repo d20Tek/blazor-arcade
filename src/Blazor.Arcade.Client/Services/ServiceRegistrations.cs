@@ -2,6 +2,8 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Types;
+using Blazor.Arcade.Common.Core.Client;
+using Blazor.Arcade.Common.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Blazor.Arcade.Client.Services
@@ -12,6 +14,7 @@ namespace Blazor.Arcade.Client.Services
         {
             services.AddSingleton<IDiagnosticsService, DiagnosticsService>();
             services.AddSingleton<IArcadeMetadataService, ArcadeMetadataService>();
+            services.AddSingleton<ICrudClientService<UserAccount>, UserAccountClientService>();
             services.AddSingleton<IChatHubClient, ChatHubClient>();
             return services;
         }

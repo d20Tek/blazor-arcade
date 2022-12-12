@@ -20,5 +20,8 @@ namespace Blazor.Arcade.Common
                 throw ex;
             }
         }
+
+        public static string ValueOrDefault(this string? target) =>
+            target ?? string.Empty;
     }
 }
