@@ -4,6 +4,7 @@
 using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.Types;
 using Blazor.Arcade.Common.Core.Client;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Diagnostics.CodeAnalysis;
@@ -44,6 +45,7 @@ namespace Blazor.Arcade.Client
             ConfigureHttpClients(services, arcadeconfig);
             services.AddHubProxies(arcadeconfig);
             services.AddClientServices();
+            services.AddBlazoredLocalStorageAsSingleton();
         }
 
         private static void ConfigureHttpClients(

@@ -68,7 +68,7 @@
         if (string.IsNullOrEmpty(_currentMessage) == false)
         {
             var authState = await AuthState;
-            var userId = authState.User.FindFirst("oid")?.Value ?? "Unknown User";
+            var userId = await AuthenticationHelper.GetUserId(AuthState);
 
             var message = new ChatMessage
                 {

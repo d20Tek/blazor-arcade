@@ -1,0 +1,70 @@
+﻿<div>Switch Account:</div>
+@if (UserAccounts != null)
+{
+    <table class="table table-hover table-sm">
+      <thead>
+        <tr>
+          <th scope="col" class="glyph-column"></th>
+          <th scope="col">Name</th>
+          <th scope="col" class="text-end">Server</th>
+        </tr>
+      </thead>
+      <tbody>
+    @foreach(var acc in UserAccounts)
+    {
+        <tr id=@acc.Id class=@GetRowCss(acc) @onclick=@(() => RowClicked(acc))>
+          <td>
+            @if (IsCurrentRow(acc))
+            {
+              <span class="oi oi-check glyph-mark" />
+            }
+          </td>
+          <td>@acc.Name</td>
+          <td class="text-end">@acc.Server</td>
+         </tr>
+    }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="py-2" colspan="3">
+            <button id="switch-account-btn" class="btn btn-primary"
+                    disabled=@IsButtonDisabled @onclick=AccountSwitched>
+              Switch Account
+            </button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+}
+
+@code {
+    private UserAccount? _selectedAccount;
+
+    [Parameter]
+    public UserAccount? CurrentUserAccount { get; set; }
+
+    [Parameter]
+    public IList<UserAccount>? UserAccounts { get; set; }
+
+    [Parameter]
+    public EventCallback<UserAccount> SelectedAccountChanged { get; set; }
+
+    private bool IsButtonDisabled => _selectedAccount == null;
+
+    private bool IsCurrentRow(UserAccount account) =>
+        account.Id == CurrentUserAccount?.Id;
+
+    private string? GetRowCss(UserAccount account) =>
+        account.Id == _selectedAccount?.Id ? "selected" : null;
+
+    private void RowClicked(UserAccount account) =>
+        _selectedAccount = account;
+
+    private void AccountSwitched()
+    {
+        if (_selectedAccount != null)
+        {
+            SelectedAccountChanged.InvokeAsync(_selectedAccount);
+        }
+    }
+}

@@ -1,0 +1,90 @@
+﻿@page "/accounts/manage"
+@attribute [Authorize]
+@inject ILocalStorageService _storage
+@inject ICrudClientService<UserAccount> _service
+
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-6" style="max-width: 600px">
+    <h4>Manage Accounts</h4>
+    <div style="font-weight: bold">Current Account:</div>
+    @if (_currentAccount != null)
+    {
+      <div class="float-end">
+        <div>Avatar:</div>
+        <img class="border" width="64" src="/images/coming-soon.png" />
+      </div>
+      <div>Id: @_currentAccount.Id</div>
+      <div>Name: @_currentAccount.Name</div>
+      <div>Server: @_currentAccount.Server</div>
+      <div>Gender: @_currentAccount.Gender</div>
+      <div class="mt-2">
+        <a id="edit-account-btn" class="btn btn-outline-light" href=@_editAccountUrl>
+          Edit Account Info
+        </a>
+        <button id="delete-account-btn" class="btn btn-outline-light"
+                @onclick=OnAccountDelete>
+          Delete This Account
+        </button>
+      </div>
+    }
+    else
+    {
+      <div>No account selected, pick one below.</div>
+    }
+    <hr />
+
+    <AccountPicker CurrentUserAccount=@_currentAccount
+                   UserAccounts=@_userAccounts
+                   SelectedAccountChanged=@OnAccountChanged/>
+
+    <a id="create-account-btn" class="btn btn-outline-light" href="/account/create">
+      Create New Account
+    </a>
+  </div>
+</div>
+
+@code {
+    private const string _accountKeyBase = "CurrentUserAccount";
+    private string _accountKey = string.Empty;
+    private UserAccount? _currentAccount = null;
+    private IList<UserAccount>? _userAccounts;
+
+    private string _editAccountUrl => $"/account/edit/{_currentAccount?.Id}";
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userId = await AuthenticationHelper.GetUserId(AuthState);
+        _accountKey = $"{userId}.{_accountKeyBase}";
+        _currentAccount = await _storage.GetItemAsync<UserAccount>(_accountKey);
+
+        _userAccounts = await _service.GetEntitiesAsync();
+        if (_userAccounts.Any(p => p.Id == _currentAccount?.Id) == false)
+        {
+            await ClearAccountFromStorage();
+        }
+    }
+
+    private async Task OnAccountChanged(UserAccount account)
+    {
+        _currentAccount = account;
+        await _storage.SetItemAsync(_accountKey, account);
+    }
+
+    private async Task OnAccountDelete()
+    {
+        if (_currentAccount != null)
+        {
+            await _service.DeleteEntityAsync(_currentAccount.Id);
+            await ClearAccountFromStorage();
+        }
+    }
+
+    private async Task ClearAccountFromStorage()
+    {
+        await _storage.RemoveItemAsync(_accountKey);
+        _currentAccount = null;
+    }
+}
