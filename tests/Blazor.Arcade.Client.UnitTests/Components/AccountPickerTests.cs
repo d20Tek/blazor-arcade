@@ -2,14 +2,8 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Components;
-using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Common.Models;
 using Bunit;
-using Bunit.TestDoubles;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.DependencyInjection;
-using System.Security.Claims;
 
 namespace Blazor.Arcade.Client.UnitTests.Components
 {
@@ -42,6 +36,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // assert
             var expectedHtml =
 @"  <div>Switch Account:</div>
+    <div >You don't have any accounts set up yet. Create a player account.</div>
 ";
             comp.MarkupMatches(expectedHtml);
         }

@@ -19,7 +19,9 @@ namespace Blazor.Arcade.Service.Repositories
             return services;
         }
 
-        public static IServiceCollection AddCosmosClient(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddCosmosClient(
+            this IServiceCollection services,
+            string connectionString)
         {
             if (string.IsNullOrWhiteSpace(connectionString) == false)
             {

@@ -46,6 +46,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
     <div>No account selected, pick one below.</div>
     <hr>
     <div >Switch Account:</div>
+    <div >You don't have any accounts set up yet. Create a player account.</div>
     <a id=""create-account-btn"" class=""btn btn-outline-light"" href=""/account/create"">
       Create New Account
     </a>

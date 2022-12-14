@@ -1,7 +1,6 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Azure.Cosmos;
 using Blazor.Arcade.Service.Hubs;
 using Blazor.Arcade.Service.Logic;
 using Blazor.Arcade.Service.Repositories;
