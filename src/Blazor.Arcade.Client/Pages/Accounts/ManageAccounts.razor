@@ -18,7 +18,7 @@
       <div>Server: @_currentAccount.Server</div>
       <div>Gender: @_currentAccount.Gender</div>
       <div class="mt-2">
-        <a id="edit-account-btn" class="btn btn-outline-light" href=@_editAccountUrl>
+        <a id="edit-account-btn" class="btn btn-outline-light" href=@EditAccountUrl>
           Edit Account Info
         </a>
         <button id="delete-account-btn" class="btn btn-outline-light"
@@ -46,10 +46,10 @@
 @code {
     private const string _accountKeyBase = "CurrentUserAccount";
     private string _accountKey = string.Empty;
-    private UserAccount? _currentAccount = null;
+    private UserAccount? _currentAccount;
     private IList<UserAccount>? _userAccounts;
 
-    private string _editAccountUrl => $"/account/edit/{_currentAccount?.Id}";
+    internal string EditAccountUrl => $"/account/edit/{_currentAccount?.Id}";
 
     [CascadingParameter]
     public Task<AuthenticationState>? AuthState { get; set; }

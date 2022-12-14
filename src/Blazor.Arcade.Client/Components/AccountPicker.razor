@@ -1,5 +1,5 @@
 ﻿<div>Switch Account:</div>
-@if (UserAccounts != null)
+@if (UserAccounts.Any())
 {
     <table class="table table-hover table-sm">
       <thead>
@@ -44,7 +44,7 @@
     public UserAccount? CurrentUserAccount { get; set; }
 
     [Parameter]
-    public IList<UserAccount>? UserAccounts { get; set; }
+    public IList<UserAccount> UserAccounts { get; set; } = new List<UserAccount>();
 
     [Parameter]
     public EventCallback<UserAccount> SelectedAccountChanged { get; set; }

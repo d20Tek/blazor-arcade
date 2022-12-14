@@ -49,6 +49,18 @@ namespace Blazor.Arcade.Client.UnitTests.Misc
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public async Task GetUserId_NullAuthStateTask()
+        {
+            // arrange 
+
+            // act
+            var result = await AuthenticationHelper.GetUserId(null);
+
+            // assert
+            Assert.AreEqual(string.Empty, result);
+        }
+
         private Task<AuthenticationState> CreateAuthenticatedUser()
         {
             var principal = new ClaimsPrincipal(new MockIdentity());
