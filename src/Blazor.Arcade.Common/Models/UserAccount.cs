@@ -1,18 +1,23 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using System.ComponentModel.DataAnnotations;
+
 namespace Blazor.Arcade.Common.Models
 {
     public class UserAccount : IEquatable<UserAccount>
     {
         public string Id { get; set; } = string.Empty;
 
+        [Required]
         public string Server { get; set; } = string.Empty;
 
+        [Required]
         public string Name { get; set; } = string.Empty;
 
         public string Avatar { get; set; } = string.Empty;
 
+        [Required]
         public string Gender { get; set; } = "U";
 
         public int Exp { get; set; } = 0;

@@ -24,7 +24,6 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             // arrange
             var _storage = new Mock<ILocalStorageService>().Object;
             var _accountServ = new Mock<ICrudClientService<UserAccount>>();
-            _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(new List<UserAccount>());
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
@@ -54,7 +53,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
 </div>
 ";
             comp.MarkupMatches(expectedHtml);
-            Assert.AreEqual("/account/edit/", comp.Instance.EditAccountUrl);
+            Assert.AreEqual("/account/update/", comp.Instance.EditAccountUrl);
         }
 
         [TestMethod]
@@ -101,7 +100,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
     <div>Server: s1</div>
     <div>Gender: U</div>
     <div class=""mt-2"">
-      <a id=""edit-account-btn"" class=""btn btn-outline-light"" href=""/account/edit/test-account-1"">
+      <a id=""edit-account-btn"" class=""btn btn-outline-light"" href=""/account/update/test-account-1"">
         Edit Account Info
       </a>
       <button id=""delete-account-btn"" class=""btn btn-outline-light"" >

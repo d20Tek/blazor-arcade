@@ -50,8 +50,12 @@ namespace Blazor.Arcade.Common.Core.Client
                 {
                     string fullUrl = $"{_serviceUrl}/{id}";
                     var response = await _client.GetAsync(fullUrl);
-                    response.EnsureSuccessStatusCode();
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        return null;
+                    }
 
+                    response.EnsureSuccessStatusCode();
                     return await response.Content.ReadFromJsonAsync<T>();
                 });
         }
@@ -62,8 +66,7 @@ namespace Blazor.Arcade.Common.Core.Client
                 nameof(CreateEntityAsync),
                 async () =>
                 {
-                    var json = JsonSerializer.Serialize(entity);
-                    using var content = new StringContent(json);
+                    using var content = JsonContent.Create<T>(entity, options: _options);
 
                     var response = await _client.PostAsync(_serviceUrl, content);
                     if (response.StatusCode == HttpStatusCode.Conflict)
@@ -84,8 +87,7 @@ namespace Blazor.Arcade.Common.Core.Client
                 async () =>
                 {
                     string fullUrl = $"{_serviceUrl}/{id}";
-                    var json = JsonSerializer.Serialize(entity);
-                    using var content = new StringContent(json);
+                    using var content = JsonContent.Create<T>(entity, options: _options);
 
                     var response = await _client.PutAsync(fullUrl, content);
                     if (response.StatusCode == HttpStatusCode.NotFound)

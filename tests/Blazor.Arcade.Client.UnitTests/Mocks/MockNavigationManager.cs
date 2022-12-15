@@ -11,5 +11,10 @@ namespace Blazor.Arcade.Client.UnitTests.Mocks
         {
             Initialize("https://test.com/", "https://test.com/api");
         }
+
+        protected override void NavigateToCore(string uri, NavigationOptions options)
+        {
+            Uri = BaseUri + uri;
+        }
     }
 }

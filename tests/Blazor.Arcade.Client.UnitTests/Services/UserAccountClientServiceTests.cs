@@ -67,6 +67,20 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         }
 
         [TestMethod]
+        public async Task GetAccount_WithMissingId()
+        {
+            // arrange
+            var httpClient = MockHttpClientHelper.CreateTypedHttpClient_StatusCodeError(HttpStatusCode.NotFound);
+            var service = new UserAccountClientService(httpClient, _logger);
+
+            // act
+            var result = await service.GetEntityAsync("test-account-1");
+
+            // assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
         public async Task CreateAccount()
         {
             // arrange

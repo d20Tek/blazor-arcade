@@ -44,24 +44,22 @@
 </div>
 
 @code {
-    private const string _accountKeyBase = "CurrentUserAccount";
     private string _accountKey = string.Empty;
     private UserAccount? _currentAccount;
     private IList<UserAccount>? _userAccounts;
 
-    internal string EditAccountUrl => $"/account/edit/{_currentAccount?.Id}";
+    internal string EditAccountUrl => $"/account/update/{_currentAccount?.Id}";
 
     [CascadingParameter]
     public Task<AuthenticationState>? AuthState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var userId = await AuthenticationHelper.GetUserId(AuthState);
-        _accountKey = $"{userId}.{_accountKeyBase}";
+        _accountKey = await Constants.GetUserAccountKey(AuthState);
         _currentAccount = await _storage.GetItemAsync<UserAccount>(_accountKey);
 
         _userAccounts = await _service.GetEntitiesAsync();
-        if (_userAccounts.Any(p => p.Id == _currentAccount?.Id) == false)
+        if (_userAccounts?.Any(p => p.Id == _currentAccount?.Id) == false)
         {
             await ClearAccountFromStorage();
         }
