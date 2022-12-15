@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @inject ILocalStorageService _storage
 @inject ICrudClientService<UserAccount> _service
+@inject IMessageBoxService _msgbox
 
 <div class="row justify-content-center">
   <div class="col-12 col-lg-6" style="max-width: 600px">
@@ -75,8 +76,12 @@
     {
         if (_currentAccount != null)
         {
-            await _service.DeleteEntityAsync(_currentAccount.Id);
-            await ClearAccountFromStorage();
+            var confirmed = await _msgbox.Confirm("Are you sure you want to permanently delete this account? \r\nYou will not be able to recover it later.");
+            if (confirmed == true)
+            {
+                await _service.DeleteEntityAsync(_currentAccount.Id);
+                await ClearAccountFromStorage();
+            }
         }
     }
 

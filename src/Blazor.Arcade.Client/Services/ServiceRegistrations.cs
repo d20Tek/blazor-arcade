@@ -14,6 +14,7 @@ namespace Blazor.Arcade.Client.Services
         {
             services.AddSingleton<IDiagnosticsService, DiagnosticsService>();
             services.AddSingleton<IArcadeMetadataService, ArcadeMetadataService>();
+            services.AddSingleton<IMessageBoxService, MessageBoxService>();
             services.AddSingleton<ICrudClientService<UserAccount>, UserAccountClientService>();
             services.AddSingleton<IChatHubClient, ChatHubClient>();
             return services;
