@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Pages.Accounts;
+using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.UnitTests.Mocks;
 using Blazor.Arcade.Common.Core.Client;
 using Blazor.Arcade.Common.Models;
@@ -24,11 +25,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_Empty()
         {
             // arrange
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
 
             // act
@@ -65,13 +66,13 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                 Name = "Test1",
                 UserId = "test-user-1"
             };
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
                         .ReturnsAsync(account);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -142,13 +143,13 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                 Name = "Test1",
                 UserId = "test-user-1"
             };
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
                         .ReturnsAsync(account);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -222,13 +223,13 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                 Name = "Test1",
                 UserId = "test-user-1"
             };
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
                         .ReturnsAsync(account);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")

@@ -5,10 +5,11 @@
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
+@inject IUserProfileClientService _profile;
 
 <AuthorizeView>
     <Authorized>
-        Hi, @GetDisplayUserName(context.User)!
+        @GetDisplayUserName(context.User)
         <a class="float-end" href="" @onclick="BeginLogout">Log out</a>
     </Authorized>
     <NotAuthorized>
@@ -17,6 +18,27 @@
 </AuthorizeView>
 
 @code{
+    private UserAccount? _currentProfile;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (await AuthenticationHelper.IsUserAuthenticated(AuthState))
+        {
+            if (await _profile.HasCurrentProfileAsync(AuthState))
+            {
+                _currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
+                StateHasChanged();
+            }
+            else
+            {
+                Navigation.NavigateTo("/accounts/manage");
+            }
+        }
+    }
+
     private async Task BeginLogout(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
@@ -25,6 +47,11 @@
 
     private string? GetDisplayUserName(ClaimsPrincipal user)
     {
-        return user.FindFirst("given_name")?.Value ?? user.Identity?.Name;
+        if (_currentProfile == null)
+        {
+            return user.FindFirst("given_name")?.Value ?? user.Identity?.Name;
+        }
+
+        return _currentProfile.Name;
     }
 }

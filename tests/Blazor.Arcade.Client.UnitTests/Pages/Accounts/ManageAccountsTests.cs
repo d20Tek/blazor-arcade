@@ -16,7 +16,6 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
     [TestClass]
     public class ManageAccountsTests
     {
-        private readonly Mock<IChatHubClient> _mockChatClient = new Mock<IChatHubClient>();
         private readonly Mock<IMessageBoxService> _msgService = new Mock<IMessageBoxService>();
 
         [TestMethod]
@@ -24,11 +23,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         {
             // arrange
             var _storage = new Mock<ILocalStorageService>().Object;
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -44,7 +43,8 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
     <h4>Manage Accounts</h4>
     <div style=""font-weight: bold"">Current Account:</div>
-    <div>No account selected, pick one below.</div>
+    <div>You currently don't have an Arcade profile selected, 
+         please create a new profile or select one from the list below.</div>
     <hr>
     <div >Switch Account:</div>
     <div >You don't have any accounts set up yet. Create a player account.</div>
@@ -73,12 +73,12 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         var _storage = new Mock<ILocalStorageService>();
             _storage.Setup(x => x.GetItemAsync<UserAccount>(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                     .ReturnsAsync(_currentAccount);
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -170,12 +170,12 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             };
 
             var _storage = new Mock<ILocalStorageService>();
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -191,7 +191,8 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
     <h4>Manage Accounts</h4>
     <div style=""font-weight: bold"">Current Account:</div>
-    <div>No account selected, pick one below.</div>
+    <div>You currently don't have an Arcade profile selected, 
+         please create a new profile or select one from the list below.</div>
     <hr>
     <div >Switch Account:</div>
     <table class=""table table-hover table-sm"" >
@@ -250,14 +251,14 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             };
 
             var _storage = new Mock<ILocalStorageService>();
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
 
             _msgService.Setup(x => x.Confirm(It.IsAny<string>())).ReturnsAsync(true);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -278,7 +279,8 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
     <h4>Manage Accounts</h4>
     <div style=""font-weight: bold"">Current Account:</div>
-    <div>No account selected, pick one below.</div>
+    <div>You currently don't have an Arcade profile selected, 
+         please create a new profile or select one from the list below.</div>
     <hr>
     <div >Switch Account:</div>
     <table class=""table table-hover table-sm"" >
@@ -332,14 +334,14 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             };
 
             var _storage = new Mock<ILocalStorageService>();
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
 
             _msgService.Setup(x => x.Confirm(It.IsAny<string>())).ReturnsAsync(false);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")

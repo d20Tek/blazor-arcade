@@ -101,7 +101,9 @@ namespace Blazor.Arcade.Client.UnitTests.Components
         public async Task SendClicked_NotAuthenticated()
         {
             // arrange
+            var profileService = new Mock<IUserProfileClientService>().Object;
             var ctx = new b.TestContext();
+            ctx.Services.AddSingleton<IUserProfileClientService>(profileService);
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
             ctx.AddTestAuthorization();
 

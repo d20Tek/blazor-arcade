@@ -1,7 +1,7 @@
 ﻿@page "/accounts/manage"
 @attribute [Authorize]
 @inject ILocalStorageService _storage
-@inject ICrudClientService<UserAccount> _service
+@inject IUserProfileClientService _service
 @inject IMessageBoxService _msgbox
 
 <div class="row justify-content-center">
@@ -30,7 +30,8 @@
     }
     else
     {
-      <div>No account selected, pick one below.</div>
+      <div>You currently don't have an Arcade profile selected, 
+           please create a new profile or select one from the list below.</div>
     }
     <hr />
 
@@ -81,6 +82,8 @@
             {
                 await _service.DeleteEntityAsync(_currentAccount.Id);
                 await ClearAccountFromStorage();
+
+                _userAccounts = await _service.GetEntitiesAsync();
             }
         }
     }

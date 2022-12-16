@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Pages.Accounts;
+using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.UnitTests.Mocks;
 using Blazor.Arcade.Common.Core.Client;
 using Blazor.Arcade.Common.Models;
@@ -24,11 +25,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         {
             // arrange
             var _storage = new Mock<ILocalStorageService>().Object;
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
 
             // act
@@ -81,11 +82,11 @@ with a new display name. And allow you to create accounts on different servers.<
         {
             // arrange
             var _storage = new Mock<ILocalStorageService>();
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -147,11 +148,11 @@ with a new display name. And allow you to create accounts on different servers.<
         {
             // arrange
             var _storage = new Mock<ILocalStorageService>();
-            var _accountServ = new Mock<ICrudClientService<UserAccount>>();
+            var _accountServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
-            ctx.Services.AddSingleton<ICrudClientService<UserAccount>>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
