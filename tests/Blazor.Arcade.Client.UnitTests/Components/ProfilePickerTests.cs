@@ -8,7 +8,7 @@ using Bunit;
 namespace Blazor.Arcade.Client.UnitTests.Components
 {
     [TestClass]
-    public class AccountPickerTests
+    public class ProfilePickerTests
     {
         private static readonly UserAccount _account = new UserAccount
         {
@@ -31,12 +31,12 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             var ctx = new b.TestContext();
 
             // act
-            var comp = ctx.RenderComponent<AccountPicker>();
+            var comp = ctx.RenderComponent<ProfilePicker>();
 
             // assert
             var expectedHtml =
-@"  <div>Switch Account:</div>
-    <div >You don't have any accounts set up yet. Create a player account.</div>
+@"  <div>Switch Profile:</div>
+    <div >You don't have any profiles set up yet. Create a player profile.</div>
 ";
             comp.MarkupMatches(expectedHtml);
         }
@@ -48,14 +48,14 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             var ctx = new b.TestContext();
 
             // act
-            var comp = ctx.RenderComponent<AccountPicker>(parameters => parameters
-                .Add(p => p.CurrentUserAccount, _account)
-                .Add(p => p.UserAccounts, _accountList));
+            var comp = ctx.RenderComponent<ProfilePicker>(parameters => parameters
+                .Add(p => p.CurrentProfile, _account)
+                .Add(p => p.UserProfiles, _accountList));
 
             // assert
             var expectedHtml =
 @"
-<div>Switch Account:</div>
+<div>Switch Profile:</div>
   <table class=""table table-hover table-sm"" >
   <thead >
     <tr >
@@ -86,8 +86,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
   <tfoot >
     <tr >
       <td class=""py-2"" colspan=""3"" >
-        <button id=""switch-account-btn"" class=""btn btn-primary"" disabled=""""  >
-          Switch Account
+        <button id=""switch-profile-btn"" class=""btn btn-primary"" disabled=""""  >
+          Switch Profile
         </button>
       </td>
     </tr>
@@ -98,24 +98,24 @@ namespace Blazor.Arcade.Client.UnitTests.Components
         }
 
         [TestMethod]
-        public void SwitchAccount()
+        public void SwitchProfile()
         {
             // arrange
             bool eventFired = false;
             var ctx = new b.TestContext();
-            var comp = ctx.RenderComponent<AccountPicker>(parameters => parameters
-                .Add(p => p.CurrentUserAccount, _account)
-                .Add(p => p.UserAccounts, _accountList)
-                .Add(p => p.SelectedAccountChanged, (acc) => eventFired = true));
+            var comp = ctx.RenderComponent<ProfilePicker>(parameters => parameters
+                .Add(p => p.CurrentProfile, _account)
+                .Add(p => p.UserProfiles, _accountList)
+                .Add(p => p.SelectedProfileChanged, (acc) => eventFired = true));
 
             // act
             comp.Find("#test-account-3").Click();
-            comp.Find("#switch-account-btn").Click();
+            comp.Find("#switch-profile-btn").Click();
 
             // assert
             var expectedHtml =
 @"
-<div>Switch Account:</div>
+<div>Switch Profile:</div>
   <table class=""table table-hover table-sm"" >
   <thead >
     <tr >
@@ -146,8 +146,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
   <tfoot >
     <tr >
       <td class=""py-2"" colspan=""3"" >
-        <button id=""switch-account-btn"" class=""btn btn-primary"">
-          Switch Account
+        <button id=""switch-profile-btn"" class=""btn btn-primary"">
+          Switch Profile
         </button>
       </td>
     </tr>

@@ -1,0 +1,93 @@
+﻿@page "/profiles/manage"
+@attribute [Authorize]
+@inject IUserProfileClientService _service
+@inject IMessageBoxService _msgbox
+
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-6" style="max-width: 600px">
+    <h4>Manage Profiles</h4>
+    <div style="font-weight: bold">Current Profile:</div>
+    @if (_currentProfile != null)
+    {
+      <div class="float-end">
+        <div>Avatar:</div>
+        <img class="border" width="64" src="/images/coming-soon.png" />
+      </div>
+      <div>Id: @_currentProfile.Id</div>
+      <div>Name: @_currentProfile.Name</div>
+      <div>Server: @_currentProfile.Server</div>
+      <div>Gender: @_currentProfile.Gender</div>
+      <div class="mt-2">
+        <a id="edit-profile-btn" class="btn btn-outline-light" href=@EditProfileUrl>
+          Edit Profile Info
+        </a>
+        <button id="delete-profile-btn" class="btn btn-outline-light"
+                @onclick=OnProfileDelete>
+          Delete This Profile
+        </button>
+      </div>
+    }
+    else
+    {
+      <div>You currently don't have an Arcade profile selected, 
+           please create a new profile or select one from the list below.</div>
+    }
+    <hr />
+
+    <ProfilePicker CurrentProfile=@_currentProfile
+                   UserProfiles=@_userProfiles
+                   SelectedProfileChanged=@OnProfileChanged/>
+
+    <a id="create-profile-btn" class="btn btn-outline-light" href="/profile/create">
+      Create New Profile
+    </a>
+  </div>
+</div>
+
+@code {
+    private UserAccount? _currentProfile;
+    private IList<UserAccount>? _userProfiles;
+
+    internal string EditProfileUrl => $"/profile/update/{_currentProfile?.Id}";
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _currentProfile = await _service.GetCurrentProfileAsync(AuthState);
+
+        _userProfiles = await _service.GetEntitiesAsync();
+        if (_userProfiles?.Any(p => p.Id == _currentProfile?.Id) == false)
+        {
+            await ClearProfileFromStorage();
+        }
+    }
+
+    private async Task OnProfileChanged(UserAccount profile)
+    {
+        await _service.SetCurrentProfileAsync(AuthState, profile);
+        _currentProfile = profile;
+    }
+
+    private async Task OnProfileDelete()
+    {
+        if (_currentProfile != null)
+        {
+            var confirmed = await _msgbox.Confirm("Are you sure you want to permanently delete this profile? \r\nYou will not be able to recover it later.");
+            if (confirmed == true)
+            {
+                await _service.DeleteEntityAsync(_currentProfile.Id);
+                await ClearProfileFromStorage();
+
+                _userProfiles = await _service.GetEntitiesAsync();
+            }
+        }
+    }
+
+    private async Task ClearProfileFromStorage()
+    {
+        await _service.SetCurrentProfileAsync(AuthState, null);
+        _currentProfile = null;
+    }
+}

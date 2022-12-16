@@ -1,13 +1,12 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Blazor.Arcade.Client.Pages.Accounts;
+using Blazor.Arcade.Client.Pages.Profiles;
 using Blazor.Arcade.Client.Services;
-using Blazor.Arcade.Common.Core.Client;
 using Blazor.Arcade.Common.Models;
-using Blazored.LocalStorage;
 using Bunit;
 using Bunit.TestDoubles;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
@@ -22,11 +21,9 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_Empty()
         {
             // arrange
-            var _storage = new Mock<ILocalStorageService>().Object;
             var _accountServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<ILocalStorageService>(_storage);
             ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
@@ -41,21 +38,21 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
 @"
 <div class=""row justify-content-center"">
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
-    <h4>Manage Accounts</h4>
-    <div style=""font-weight: bold"">Current Account:</div>
+    <h4>Manage Profiles</h4>
+    <div style=""font-weight: bold"">Current Profile:</div>
     <div>You currently don't have an Arcade profile selected, 
          please create a new profile or select one from the list below.</div>
     <hr>
-    <div >Switch Account:</div>
-    <div >You don't have any accounts set up yet. Create a player account.</div>
-    <a id=""create-account-btn"" class=""btn btn-outline-light"" href=""/account/create"">
-      Create New Account
+    <div >Switch Profile:</div>
+    <div >You don't have any profiles set up yet. Create a player profile.</div>
+    <a id=""create-profile-btn"" class=""btn btn-outline-light"" href=""/profile/create"">
+      Create New Profile
     </a>
   </div>
 </div>
 ";
             comp.MarkupMatches(expectedHtml);
-            Assert.AreEqual("/account/update/", comp.Instance.EditAccountUrl);
+            Assert.AreEqual("/profile/update/", comp.Instance.EditProfileUrl);
         }
 
         [TestMethod]
@@ -70,14 +67,12 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                 new UserAccount { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-        var _storage = new Mock<ILocalStorageService>();
-            _storage.Setup(x => x.GetItemAsync<UserAccount>(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(_currentAccount);
             var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
+            _accountServ.Setup(x => x.GetCurrentProfileAsync(It.IsAny<Task<AuthenticationState>?>()))
+                        .ReturnsAsync(_currentAccount);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
             ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
@@ -92,8 +87,8 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
 @"
 <div class=""row justify-content-center"">
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
-    <h4>Manage Accounts</h4>
-    <div style=""font-weight: bold"">Current Account:</div>
+    <h4>Manage Profiles</h4>
+    <div style=""font-weight: bold"">Current Profile:</div>
     <div class=""float-end"">
       <div>Avatar:</div>
       <img class=""border"" width=""64"" src=""/images/coming-soon.png"">
@@ -103,15 +98,15 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
     <div>Server: s1</div>
     <div>Gender: U</div>
     <div class=""mt-2"">
-      <a id=""edit-account-btn"" class=""btn btn-outline-light"" href=""/account/update/test-account-1"">
-        Edit Account Info
+      <a id=""edit-profile-btn"" class=""btn btn-outline-light"" href=""/profile/update/test-account-1"">
+        Edit Profile Info
       </a>
-      <button id=""delete-account-btn"" class=""btn btn-outline-light"" >
-        Delete This Account
+      <button id=""delete-profile-btn"" class=""btn btn-outline-light"" >
+        Delete This Profile
       </button>
     </div>
     <hr>
-    <div >Switch Account:</div>
+    <div >Switch Profile:</div>
     <table class=""table table-hover table-sm"" >
       <thead >
         <tr >
@@ -142,15 +137,15 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
       <tfoot >
         <tr >
           <td class=""py-2"" colspan=""3"" >
-            <button id=""switch-account-btn"" class=""btn btn-primary"" disabled=""""  >
-              Switch Account
+            <button id=""switch-profile-btn"" class=""btn btn-primary"" disabled=""""  >
+              Switch Profile
             </button>
           </td>
         </tr>
       </tfoot>
     </table>
-    <a id=""create-account-btn"" class=""btn btn-outline-light"" href=""/account/create"">
-      Create New Account
+    <a id=""create-profile-btn"" class=""btn btn-outline-light"" href=""/profile/create"">
+      Create New Profile
     </a>
   </div>
 </div>
@@ -169,12 +164,10 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                 new UserAccount { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-            var _storage = new Mock<ILocalStorageService>();
             var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
             ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
@@ -189,12 +182,12 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
 @"
 <div class=""row justify-content-center"">
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
-    <h4>Manage Accounts</h4>
-    <div style=""font-weight: bold"">Current Account:</div>
+    <h4>Manage Profiles</h4>
+    <div style=""font-weight: bold"">Current Profile:</div>
     <div>You currently don't have an Arcade profile selected, 
          please create a new profile or select one from the list below.</div>
     <hr>
-    <div >Switch Account:</div>
+    <div >Switch Profile:</div>
     <table class=""table table-hover table-sm"" >
       <thead >
         <tr >
@@ -223,15 +216,15 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
       <tfoot >
         <tr >
           <td class=""py-2"" colspan=""3"" >
-            <button id=""switch-account-btn"" class=""btn btn-primary"" disabled=""""  >
-              Switch Account
+            <button id=""switch-profile-btn"" class=""btn btn-primary"" disabled=""""  >
+              Switch Profile
             </button>
           </td>
         </tr>
       </tfoot>
     </table>
-    <a id=""create-account-btn"" class=""btn btn-outline-light"" href=""/account/create"">
-      Create New Account
+    <a id=""create-profile-btn"" class=""btn btn-outline-light"" href=""/profile/create"">
+      Create New Profile
     </a>
   </div>
 </div>
@@ -245,19 +238,17 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             // arrange
             var _accountList = new List<UserAccount>
             {
-                new UserAccount { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserAccount { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserAccount { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
+                new UserAccount { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-            var _storage = new Mock<ILocalStorageService>();
             var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
 
             _msgService.Setup(x => x.Confirm(It.IsAny<string>())).ReturnsAsync(true);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
             ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
@@ -267,22 +258,22 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             var comp = ctx.RenderComponent<ManageAccounts>();
 
             // act
-            comp.Find("#test-account-2").Click();
-            comp.Find("#switch-account-btn").Click();
+            comp.Find("#test-profile-2").Click();
+            comp.Find("#switch-profile-btn").Click();
             _accountList.RemoveAt(1);
-            comp.Find("#delete-account-btn").Click();
+            comp.Find("#delete-profile-btn").Click();
 
             // assert
             var expectedHtml =
 @"
 <div class=""row justify-content-center"">
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
-    <h4>Manage Accounts</h4>
-    <div style=""font-weight: bold"">Current Account:</div>
+    <h4>Manage Profiles</h4>
+    <div style=""font-weight: bold"">Current Profile:</div>
     <div>You currently don't have an Arcade profile selected, 
          please create a new profile or select one from the list below.</div>
     <hr>
-    <div >Switch Account:</div>
+    <div >Switch Profile:</div>
     <table class=""table table-hover table-sm"" >
       <thead >
         <tr >
@@ -292,12 +283,12 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         </tr>
       </thead>
       <tbody >
-        <tr id=""test-account-1""  >
+        <tr id=""test-profile-1""  >
           <td ></td>
           <td >Test1</td>
           <td class=""text-end"" >s1</td>
         </tr>
-        <tr id=""test-account-3""  >
+        <tr id=""test-profile-3""  >
           <td ></td>
           <td >Test3</td>
           <td class=""text-end"" >s3</td>
@@ -306,15 +297,15 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
       <tfoot >
         <tr >
           <td class=""py-2"" colspan=""3"" >
-            <button id=""switch-account-btn"" class=""btn btn-primary""  >
-              Switch Account
+            <button id=""switch-profile-btn"" class=""btn btn-primary""  >
+              Switch Profile
             </button>
           </td>
         </tr>
       </tfoot>
     </table>
-    <a id=""create-account-btn"" class=""btn btn-outline-light"" href=""/account/create"">
-      Create New Account
+    <a id=""create-profile-btn"" class=""btn btn-outline-light"" href=""/profile/create"">
+      Create New Profile
     </a>
   </div>
 </div>
@@ -328,19 +319,17 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             // arrange
             var _accountList = new List<UserAccount>
             {
-                new UserAccount { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserAccount { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserAccount { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
+                new UserAccount { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-            var _storage = new Mock<ILocalStorageService>();
             var _accountServ = new Mock<IUserProfileClientService>();
             _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
 
             _msgService.Setup(x => x.Confirm(It.IsAny<string>())).ReturnsAsync(false);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<ILocalStorageService>(_storage.Object);
             ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
@@ -350,35 +339,35 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             var comp = ctx.RenderComponent<ManageAccounts>();
 
             // act
-            comp.Find("#test-account-2").Click();
-            comp.Find("#switch-account-btn").Click();
-            comp.Find("#delete-account-btn").Click();
+            comp.Find("#test-profile-2").Click();
+            comp.Find("#switch-profile-btn").Click();
+            comp.Find("#delete-profile-btn").Click();
 
             // assert
             var expectedHtml =
 @"
 <div class=""row justify-content-center"">
   <div class=""col-12 col-lg-6"" style=""max-width: 600px"">
-    <h4>Manage Accounts</h4>
-    <div style=""font-weight: bold"">Current Account:</div>
+    <h4>Manage Profiles</h4>
+    <div style=""font-weight: bold"">Current Profile:</div>
     <div class=""float-end"">
       <div>Avatar:</div>
       <img class=""border"" width=""64"" src=""/images/coming-soon.png"">
     </div>
-    <div>Id: test-account-2</div>
+    <div>Id: test-profile-2</div>
     <div>Name: Test2</div>
     <div>Server: s1</div>
     <div>Gender: U</div>
     <div class=""mt-2"">
-      <a id=""edit-account-btn"" class=""btn btn-outline-light"" href=""/account/update/test-account-2"">
-        Edit Account Info
+      <a id=""edit-profile-btn"" class=""btn btn-outline-light"" href=""/profile/update/test-profile-2"">
+        Edit Profile Info
       </a>
-      <button id=""delete-account-btn"" class=""btn btn-outline-light"" >
-        Delete This Account
+      <button id=""delete-profile-btn"" class=""btn btn-outline-light"" >
+        Delete This Profile
       </button>
     </div>
     <hr>
-    <div >Switch Account:</div>
+    <div >Switch Profile:</div>
     <table class=""table table-hover table-sm"" >
       <thead >
         <tr >
@@ -388,19 +377,19 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         </tr>
       </thead>
       <tbody >
-        <tr id=""test-account-1""  >
+        <tr id=""test-profile-1""  >
           <td ></td>
           <td >Test1</td>
           <td class=""text-end"" >s1</td>
         </tr>
-        <tr id=""test-account-2"" class=""selected""  >
+        <tr id=""test-profile-2"" class=""selected""  >
           <td >
             <span class=""oi oi-check glyph-mark"" ></span>
           </td>
           <td >Test2</td>
           <td class=""text-end"" >s1</td>
         </tr>
-        <tr id=""test-account-3""  >
+        <tr id=""test-profile-3""  >
           <td ></td>
           <td >Test3</td>
           <td class=""text-end"" >s3</td>
@@ -409,15 +398,15 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
       <tfoot >
         <tr >
           <td class=""py-2"" colspan=""3"" >
-            <button id=""switch-account-btn"" class=""btn btn-primary""  >
-              Switch Account
+            <button id=""switch-profile-btn"" class=""btn btn-primary""  >
+              Switch Profile
             </button>
           </td>
         </tr>
       </tfoot>
     </table>
-    <a id=""create-account-btn"" class=""btn btn-outline-light"" href=""/account/create"">
-      Create New Account
+    <a id=""create-profile-btn"" class=""btn btn-outline-light"" href=""/profile/create"">
+      Create New Profile
     </a>
   </div>
 </div>
