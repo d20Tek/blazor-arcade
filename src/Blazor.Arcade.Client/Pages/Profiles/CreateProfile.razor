@@ -57,7 +57,7 @@
         if (editContext.Validate())
         {
             var result = await _service.CreateEntityAsync(_profile);
-            await _service.SetCurrentProfileAsync(AuthState, _profile);
+            await _service.SetCurrentProfileAsync(AuthState, result);
 
             _nav.NavigateTo("/profiles/manage");
         }

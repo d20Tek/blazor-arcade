@@ -3,7 +3,6 @@
     "Blazor.Arcade.Client": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "accounts/manage",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
