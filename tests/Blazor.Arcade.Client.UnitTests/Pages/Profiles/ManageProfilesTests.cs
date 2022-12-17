@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
 {
     [TestClass]
-    public class ManageAccountsTests
+    public class ManageProfilesTests
     {
         private readonly Mock<IMessageBoxService> _msgService = new Mock<IMessageBoxService>();
 
@@ -31,7 +31,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                .SetClaims(new Claim("oid", "test-user-id"));
 
             // act
-            var comp = ctx.RenderComponent<ManageAccounts>();
+            var comp = ctx.RenderComponent<ManageProfiles>();
 
             // assert
             var expectedHtml =
@@ -80,7 +80,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                .SetClaims(new Claim("oid", "test-user-id"));
 
             // act
-            var comp = ctx.RenderComponent<ManageAccounts>();
+            var comp = ctx.RenderComponent<ManageProfiles>();
 
             // assert
             var expectedHtml =
@@ -175,7 +175,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                .SetClaims(new Claim("oid", "test-user-id"));
 
             // act
-            var comp = ctx.RenderComponent<ManageAccounts>();
+            var comp = ctx.RenderComponent<ManageProfiles>();
 
             // assert
             var expectedHtml =
@@ -255,7 +255,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
 
-            var comp = ctx.RenderComponent<ManageAccounts>();
+            var comp = ctx.RenderComponent<ManageProfiles>();
 
             // act
             comp.Find("#test-profile-2").Click();
@@ -336,7 +336,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
 
-            var comp = ctx.RenderComponent<ManageAccounts>();
+            var comp = ctx.RenderComponent<ManageProfiles>();
 
             // act
             comp.Find("#test-profile-2").Click();

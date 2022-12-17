@@ -10,7 +10,14 @@
 <AuthorizeView>
     <Authorized>
         @GetDisplayUserName(context.User)
-        <a class="float-end" href="" @onclick="BeginLogout">Log out</a>
+        <a class="float-end btn-light-outline mx-1" href=""
+           title="Log out" @onclick="BeginLogout">
+            <span class="oi oi-account-logout" aria-hidden="true"></span>
+        </a>
+        <a class="float-end btn-light-outline mx-1"
+           href="/profiles/manage" title="Manage Profiles">
+            <span class="oi oi-person" aria-hidden="true"></span>
+        </a>
     </Authorized>
     <NotAuthorized>
         <a href="authentication/login">Log in</a>
