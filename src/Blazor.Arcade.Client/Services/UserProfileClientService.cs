@@ -11,7 +11,7 @@ namespace Blazor.Arcade.Client.Services
 {
     internal class UserProfileClientService : CrudClientService<UserProfile>, IUserProfileClientService
     {
-        private const string _baseServiceUrl = "/api/v1/account";
+        private const string _baseServiceUrl = "/api/v1/profile";
         private readonly ILocalStorageService _storageService;
 
         public UserProfileClientService(

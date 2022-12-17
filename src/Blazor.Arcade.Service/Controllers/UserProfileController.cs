@@ -11,7 +11,7 @@ namespace Blazor.Arcade.Service.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/v1/account")]
+    [Route("api/v1/profile")]
     public class UserProfileController : ArcadeControllerBase
     {
         private readonly IUserProfileActionManager _actionMgr;
