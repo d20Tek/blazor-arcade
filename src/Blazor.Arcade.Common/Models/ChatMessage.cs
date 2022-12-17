@@ -9,9 +9,11 @@ namespace Blazor.Arcade.Common.Models
 
         public string ChannelId { get; set; } = string.Empty;
 
-        public string AccountId { get; set; } = string.Empty;
+        public string ProfileId { get; set; } = string.Empty;
 
-        public string AccountName { get; set; } = string.Empty;
+        public string ProfileName { get; set; } = string.Empty;
+
+        public string UserId { get; set; } = string.Empty;
 
         public string Message { get; set; } = string.Empty;
     }

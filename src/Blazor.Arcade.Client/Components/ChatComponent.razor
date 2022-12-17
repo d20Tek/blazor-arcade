@@ -20,7 +20,7 @@
         <div class="overflow-auto chat-message-list">
             @foreach (var m in _messages)
             {
-                <div>@m.AccountName: @m.Message</div>
+                <div>@m.ProfileName: @m.Message</div>
             }
         </div>
     </Authorized>
@@ -71,9 +71,10 @@
             var currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
             var message = new ChatMessage
             {
-                AccountId = currentProfile.Id,
-                AccountName = currentProfile.Name,
-                Message = _currentMessage
+                ProfileId = currentProfile.Id,
+                ProfileName = currentProfile.Name,
+                Message = _currentMessage,
+                UserId = currentProfile.UserId
             };
 
             await _chatHub.SendGlobalMessageAsync(message);

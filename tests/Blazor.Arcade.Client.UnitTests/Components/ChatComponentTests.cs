@@ -73,8 +73,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-account-id",
-                AccountName = "Test User",
+                ProfileId = "test-profile-id",
+                ProfileName = "Test User",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
@@ -218,8 +218,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-account-id",
-                AccountName = "Tester",
+                ProfileId = "test-profile-id",
+                ProfileName = "Tester",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
@@ -267,8 +267,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-account-id",
-                AccountName = "Tester",
+                ProfileId = "test-profile-id",
+                ProfileName = "Tester",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
@@ -316,8 +316,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-account-id",
-                AccountName = "Tester",
+                ProfileId = "test-profile-id",
+                ProfileName = "Tester",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
