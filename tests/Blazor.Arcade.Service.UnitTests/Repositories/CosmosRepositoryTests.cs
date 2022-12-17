@@ -13,14 +13,14 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
     [ExcludeFromCodeCoverage]
     public class CosmosRepositoryTests
     {
-        private readonly ILogger<UserAccountRepository> _logger = new Mock<ILogger<UserAccountRepository>>().Object;
+        private readonly ILogger<UserProfileRepository> _logger = new Mock<ILogger<UserProfileRepository>>().Object;
 
         //[TestMethod]
         public async Task CrudTest_TargetingRealCosmosDb()
         {
             // arrange
             var client = new CosmosClient("AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             var account = new UserProfile
             {

@@ -14,7 +14,7 @@ namespace Blazor.Arcade.Service.Repositories
             services.AddSingleton<IReadRepository<GameMetadata>, GameMetadataRepository>();
             services.AddSingleton<IReadRepository<ServerMetadata>, ServerMetadataRepository>();
             services.AddSingleton<ICacheService, MemoryCacheService>(); 
-            services.AddSingleton<IRepository<UserProfile>, UserAccountRepository>();
+            services.AddSingleton<IRepository<UserProfile>, UserProfileRepository>();
 
             return services;
         }

@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Blazor.Arcade.Service.UnitTests.Logic
 {
     [TestClass]
-    public class UserAccountActionManagerTests
+    public class UserProfileActionManagerTests
     {
         private readonly IRepository<UserProfile> _defaultRepo = new Mock<IRepository<UserProfile>>().Object;
         private readonly IReadRepository<ServerMetadata> _serverRepo = new ServerMetadataRepository();
@@ -22,17 +22,17 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         };
 
         [TestMethod]
-        public async Task GetAccountForUserAsync()
+        public async Task GetProfileForUserAsync()
         {
             // arrange
             var mockRepo = new Mock<IRepository<UserProfile>>();
             mockRepo.Setup(x => x.GetItemAsync(It.IsAny<string>(), It.IsAny<string>()))
                     .ReturnsAsync(_userAccount);
 
-            var mgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var mgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
             // act
-            var result = await mgr.GetAccountForUserAsync("test-account-1", "test-user-1");
+            var result = await mgr.GetProfileForUserAsync("test-account-1", "test-user-1");
 
             // assert
             Assert.IsNotNull(result);
@@ -40,7 +40,7 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         }
 
         [TestMethod]
-        public async Task GetAccountsForUserAsync()
+        public async Task GetProfilesForUserAsync()
         {
             // arrange
             var list = new List<UserProfile>
@@ -53,10 +53,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             mockRepo.Setup(x => x.GetPartitionItemsAsync(It.IsAny<string>()))
                     .ReturnsAsync(list);
 
-            var mgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var mgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
             // act
-            var result = await mgr.GetAccountsForUserAsync("test-user-1");
+            var result = await mgr.GetProfilesForUserAsync("test-user-1");
 
             // assert
             Assert.IsNotNull(result);
@@ -66,17 +66,17 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         }
 
         [TestMethod]
-        public async Task CreateAccountForUserAsync()
+        public async Task CreateProfileForUserAsync()
         {
             // arrange
             var mockRepo = new Mock<IRepository<UserProfile>>();
             mockRepo.Setup(x => x.CreateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
-            var mgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var mgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
             // act
-            var result = await mgr.CreateAccountForUserAsync(_userAccount);
+            var result = await mgr.CreateProfileForUserAsync(_userAccount);
 
             // assert
             Assert.IsNotNull(result);
@@ -86,7 +86,7 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         }
 
         [TestMethod]
-        public async Task CreateAccountForUserAsync_WithServer()
+        public async Task CreateProfileForUserAsync_WithServer()
         {
             // arrange
             _userAccount.Server = "s1";
@@ -95,10 +95,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             mockRepo.Setup(x => x.CreateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
-            var mgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var mgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
             // act
-            var result = await mgr.CreateAccountForUserAsync(_userAccount);
+            var result = await mgr.CreateProfileForUserAsync(_userAccount);
 
             // assert
             Assert.IsNotNull(result);
@@ -108,7 +108,7 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         }
 
         [TestMethod]
-        public async Task UpdateAccountForUserAsync()
+        public async Task UpdateProfileForUserAsync()
         {
             // arrange
             _userAccount.Server = "s1";
@@ -117,10 +117,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             mockRepo.Setup(x => x.UpdateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
-            var mgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var mgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
             // act
-            var result = await mgr.UpdateAccountForUserAsync(_userAccount);
+            var result = await mgr.UpdateProfileForUserAsync(_userAccount);
 
             // assert
             Assert.IsNotNull(result);
@@ -130,7 +130,7 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         }
 
         [TestMethod]
-        public async Task UpdateAccountForUserAsync_NoChange()
+        public async Task UpdateProfileForUserAsync_NoChange()
         {
             // arrange
             _userAccount.Server = "s1";
@@ -141,10 +141,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             mockRepo.Setup(x => x.UpdateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
-            var mgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var mgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
             // act
-            var result = await mgr.UpdateAccountForUserAsync(_userAccount);
+            var result = await mgr.UpdateProfileForUserAsync(_userAccount);
 
             // assert
             Assert.IsNotNull(result);
@@ -157,16 +157,16 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         }
 
         [TestMethod]
-        public async Task DeleteAccountForUserAsync()
+        public async Task DeleteProfileForUserAsync()
         {
             // arrange
             var mockRepo = new Mock<IRepository<UserProfile>>();
             mockRepo.Setup(x => x.DeleteItemAsync(It.IsAny<string>(), It.IsAny<string>()));
 
-            var mgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var mgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
             // act
-            await mgr.DeleteAccountForUserAsync("test-account-1", "test-user-1");
+            await mgr.DeleteProfileForUserAsync("test-account-1", "test-user-1");
 
             // assert
             mockRepo.Verify(
@@ -183,10 +183,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             _userAccount.Server = "s1";
             _userAccount.Id = string.Empty;
 
-            var mgr = new UserAccountActionManager(_defaultRepo, _serverRepo);
+            var mgr = new UserProfileActionManager(_defaultRepo, _serverRepo);
 
             // act
-            _ = await mgr.UpdateAccountForUserAsync(_userAccount);
+            _ = await mgr.UpdateProfileForUserAsync(_userAccount);
 
             // assert
         }
@@ -200,10 +200,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             _userAccount.Server = "s1";
             _userAccount.UserId = string.Empty;
 
-            var mgr = new UserAccountActionManager(_defaultRepo, _serverRepo);
+            var mgr = new UserProfileActionManager(_defaultRepo, _serverRepo);
 
             // act
-            _ = await mgr.UpdateAccountForUserAsync(_userAccount);
+            _ = await mgr.UpdateProfileForUserAsync(_userAccount);
 
             // assert
         }
@@ -217,10 +217,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             _userAccount.Server = "s1";
             _userAccount.Name = string.Empty;
 
-            var mgr = new UserAccountActionManager(_defaultRepo, _serverRepo);
+            var mgr = new UserProfileActionManager(_defaultRepo, _serverRepo);
 
             // act
-            _ = await mgr.UpdateAccountForUserAsync(_userAccount);
+            _ = await mgr.UpdateProfileForUserAsync(_userAccount);
 
             // assert
         }
@@ -233,10 +233,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
             // arrange
             _userAccount.Server = "err";
 
-            var mgr = new UserAccountActionManager(_defaultRepo, _serverRepo);
+            var mgr = new UserProfileActionManager(_defaultRepo, _serverRepo);
 
             // act
-            _ = await mgr.UpdateAccountForUserAsync(_userAccount);
+            _ = await mgr.UpdateProfileForUserAsync(_userAccount);
 
             // assert
         }
@@ -247,10 +247,10 @@ namespace Blazor.Arcade.Service.UnitTests.Logic
         public async Task GetAccountsForUserAsync_InvalidUserID()
         {
             // arrange
-            var mgr = new UserAccountActionManager(_defaultRepo, _serverRepo);
+            var mgr = new UserProfileActionManager(_defaultRepo, _serverRepo);
 
             // act
-            _ = await mgr.GetAccountsForUserAsync("");
+            _ = await mgr.GetProfilesForUserAsync("");
 
             // assert
         }

@@ -14,9 +14,9 @@ using Microsoft.Extensions.Logging;
 namespace Blazor.Arcade.Service.UnitTests.Controllers
 {
     [TestClass]
-    public class UserAccountControllerTests
+    public class UserProfileControllerTests
     {
-        private readonly ILogger<UserAccountController> _logger = new Mock<ILogger<UserAccountController>>().Object;
+        private readonly ILogger<UserProfileController> _logger = new Mock<ILogger<UserProfileController>>().Object;
         private readonly IReadRepository<ServerMetadata> _serverRepo = new ServerMetadataRepository();
         private readonly UserProfile _userAccount = new()
         {
@@ -26,7 +26,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         };
 
         [TestMethod]
-        public async Task GetAccounts()
+        public async Task GetProfiles()
         {
             // arrange
             var list = new List<UserProfile>
@@ -39,15 +39,15 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             mockRepo.Setup(x => x.GetPartitionItemsAsync(It.IsAny<string>()))
                     .ReturnsAsync(list);
 
-            var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var accountMgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
-            var controller = new UserAccountController(accountMgr, _logger)
+            var controller = new UserProfileController(accountMgr, _logger)
             {
                 ControllerContext = ControllerContextHelper.CreateContextWithIdentityPrincipal(),
             };
 
             // act
-            var result = await controller.GetAccounts();
+            var result = await controller.GetProfiles();
 
             // assert
             Assert.IsNotNull(result);
@@ -58,22 +58,22 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task GetAccountById()
+        public async Task GetProfilesById()
         {
             // arrange
             var mockRepo = new Mock<IRepository<UserProfile>>();
             mockRepo.Setup(x => x.GetItemAsync(It.IsAny<string>(), It.IsAny<string>()))
                     .ReturnsAsync(_userAccount);
 
-            var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var accountMgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
-            var controller = new UserAccountController(accountMgr, _logger)
+            var controller = new UserProfileController(accountMgr, _logger)
             {
                 ControllerContext = ControllerContextHelper.CreateContextWithIdentityPrincipal(),
             };
 
             // act
-            var result = await controller.GetAccountById("test-account-1");
+            var result = await controller.GetProfileById("test-account-1");
 
             // assert
             Assert.IsNotNull(result);
@@ -83,22 +83,22 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task CreateAccount()
+        public async Task CreateProfile()
         {
             // arrange
             var mockRepo = new Mock<IRepository<UserProfile>>();
             mockRepo.Setup(x => x.CreateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
-            var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var accountMgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
-            var controller = new UserAccountController(accountMgr, _logger)
+            var controller = new UserProfileController(accountMgr, _logger)
             {
                 ControllerContext = ControllerContextHelper.CreateContextWithIdentityPrincipal(),
             };
 
             // act
-            var result = await controller.CreateAccount(_userAccount);
+            var result = await controller.CreateProfile(_userAccount);
 
             // assert
             Assert.IsNotNull(result);
@@ -109,7 +109,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task UpdateAccount()
+        public async Task UpdateProfile()
         {
             // arrange
             _userAccount.Server = "s1";
@@ -118,15 +118,15 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             mockRepo.Setup(x => x.UpdateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
-            var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var accountMgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
-            var controller = new UserAccountController(accountMgr, _logger)
+            var controller = new UserProfileController(accountMgr, _logger)
             {
                 ControllerContext = ControllerContextHelper.CreateContextWithIdentityPrincipal(),
             };
 
             // act
-            var result = await controller.UpdateAccount("test-account-1", _userAccount);
+            var result = await controller.UpdateProfile("test-account-1", _userAccount);
 
             // assert
             Assert.IsNotNull(result);
@@ -137,19 +137,19 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         }
 
         [TestMethod]
-        public async Task DeleteAccount()
+        public async Task DeleteProfile()
         {
             // arrange
             var mockRepo = new Mock<IRepository<UserProfile>>();
-            var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
+            var accountMgr = new UserProfileActionManager(mockRepo.Object, _serverRepo);
 
-            var controller = new UserAccountController(accountMgr, _logger)
+            var controller = new UserProfileController(accountMgr, _logger)
             {
                 ControllerContext = ControllerContextHelper.CreateContextWithIdentityPrincipal(),
             };
 
             // act
-            var result = await controller.DeleteAccount("test-account-1");
+            var result = await controller.DeleteProfile("test-account-1");
 
             // assert
             Assert.IsNotNull(result);

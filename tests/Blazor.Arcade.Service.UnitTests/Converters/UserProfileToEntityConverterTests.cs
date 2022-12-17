@@ -8,7 +8,7 @@ using Blazor.Arcade.Service.Entities;
 namespace Blazor.Arcade.Service.UnitTests.Converters
 {
     [TestClass]
-    public class UserAccountToEntityConverterTests
+    public class UserProfileToEntityConverterTests
     {
         [TestMethod]
         public void ConvertToEntity()
@@ -16,7 +16,7 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
             // arrange
             var model = new UserProfile
             {
-                Id = "test-account-1",
+                Id = "test-profile-1",
                 Server = "s1",
                 Avatar = "test-av",
                 Name = "Test User",
@@ -24,14 +24,14 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
                 Exp = 5,
                 UserId = "test-user-1"
             };
-            var conv = new UserAccountToEntityConverter();
+            var conv = new UserProfileToEntityConverter();
 
             // act
             var result = conv.ConvertToEntity(model);
 
             // assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(model.Id, result.AccountId);
+            Assert.AreEqual(model.Id, result.ProfileId);
             Assert.AreEqual(model.Id, result.Id);
             Assert.AreEqual(model.Server, result.ServerId);
             Assert.AreEqual(model.Avatar, result.AvatarUri);
@@ -46,9 +46,9 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
         public void ConvertToModel()
         {
             // arrange
-            var entity = new UserAccountEntity
+            var entity = new UserProfileEntity
             {
-                AccountId = "test-account-1",
+                ProfileId = "test-profile-1",
                 ServerId = "s1",
                 AvatarUri = "test-av",
                 DisplayName = "Test User",
@@ -57,7 +57,7 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
                 Timestamp = 42,
                 ETag = "test-etag"
             };
-            var conv = new UserAccountToEntityConverter();
+            var conv = new UserProfileToEntityConverter();
 
             // act
             var result = conv.ConvertToModel(entity);
@@ -65,7 +65,7 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
             // assert
             Assert.IsNotNull(result);
             Assert.AreEqual(entity.Id, result.Id);
-            Assert.AreEqual(entity.AccountId, result.Id);
+            Assert.AreEqual(entity.ProfileId, result.Id);
             Assert.AreEqual(entity.ServerId, result.Server);
             Assert.AreEqual(entity.AvatarUri, result.Avatar);
             Assert.AreEqual(entity.DisplayName, result.Name);

@@ -7,7 +7,7 @@ namespace Blazor.Arcade.Service.Logic
     {
         public static IServiceCollection AddLogicServices(this IServiceCollection services)
         {
-            services.AddSingleton<IUserAccountActionManager, UserAccountActionManager>();
+            services.AddSingleton<IUserProfileActionManager, UserProfileActionManager>();
 
             return services;
         }

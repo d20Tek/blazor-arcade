@@ -8,12 +8,12 @@ using Blazor.Arcade.Common.Models;
 
 namespace Blazor.Arcade.Service.Logic
 {
-    internal class UserAccountActionManager : IUserAccountActionManager
+    internal class UserProfileActionManager : IUserProfileActionManager
     {
         private readonly IRepository<UserProfile> _repo;
         private readonly IReadRepository<ServerMetadata> _serverMetadata;
 
-        public UserAccountActionManager(
+        public UserProfileActionManager(
             IRepository<UserProfile> repository,
             IReadRepository<ServerMetadata> serverMetadata)
         {
@@ -21,62 +21,62 @@ namespace Blazor.Arcade.Service.Logic
             _serverMetadata= serverMetadata;
         }
 
-        public async Task<UserProfile> GetAccountForUserAsync(string accountId, string userId)
+        public async Task<UserProfile> GetProfileForUserAsync(string profileId, string userId)
         {
-            accountId.ThrowIfEmpty(nameof(accountId));
+            profileId.ThrowIfEmpty(nameof(profileId));
             userId.ThrowIfEmpty(nameof(userId));
 
-            return await _repo.GetItemAsync(accountId, userId);
+            return await _repo.GetItemAsync(profileId, userId);
         }
 
-        public async Task<IList<UserProfile>> GetAccountsForUserAsync(string userId)
+        public async Task<IList<UserProfile>> GetProfilesForUserAsync(string userId)
         {
             userId.ThrowIfEmpty(nameof(userId));
             return await _repo.GetPartitionItemsAsync(userId);
         }
 
-        public async Task<UserProfile> CreateAccountForUserAsync(UserProfile account)
+        public async Task<UserProfile> CreateProfileForUserAsync(UserProfile profile)
         {
-            ArgumentNullException.ThrowIfNull(nameof(account));
+            ArgumentNullException.ThrowIfNull(nameof(profile));
 
-            var s = await _serverMetadata.GetById(account.Server);
+            var s = await _serverMetadata.GetById(profile.Server);
             if (s == null)
             {
                 s = (await _serverMetadata.GetAll()).Last();
-                account.Server = s.Name;
+                profile.Server = s.Name;
             }
             
-            account.Id = IdGenerator.Instance.GetNext(s.Prefix);
+            profile.Id = IdGenerator.Instance.GetNext(s.Prefix);
 
-            account.ValidateModel();
-            return await _repo.CreateItemAsync(account);
+            profile.ValidateModel();
+            return await _repo.CreateItemAsync(profile);
         }
 
-        public async Task<UserProfile> UpdateAccountForUserAsync(UserProfile account)
+        public async Task<UserProfile> UpdateProfileForUserAsync(UserProfile profile)
         {
-            ArgumentNullException.ThrowIfNull(nameof(account));
+            ArgumentNullException.ThrowIfNull(nameof(profile));
             var servers = await _serverMetadata.GetAll();
-            if (servers.Any(p => p.Name == account.Server) == false)
+            if (servers.Any(p => p.Name == profile.Server) == false)
             {
                 throw new FormatException("Specified account server does not exist.");
             }
 
-            var accountToUpdate = await _repo.GetItemAsync(account.Id, account.UserId);
-            if (account.Equals(accountToUpdate))
+            var accountToUpdate = await _repo.GetItemAsync(profile.Id, profile.UserId);
+            if (profile.Equals(accountToUpdate))
             {
                 return accountToUpdate;
             }
 
-            account.ValidateModel();
-            return await _repo.UpdateItemAsync(account);
+            profile.ValidateModel();
+            return await _repo.UpdateItemAsync(profile);
         }
 
-        public async Task DeleteAccountForUserAsync(string accountId, string userId)
+        public async Task DeleteProfileForUserAsync(string profileId, string userId)
         {
-            accountId.ThrowIfEmpty(nameof(accountId));
+            profileId.ThrowIfEmpty(nameof(profileId));
             userId.ThrowIfEmpty(nameof(userId));
 
-            await _repo.DeleteItemAsync(accountId, userId);
+            await _repo.DeleteItemAsync(profileId, userId);
         }
     }
 }
