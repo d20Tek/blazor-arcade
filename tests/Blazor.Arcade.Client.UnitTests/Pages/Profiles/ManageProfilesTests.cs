@@ -21,10 +21,10 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_Empty()
         {
             // arrange
-            var _accountServ = new Mock<IUserProfileClientService>();
+            var _profileServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -59,21 +59,21 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render()
         {
             // arrange
-            var _currentAccount = new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" };
-            var _accountList = new List<UserProfile>
+            var _currentprofile = new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" };
+            var _profileList = new List<UserProfile>
             {
-                new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserProfile { Id = "test-account-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
-                new UserProfile { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-            var _accountServ = new Mock<IUserProfileClientService>();
-            _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
-            _accountServ.Setup(x => x.GetCurrentProfileAsync(It.IsAny<Task<AuthenticationState>?>()))
-                        .ReturnsAsync(_currentAccount);
+            var _profileServ = new Mock<IUserProfileClientService>();
+            _profileServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_profileList);
+            _profileServ.Setup(x => x.GetCurrentProfileAsync(It.IsAny<Task<AuthenticationState>?>()))
+                        .ReturnsAsync(_currentprofile);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -93,12 +93,12 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
       <div>Avatar:</div>
       <img class=""border"" width=""64"" src=""/images/coming-soon.png"">
     </div>
-    <div>Id: test-account-1</div>
+    <div>Id: test-profile-1</div>
     <div>Name: Test1</div>
     <div>Server: s1</div>
     <div>Gender: U</div>
     <div class=""mt-2"">
-      <a id=""edit-profile-btn"" class=""btn btn-outline-light"" href=""/profile/update/test-account-1"">
+      <a id=""edit-profile-btn"" class=""btn btn-outline-light"" href=""/profile/update/test-profile-1"">
         Edit Profile Info
       </a>
       <button id=""delete-profile-btn"" class=""btn btn-outline-light"" >
@@ -116,19 +116,19 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         </tr>
       </thead>
       <tbody >
-        <tr id=""test-account-1""  >
+        <tr id=""test-profile-1""  >
           <td >
             <span class=""oi oi-check glyph-mark"" ></span>
           </td>
           <td >Test1</td>
           <td class=""text-end"" >s1</td>
         </tr>
-        <tr id=""test-account-2""  >
+        <tr id=""test-profile-2""  >
           <td ></td>
           <td >Test2</td>
           <td class=""text-end"" >s2</td>
         </tr>
-        <tr id=""test-account-3""  >
+        <tr id=""test-profile-3""  >
           <td ></td>
           <td >Test3</td>
           <td class=""text-end"" >s3</td>
@@ -154,21 +154,21 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         }
 
         [TestMethod]
-        public void Render_WithNoCachedAccount()
+        public void Render_WithNoCachedProfile()
         {
             // arrange
-            var _accountList = new List<UserProfile>
+            var _profileList = new List<UserProfile>
             {
-                new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserProfile { Id = "test-account-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
-                new UserProfile { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-            var _accountServ = new Mock<IUserProfileClientService>();
-            _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
+            var _profileServ = new Mock<IUserProfileClientService>();
+            _profileServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_profileList);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -197,17 +197,17 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         </tr>
       </thead>
       <tbody >
-        <tr id=""test-account-1""  >
+        <tr id=""test-profile-1""  >
           <td ></td>
           <td >Test1</td>
           <td class=""text-end"" >s1</td>
         </tr>
-        <tr id=""test-account-2""  >
+        <tr id=""test-profile-2""  >
           <td ></td>
           <td >Test2</td>
           <td class=""text-end"" >s2</td>
         </tr>
-        <tr id=""test-account-3""  >
+        <tr id=""test-profile-3""  >
           <td ></td>
           <td >Test3</td>
           <td class=""text-end"" >s3</td>
@@ -233,23 +233,23 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         }
 
         [TestMethod]
-        public void Render_DeleteAccount()
+        public void Render_DeleteProfile()
         {
             // arrange
-            var _accountList = new List<UserProfile>
+            var _profileList = new List<UserProfile>
             {
                 new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
                 new UserProfile { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
                 new UserProfile { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-            var _accountServ = new Mock<IUserProfileClientService>();
-            _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
+            var _profileServ = new Mock<IUserProfileClientService>();
+            _profileServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_profileList);
 
             _msgService.Setup(x => x.Confirm(It.IsAny<string>())).ReturnsAsync(true);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -260,7 +260,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
             // act
             comp.Find("#test-profile-2").Click();
             comp.Find("#switch-profile-btn").Click();
-            _accountList.RemoveAt(1);
+            _profileList.RemoveAt(1);
             comp.Find("#delete-profile-btn").Click();
 
             // assert
@@ -314,23 +314,23 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         }
 
         [TestMethod]
-        public void Render_DeleteAccount_CancelConfirm()
+        public void Render_DeleteProfile_CancelConfirm()
         {
             // arrange
-            var _accountList = new List<UserProfile>
+            var _profileList = new List<UserProfile>
             {
                 new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
                 new UserProfile { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
                 new UserProfile { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
-            var _accountServ = new Mock<IUserProfileClientService>();
-            _accountServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_accountList);
+            var _profileServ = new Mock<IUserProfileClientService>();
+            _profileServ.Setup(x => x.GetEntitiesAsync()).ReturnsAsync(_profileList);
 
             _msgService.Setup(x => x.Confirm(It.IsAny<string>())).ReturnsAsync(false);
 
             var ctx = new b.TestContext();
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<IMessageBoxService>(_msgService.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")

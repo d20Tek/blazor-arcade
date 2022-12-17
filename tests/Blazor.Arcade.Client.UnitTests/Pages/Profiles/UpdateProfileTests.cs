@@ -24,11 +24,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_Empty()
         {
             // arrange
-            var _accountServ = new Mock<IUserProfileClientService>();
+            var _profileServ = new Mock<IUserProfileClientService>();
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
 
             // act
@@ -58,20 +58,20 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_Initial()
         {
             // arrange
-            var account = new UserProfile
+            var profile = new UserProfile
             {
                 Id = "test-profile-1",
                 Server = "s1",
                 Name = "Test1",
                 UserId = "test-user-1"
             };
-            var _accountServ = new Mock<IUserProfileClientService>();
-            _accountServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
-                        .ReturnsAsync(account);
+            var _profileServ = new Mock<IUserProfileClientService>();
+            _profileServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
+                        .ReturnsAsync(profile);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -135,20 +135,20 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void FormSubmitted()
         {
             // arrange
-            var account = new UserProfile
+            var profile = new UserProfile
             {
                 Id = "test-profile-1",
                 Server = "s1",
                 Name = "Test1",
                 UserId = "test-user-1"
             };
-            var _accountServ = new Mock<IUserProfileClientService>();
-            _accountServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
-                        .ReturnsAsync(account);
+            var _profileServ = new Mock<IUserProfileClientService>();
+            _profileServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
+                        .ReturnsAsync(profile);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -214,20 +214,20 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void FormSubmitted_NotValid()
         {
             // arrange
-            var account = new UserProfile
+            var profile = new UserProfile
             {
                 Id = "test-profile-1",
                 Server = "s1",
                 Name = "Test1",
                 UserId = "test-user-1"
             };
-            var _accountServ = new Mock<IUserProfileClientService>();
-            _accountServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
-                        .ReturnsAsync(account);
+            var _profileServ = new Mock<IUserProfileClientService>();
+            _profileServ.Setup(x => x.GetEntityAsync(It.IsAny<string>()))
+                        .ReturnsAsync(profile);
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<ILocalStorageService>(_storage);
-            ctx.Services.AddSingleton<IUserProfileClientService>(_accountServ.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_profileServ.Object);
             ctx.Services.AddSingleton<NavigationManager>(_mockNav);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")

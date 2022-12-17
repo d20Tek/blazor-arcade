@@ -58,7 +58,7 @@ namespace Blazor.Arcade.Service.Logic
             var servers = await _serverMetadata.GetAll();
             if (servers.Any(p => p.Name == profile.Server) == false)
             {
-                throw new FormatException("Specified account server does not exist.");
+                throw new FormatException("Specified profile's server does not exist.");
             }
 
             var accountToUpdate = await _repo.GetItemAsync(profile.Id, profile.UserId);

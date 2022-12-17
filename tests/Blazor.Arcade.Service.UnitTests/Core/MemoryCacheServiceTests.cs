@@ -14,7 +14,7 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void MemoryCache_SetGetEntity()
         {
             // arrange
-            var id = "test-account-id-1";
+            var id = "test-profile-id-1";
             var entity = new TestEntity { TestId = id };
             var cache = new MemoryCacheService();
 
@@ -49,8 +49,8 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void MemoryCache_SetGetList()
         {
             // arrange
-            var id = "test-account-id-1";
-            var id2 = "test-account-id-2";
+            var id = "test-profile-id-1";
+            var id2 = "test-profile-id-2";
             var userId = "test-user-1";
             var list = new List<UserProfileEntity>
             {
@@ -96,16 +96,16 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void MemoryCache_SetGetMixed()
         {
             // arrange
-            var id = "test-account-id-1";
-            var id2 = "test-account-id-2";
-            var id3 = "test-account-id-3";
+            var id = "test-profile-id-1";
+            var id2 = "test-profile-id-2";
+            var id3 = "test-profile-id-3";
             var userId = "test-user-1";
             var list = new List<UserProfileEntity>
             {
                 new UserProfileEntity { ProfileId = id, UserId = userId },
                 new UserProfileEntity { ProfileId = id2, UserId = userId },
             };
-            var account3 = new UserProfileEntity { ProfileId = id3, UserId = userId };
+            var profile3 = new UserProfileEntity { ProfileId = id3, UserId = userId };
 
             var cache = new MemoryCacheService();
 
@@ -121,7 +121,7 @@ namespace Blazor.Arcade.Service.UnitTests.Core
             Assert.IsTrue(contains);
 
             // act 3: add new entity
-            var r3 = cache.Set(id3, account3);
+            var r3 = cache.Set(id3, profile3);
 
             result = cache.GetList<UserProfileEntity>(userId);
             Assert.IsNotNull(result);
@@ -131,8 +131,8 @@ namespace Blazor.Arcade.Service.UnitTests.Core
             Assert.IsTrue(result.Any(p => p.ProfileId == id3));
 
             // act 4: update entity
-            account3.DisplayName = "updated";
-            _ = cache.Set<UserProfileEntity>(id3, account3);
+            profile3.DisplayName = "updated";
+            _ = cache.Set<UserProfileEntity>(id3, profile3);
 
             result = cache.GetList<UserProfileEntity>(userId);
             Assert.IsNotNull(result);

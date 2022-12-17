@@ -10,18 +10,18 @@ namespace Blazor.Arcade.Client.UnitTests.Components
     [TestClass]
     public class ProfilePickerTests
     {
-        private static readonly UserProfile _account = new UserProfile
+        private static readonly UserProfile _profile = new UserProfile
         {
-            Id = "test-account-2",
+            Id = "test-profile-2",
             Name = "Test2",
             Server = "s1",
             UserId = "test-user-1"
         };
-        private readonly List<UserProfile> _accountList = new List<UserProfile>
+        private readonly List<UserProfile> _profileList = new List<UserProfile>
         {
-            new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1"},
-            _account,
-            new UserProfile { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+            new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1"},
+            _profile,
+            new UserProfile { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
         };
 
         [TestMethod]
@@ -49,8 +49,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
 
             // act
             var comp = ctx.RenderComponent<ProfilePicker>(parameters => parameters
-                .Add(p => p.CurrentProfile, _account)
-                .Add(p => p.UserProfiles, _accountList));
+                .Add(p => p.CurrentProfile, _profile)
+                .Add(p => p.UserProfiles, _profileList));
 
             // assert
             var expectedHtml =
@@ -65,19 +65,19 @@ namespace Blazor.Arcade.Client.UnitTests.Components
     </tr>
   </thead>
   <tbody >
-    <tr id=""test-account-1""  >
+    <tr id=""test-profile-1""  >
       <td ></td>
       <td >Test1</td>
       <td class=""text-end"" >s1</td>
     </tr>
-    <tr id=""test-account-2""  >
+    <tr id=""test-profile-2""  >
       <td >
         <span class=""oi oi-check glyph-mark"" ></span>
       </td>
       <td >Test2</td>
       <td class=""text-end"" >s1</td>
     </tr>
-    <tr id=""test-account-3""  >
+    <tr id=""test-profile-3""  >
       <td ></td>
       <td >Test3</td>
       <td class=""text-end"" >s3</td>
@@ -104,12 +104,12 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             bool eventFired = false;
             var ctx = new b.TestContext();
             var comp = ctx.RenderComponent<ProfilePicker>(parameters => parameters
-                .Add(p => p.CurrentProfile, _account)
-                .Add(p => p.UserProfiles, _accountList)
+                .Add(p => p.CurrentProfile, _profile)
+                .Add(p => p.UserProfiles, _profileList)
                 .Add(p => p.SelectedProfileChanged, (acc) => eventFired = true));
 
             // act
-            comp.Find("#test-account-3").Click();
+            comp.Find("#test-profile-3").Click();
             comp.Find("#switch-profile-btn").Click();
 
             // assert
@@ -125,19 +125,19 @@ namespace Blazor.Arcade.Client.UnitTests.Components
     </tr>
   </thead>
   <tbody >
-    <tr id=""test-account-1""  >
+    <tr id=""test-profile-1""  >
       <td ></td>
       <td >Test1</td>
       <td class=""text-end"" >s1</td>
     </tr>
-    <tr id=""test-account-2""  >
+    <tr id=""test-profile-2""  >
       <td >
         <span class=""oi oi-check glyph-mark"" ></span>
       </td>
       <td >Test2</td>
       <td class=""text-end"" >s1</td>
     </tr>
-    <tr id=""test-account-3"" class=""selected"" >
+    <tr id=""test-profile-3"" class=""selected"" >
       <td ></td>
       <td >Test3</td>
       <td class=""text-end"" >s3</td>

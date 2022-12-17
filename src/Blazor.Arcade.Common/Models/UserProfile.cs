@@ -54,7 +54,7 @@ namespace Blazor.Arcade.Common.Models
 
             Server.ThrowIfEmpty(new FormatException("User profile must have a valid server id"));
 
-            Name.ThrowIfEmpty(new FormatException("User profile must have a valid account name"));
+            Name.ThrowIfEmpty(new FormatException("User profile must have a valid name"));
         }
     }
 }

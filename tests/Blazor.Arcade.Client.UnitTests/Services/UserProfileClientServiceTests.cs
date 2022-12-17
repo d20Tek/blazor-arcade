@@ -27,14 +27,14 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
 
         [TestMethod]
-        public async Task GetAccounts()
+        public async Task GetProfiles()
         {
             // arrange
             var responseContent = @"
             [
-                { ""id"": ""test-account-1"", ""name"": ""User1"", ""server"": ""s1"", ""userId"": ""test-user-1"" },
-                { ""id"": ""test-account-2"", ""userId"": ""test-user-1"" },
-                { ""id"": ""test-account-3"", ""userId"": ""test-user-1"" }
+                { ""id"": ""test-profile-1"", ""name"": ""User1"", ""server"": ""s1"", ""userId"": ""test-user-1"" },
+                { ""id"": ""test-profile-2"", ""userId"": ""test-user-1"" },
+                { ""id"": ""test-profile-3"", ""userId"": ""test-user-1"" }
             ]";
 
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
@@ -47,60 +47,60 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             Assert.IsNotNull(results);
             Assert.AreEqual(3, results.Count);
             Assert.IsInstanceOfType(results.First(), typeof(UserProfile));
-            Assert.IsTrue(results.Any(p => p.Id == "test-account-1"));
-            Assert.IsTrue(results.Any(p => p.Id == "test-account-3"));
+            Assert.IsTrue(results.Any(p => p.Id == "test-profile-1"));
+            Assert.IsTrue(results.Any(p => p.Id == "test-profile-3"));
             Assert.IsTrue(results.All(p => p.UserId == "test-user-1"));
         }
 
         [TestMethod]
-        public async Task GetAccount()
+        public async Task GetProfile()
         {
             // arrange
             var responseContent = @"
-                { ""id"": ""test-account-1"", ""name"": ""User1"", ""server"": ""s1"", ""userId"": ""test-user-1"" }
+                { ""id"": ""test-profile-1"", ""name"": ""User1"", ""server"": ""s1"", ""userId"": ""test-user-1"" }
             ";
 
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
             // act
-            var result = await service.GetEntityAsync("test-account-1");
+            var result = await service.GetEntityAsync("test-profile-1");
 
             // assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(UserProfile));
-            Assert.AreEqual("test-account-1", result.Id);
+            Assert.AreEqual("test-profile-1", result.Id);
             Assert.AreEqual("User1", result.Name);
             Assert.AreEqual("s1", result.Server);
             Assert.AreEqual("test-user-1", result.UserId);
         }
 
         [TestMethod]
-        public async Task GetAccount_WithMissingId()
+        public async Task GetProfile_WithMissingId()
         {
             // arrange
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient_StatusCodeError(HttpStatusCode.NotFound);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
             // act
-            var result = await service.GetEntityAsync("test-account-1");
+            var result = await service.GetEntityAsync("test-profile-1");
 
             // assert
             Assert.IsNull(result);
         }
 
         [TestMethod]
-        public async Task CreateAccount()
+        public async Task CreateProfile()
         {
             // arrange
             var responseContent = @"
-                { ""id"": ""test-account-1"", ""name"": ""User1"", ""server"": ""s1"", ""userId"": ""test-user-1"" }
+                { ""id"": ""test-profile-1"", ""name"": ""User1"", ""server"": ""s1"", ""userId"": ""test-user-1"" }
             ";
 
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var newAccount = new UserProfile
+            var newProfile = new UserProfile
             {
                 Name = "User1",
                 Gender = "M",
@@ -108,12 +108,12 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             };
 
             // act
-            var result = await service.CreateEntityAsync(newAccount);
+            var result = await service.CreateEntityAsync(newProfile);
 
             // assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(UserProfile));
-            Assert.AreEqual("test-account-1", result.Id);
+            Assert.AreEqual("test-profile-1", result.Id);
             Assert.AreEqual("User1", result.Name);
             Assert.AreEqual("s1", result.Server);
             Assert.AreEqual("test-user-1", result.UserId);
@@ -122,40 +122,40 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         [TestMethod]
         [ExcludeFromCodeCoverage]
         [ExpectedException(typeof(EntityAlreadyExistsException))]
-        public async Task CreateAccount_AlreadyExists()
+        public async Task CreateProfile_AlreadyExists()
         {
             // arrange
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient_StatusCodeError(HttpStatusCode.Conflict);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var newAccount = new UserProfile
+            var newProfile = new UserProfile
             {
-                Id = "existing-account",
+                Id = "existing-profile",
                 Name = "User1",
                 Gender = "M",
                 Avatar = "/test/av.png"
             };
 
             // act
-            var result = await service.CreateEntityAsync(newAccount);
+            var result = await service.CreateEntityAsync(newProfile);
 
             // assert
         }
 
         [TestMethod]
-        public async Task UpdateAccount()
+        public async Task UpdateProfile()
         {
             // arrange
             var responseContent = @"
-                { ""id"": ""test-account-1"", ""name"": ""User1"", ""server"": ""s2"", ""userId"": ""test-user-1"" }
+                { ""id"": ""test-profile-1"", ""name"": ""User1"", ""server"": ""s2"", ""userId"": ""test-user-1"" }
             ";
 
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var account = new UserProfile
+            var profile = new UserProfile
             {
-                Id = "test-account-1",
+                Id = "test-profile-1",
                 Name = "User1",
                 Server = "s2",
                 Gender = "M",
@@ -164,12 +164,12 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             };
 
             // act
-            var result = await service.UpdateEntityAsync(account.Id, account);
+            var result = await service.UpdateEntityAsync(profile.Id, profile);
 
             // assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(UserProfile));
-            Assert.AreEqual("test-account-1", result.Id);
+            Assert.AreEqual("test-profile-1", result.Id);
             Assert.AreEqual("User1", result.Name);
             Assert.AreEqual("s2", result.Server);
             Assert.AreEqual("test-user-1", result.UserId);
@@ -178,35 +178,35 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         [TestMethod]
         [ExcludeFromCodeCoverage]
         [ExpectedException(typeof(EntityNotFoundException))]
-        public async Task UpdateAccount_NotFound()
+        public async Task UpdateProfile_NotFound()
         {
             // arrange
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient_StatusCodeError(HttpStatusCode.NotFound);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var account = new UserProfile
+            var profile = new UserProfile
             {
-                Id = "existing-account",
+                Id = "existing-profile",
                 Name = "User1",
                 Gender = "M",
                 Avatar = "/test/av.png"
             };
 
             // act
-            _ = await service.UpdateEntityAsync(account.Id, account);
+            _ = await service.UpdateEntityAsync(profile.Id, profile);
 
             // assert
         }
 
         [TestMethod]
-        public async Task DeleteAccount()
+        public async Task DeleteProfile()
         {
             // arrange
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient(string.Empty);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
             // act
-            await service.DeleteEntityAsync("test-account-1");
+            await service.DeleteEntityAsync("test-profile-1");
 
             // assert
         }
@@ -214,14 +214,14 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         [TestMethod]
         [ExcludeFromCodeCoverage]
         [ExpectedException(typeof(EntityNotFoundException))]
-        public async Task DeleteAccount_NotFound()
+        public async Task DeleteProfile_NotFound()
         {
             // arrange
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient_StatusCodeError(HttpStatusCode.NotFound);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
             // act
-            await service.DeleteEntityAsync("test-account-1");
+            await service.DeleteEntityAsync("test-profile-1");
 
             // assert
         }
@@ -262,9 +262,9 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         public async Task GetCurrentProfileAsync()
         {
             // arrange
-            var account = new UserProfile
+            var profile = new UserProfile
             {
-                Id = "test-account-1",
+                Id = "test-profile-1",
                 Name = "User1",
                 Server = "s2",
                 Gender = "M",
@@ -274,7 +274,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             var storage = new Mock<ILocalStorageService>();
             storage.Setup(x => x.GetItemAsync<UserProfile>(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                   .ReturnsAsync(account);
+                   .ReturnsAsync(profile);
 
             var authState = CreateAuthenticatedUser();
             var service = new UserProfileClientService(_nullClient, storage.Object, _logger);
@@ -284,7 +284,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Equals(account));
+            Assert.IsTrue(result.Equals(profile));
         }
 
         [TestMethod]
@@ -305,9 +305,9 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         public async Task SetCurrentProfileAsync()
         {
             // arrange
-            var account = new UserProfile
+            var profile = new UserProfile
             {
-                Id = "test-account-1",
+                Id = "test-profile-1",
                 Name = "User1",
                 Server = "s2",
                 Gender = "M",
@@ -325,7 +325,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             service.OnCurrentProfileChanged += (p) => { eventCalled = true; };
 
             // act
-            await service.SetCurrentProfileAsync(authState, account);
+            await service.SetCurrentProfileAsync(authState, profile);
 
             // assert
             storage.Verify(
@@ -335,7 +335,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         }
 
         [TestMethod]
-        public async Task SetCurrentProfileAsync_ClearAccount()
+        public async Task SetCurrentProfileAsync_ClearProfile()
         {
             // arrange
             var storage = new Mock<ILocalStorageService>();
