@@ -9,12 +9,14 @@ namespace Blazor.Arcade.Client.Services
 {
     public interface IUserProfileClientService : ICrudClientService<UserProfile>
     {
+        public event Action<UserProfile?> OnCurrentProfileChanged;
+
         public Task<bool> HasCurrentProfileAsync(Task<AuthenticationState>? authState);
 
         public Task<UserProfile> GetCurrentProfileAsync(Task<AuthenticationState>? authState);
 
         public Task SetCurrentProfileAsync(
             Task<AuthenticationState>? authState,
-            UserProfile? account);
+            UserProfile? profile);
     }
 }

@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using System.Security.Claims;
 @attribute [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+@implements IDisposable
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
@@ -29,6 +30,11 @@
 
     [CascadingParameter]
     public Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _profile.OnCurrentProfileChanged += OnCurrentProfileChanged;
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -60,5 +66,16 @@
         }
 
         return _currentProfile.Name;
+    }
+
+    private void OnCurrentProfileChanged(UserProfile? newProfile)
+    {
+        _currentProfile = newProfile;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        _profile.OnCurrentProfileChanged -= OnCurrentProfileChanged;
     }
 }

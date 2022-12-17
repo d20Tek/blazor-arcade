@@ -23,6 +23,8 @@ namespace Blazor.Arcade.Client.Services
             _storageService = storageService;
         }
 
+        public event Action<UserProfile?> OnCurrentProfileChanged = delegate { };
+
         public async Task<bool> HasCurrentProfileAsync(
             Task<AuthenticationState>? authState)
         {
@@ -40,17 +42,19 @@ namespace Blazor.Arcade.Client.Services
         }
 
         public async Task SetCurrentProfileAsync(
-            Task<AuthenticationState>? authState, UserProfile? account)
+            Task<AuthenticationState>? authState, UserProfile? profile)
         {
             var profileKey = await Constants.GetUserAccountKey(authState);
-            if (account != null)
+            if (profile != null)
             {
-                await _storageService.SetItemAsync<UserProfile>(profileKey, account);
+                await _storageService.SetItemAsync<UserProfile>(profileKey, profile);
             }
             else
             {
                 await _storageService.RemoveItemAsync(profileKey);
             }
+
+            OnCurrentProfileChanged.Invoke(profile);
         }
     }
 }

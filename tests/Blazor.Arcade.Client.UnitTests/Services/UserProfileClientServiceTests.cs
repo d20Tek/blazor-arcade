@@ -315,12 +315,14 @@ namespace Blazor.Arcade.Client.UnitTests.Services
                 UserId = "test-user-1"
             };
 
+            var eventCalled = false;
             var storage = new Mock<ILocalStorageService>();
             storage.Setup(x => x.SetItemAsync<UserProfile>(
                 It.IsAny<string>(), It.IsAny<UserProfile>(), It.IsAny<CancellationToken>()));
 
             var authState = CreateAuthenticatedUser();
             var service = new UserProfileClientService(_nullClient, storage.Object, _logger);
+            service.OnCurrentProfileChanged += (p) => { eventCalled = true; };
 
             // act
             await service.SetCurrentProfileAsync(authState, account);
@@ -329,6 +331,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             storage.Verify(
                 o => o.SetItemAsync<UserProfile>(It.IsAny<string>(), It.IsAny<UserProfile>(), It.IsAny<CancellationToken>()),
                 Times.Once);
+            Assert.IsTrue(eventCalled);
         }
 
         [TestMethod]
@@ -337,8 +340,10 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             // arrange
             var storage = new Mock<ILocalStorageService>();
 
+            var eventCalled = false;
             var authState = CreateAuthenticatedUser();
             var service = new UserProfileClientService(_nullClient, storage.Object, _logger);
+            service.OnCurrentProfileChanged += (p) => { eventCalled = true; };
 
             // act
             await service.SetCurrentProfileAsync(authState, null);
@@ -347,6 +352,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             storage.Verify(
                 o => o.RemoveItemAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
                 Times.Once);
+            Assert.IsTrue(eventCalled);
         }
 
         private Task<AuthenticationState> CreateAuthenticatedUser()
