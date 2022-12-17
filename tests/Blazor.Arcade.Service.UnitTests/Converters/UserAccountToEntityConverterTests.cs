@@ -14,7 +14,7 @@ namespace Blazor.Arcade.Service.UnitTests.Converters
         public void ConvertToEntity()
         {
             // arrange
-            var model = new UserAccount
+            var model = new UserProfile
             {
                 Id = "test-account-1",
                 Server = "s1",

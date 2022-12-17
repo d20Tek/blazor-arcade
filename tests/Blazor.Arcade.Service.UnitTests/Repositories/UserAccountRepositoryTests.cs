@@ -230,7 +230,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync()
         {
             // arrange
-            var model = new UserAccount { Id = "foo", UserId = "bar" };
+            var model = new UserProfile { Id = "foo", UserId = "bar" };
             var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
             var repo = new UserAccountRepository(client, null, _logger);
@@ -248,7 +248,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync_WithCache()
         {
             // arrange
-            var model = new UserAccount { Id = "foo", UserId = "bar" };
+            var model = new UserProfile { Id = "foo", UserId = "bar" };
             var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
             var repo = new UserAccountRepository(client, _defaultCache.Object, _logger);
@@ -271,7 +271,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync_AlreadyExists()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var client = CreateMockClient();
             var repo = new UserAccountRepository(client, null, _logger);
 
@@ -287,7 +287,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync_Exception()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var mockContainer = new Mock<CosmosContainer>();
             mockContainer.Setup(x => x.CreateItemAsync<UserAccountEntity>(
                             It.IsAny<UserAccountEntity>(),
@@ -309,7 +309,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync()
         {
             // arrange
-            var model = new UserAccount { Id = "foo2", UserId = "bar" };
+            var model = new UserProfile { Id = "foo2", UserId = "bar" };
             var expected = new UserAccountEntity { AccountId = "foo2", UserId = "bar" };
             var client = CreateMockClient(expected);
             var repo = new UserAccountRepository(client, null, _logger);
@@ -327,7 +327,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync_WithCache()
         {
             // arrange
-            var model = new UserAccount { Id = "foo2", UserId = "bar" };
+            var model = new UserProfile { Id = "foo2", UserId = "bar" };
             var expected = new UserAccountEntity { AccountId = "foo2", UserId = "bar" };
             var client = CreateMockClient(expected);
             var repo = new UserAccountRepository(client, _defaultCache.Object, _logger);
@@ -350,7 +350,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync_AlreadyExists()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var client = CreateMockClient();
             var repo = new UserAccountRepository(client, null, _logger);
 
@@ -366,7 +366,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync_Exception()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var mockContainer = new Mock<CosmosContainer>();
             mockContainer.Setup(x => x.ReplaceItemAsync<UserAccountEntity>(
                             It.IsAny<UserAccountEntity>(),

@@ -10,18 +10,18 @@ namespace Blazor.Arcade.Service.Logic
 {
     internal class UserAccountActionManager : IUserAccountActionManager
     {
-        private readonly IRepository<UserAccount> _repo;
+        private readonly IRepository<UserProfile> _repo;
         private readonly IReadRepository<ServerMetadata> _serverMetadata;
 
         public UserAccountActionManager(
-            IRepository<UserAccount> repository,
+            IRepository<UserProfile> repository,
             IReadRepository<ServerMetadata> serverMetadata)
         {
             _repo= repository;
             _serverMetadata= serverMetadata;
         }
 
-        public async Task<UserAccount> GetAccountForUserAsync(string accountId, string userId)
+        public async Task<UserProfile> GetAccountForUserAsync(string accountId, string userId)
         {
             accountId.ThrowIfEmpty(nameof(accountId));
             userId.ThrowIfEmpty(nameof(userId));
@@ -29,13 +29,13 @@ namespace Blazor.Arcade.Service.Logic
             return await _repo.GetItemAsync(accountId, userId);
         }
 
-        public async Task<IList<UserAccount>> GetAccountsForUserAsync(string userId)
+        public async Task<IList<UserProfile>> GetAccountsForUserAsync(string userId)
         {
             userId.ThrowIfEmpty(nameof(userId));
             return await _repo.GetPartitionItemsAsync(userId);
         }
 
-        public async Task<UserAccount> CreateAccountForUserAsync(UserAccount account)
+        public async Task<UserProfile> CreateAccountForUserAsync(UserProfile account)
         {
             ArgumentNullException.ThrowIfNull(nameof(account));
 
@@ -52,7 +52,7 @@ namespace Blazor.Arcade.Service.Logic
             return await _repo.CreateItemAsync(account);
         }
 
-        public async Task<UserAccount> UpdateAccountForUserAsync(UserAccount account)
+        public async Task<UserProfile> UpdateAccountForUserAsync(UserProfile account)
         {
             ArgumentNullException.ThrowIfNull(nameof(account));
             var servers = await _serverMetadata.GetAll();

@@ -7,13 +7,13 @@ namespace Blazor.Arcade.Service.Logic
 {
     public interface IUserAccountActionManager
     {
-        Task<UserAccount> GetAccountForUserAsync(string accountId, string userId);
+        Task<UserProfile> GetAccountForUserAsync(string accountId, string userId);
 
-        Task<IList<UserAccount>> GetAccountsForUserAsync(string userId);
+        Task<IList<UserProfile>> GetAccountsForUserAsync(string userId);
 
-        Task<UserAccount> CreateAccountForUserAsync(UserAccount account);
+        Task<UserProfile> CreateAccountForUserAsync(UserProfile account);
 
-        Task<UserAccount> UpdateAccountForUserAsync(UserAccount account);
+        Task<UserProfile> UpdateAccountForUserAsync(UserProfile account);
 
         Task DeleteAccountForUserAsync(string accountId, string userId);
     }

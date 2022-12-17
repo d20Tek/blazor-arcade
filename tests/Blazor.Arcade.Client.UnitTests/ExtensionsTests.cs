@@ -54,7 +54,7 @@ namespace Blazor.Arcade.Client.UnitTests
         public void List_ListOrDefault_Null()
         {
             // arrange
-            List<UserAccount>? s = null;
+            List<UserProfile>? s = null;
 
             // act
             var result = s.ListOrDefault();
@@ -68,7 +68,7 @@ namespace Blazor.Arcade.Client.UnitTests
         public void Entity_ObjectOrDefault()
         {
             // arrange
-            var s = new UserAccount { Id = "account1", Name = "Tester", UserId = "user1" };
+            var s = new UserProfile { Id = "account1", Name = "Tester", UserId = "user1" };
 
             // act
             var result = s.ObjectOrDefault();
@@ -82,7 +82,7 @@ namespace Blazor.Arcade.Client.UnitTests
         public void Entity_ObjectOrDefault_Null()
         {
             // arrange
-            UserAccount? s = null;
+            UserProfile? s = null;
 
             // act
             var result = s.ObjectOrDefault();

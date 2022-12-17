@@ -12,7 +12,7 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void UserAccout_Equals()
         {
             // arrange
-            object m1 = new UserAccount
+            object m1 = new UserProfile
             {
                 Id = "test-account-1",
                 Server = "s1",
@@ -38,7 +38,7 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void UserAccout_NotEquals()
         {
             // arrange
-            var m1 = new UserAccount
+            var m1 = new UserProfile
             {
                 Id = "test-account-1",
                 Server = "s1",
@@ -49,7 +49,7 @@ namespace Blazor.Arcade.Service.UnitTests.Core
                 UserId = "test-user-1"
             };
 
-            var m2 = new UserAccount
+            var m2 = new UserProfile
             {
                 Id = "test-account-1",
                 Server = "s1",

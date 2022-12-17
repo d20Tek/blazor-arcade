@@ -7,9 +7,9 @@ using Blazor.Arcade.Service.Entities;
 
 namespace Blazor.Arcade.Service.Converters
 {
-    internal class UserAccountToEntityConverter : IModelEntityConverter<UserAccount, UserAccountEntity>
+    internal class UserAccountToEntityConverter : IModelEntityConverter<UserProfile, UserAccountEntity>
     {
-        public UserAccountEntity ConvertToEntity(UserAccount model)
+        public UserAccountEntity ConvertToEntity(UserProfile model)
         {
             return new UserAccountEntity
             {
@@ -23,9 +23,9 @@ namespace Blazor.Arcade.Service.Converters
             };
         }
 
-        public UserAccount ConvertToModel(UserAccountEntity entity)
+        public UserProfile ConvertToModel(UserAccountEntity entity)
         {
-            return new UserAccount
+            return new UserProfile
             {
                 Id = entity.AccountId,
                 Server = entity.ServerId,

@@ -25,9 +25,9 @@ namespace Blazor.Arcade.Service.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserAccount>>> GetAccounts()
+        public async Task<ActionResult<List<UserProfile>>> GetAccounts()
         {
-            return await EndpointOperationAsync<List<UserAccount>>(nameof(GetAccounts), async () =>
+            return await EndpointOperationAsync<List<UserProfile>>(nameof(GetAccounts), async () =>
             {
                 var userId = AuthClaims.GetAuthUserId(User);
                 var results = await _actionMgr.GetAccountsForUserAsync(userId);
@@ -36,9 +36,9 @@ namespace Blazor.Arcade.Service.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserAccount?>> GetAccountById(string id)
+        public async Task<ActionResult<UserProfile?>> GetAccountById(string id)
         {
-            return await EndpointOperationAsync<UserAccount?>(nameof(GetAccountById), async () =>
+            return await EndpointOperationAsync<UserProfile?>(nameof(GetAccountById), async () =>
             {
                 var userId = AuthClaims.GetAuthUserId(User);
                 return await _actionMgr.GetAccountForUserAsync(id, userId);
@@ -46,9 +46,9 @@ namespace Blazor.Arcade.Service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserAccount>> CreateAccount([FromBody]UserAccount account)
+        public async Task<ActionResult<UserProfile>> CreateAccount([FromBody]UserProfile account)
         {
-            return await EndpointOperationAsync<UserAccount>(nameof(CreateAccount), async () =>
+            return await EndpointOperationAsync<UserProfile>(nameof(CreateAccount), async () =>
             {
                 account.UserId = AuthClaims.GetAuthUserId(User);
                 return await _actionMgr.CreateAccountForUserAsync(account);
@@ -56,11 +56,11 @@ namespace Blazor.Arcade.Service.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserAccount>> UpdateAccount(
+        public async Task<ActionResult<UserProfile>> UpdateAccount(
             string id,
-            [FromBody] UserAccount account)
+            [FromBody] UserProfile account)
         {
-            return await EndpointOperationAsync<UserAccount>(nameof(UpdateAccount), async () =>
+            return await EndpointOperationAsync<UserProfile>(nameof(UpdateAccount), async () =>
             {
                 account.Id = id;
                 account.UserId = AuthClaims.GetAuthUserId(User);
@@ -69,9 +69,9 @@ namespace Blazor.Arcade.Service.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<UserAccount>> DeleteAccount(string id)
+        public async Task<ActionResult<UserProfile>> DeleteAccount(string id)
         {
-            return await EndpointOperationAsync<UserAccount>(nameof(DeleteAccount), async () =>
+            return await EndpointOperationAsync<UserProfile>(nameof(DeleteAccount), async () =>
             {
                 var userId = AuthClaims.GetAuthUserId(User);
                 await _actionMgr.DeleteAccountForUserAsync(id, userId);

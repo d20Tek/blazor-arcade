@@ -98,7 +98,7 @@ namespace Blazor.Arcade.Client.UnitTests
             mockProfile.Setup(x => x.HasCurrentProfileAsync(It.IsAny<Task<AuthenticationState>?>()))
                                     .ReturnsAsync(true);
             mockProfile.Setup(x => x.GetCurrentProfileAsync(It.IsAny<Task<AuthenticationState>?>()))
-                                    .ReturnsAsync(new UserAccount { Id = "user-profile-1", Name = "Test Profile" });
+                                    .ReturnsAsync(new UserProfile { Id = "user-profile-1", Name = "Test Profile" });
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IArcadeMetadataService>(mockMetadata.Object);

@@ -10,18 +10,18 @@ namespace Blazor.Arcade.Client.UnitTests.Components
     [TestClass]
     public class ProfilePickerTests
     {
-        private static readonly UserAccount _account = new UserAccount
+        private static readonly UserProfile _account = new UserProfile
         {
             Id = "test-account-2",
             Name = "Test2",
             Server = "s1",
             UserId = "test-user-1"
         };
-        private readonly List<UserAccount> _accountList = new List<UserAccount>
+        private readonly List<UserProfile> _accountList = new List<UserProfile>
         {
-            new UserAccount { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1"},
+            new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1"},
             _account,
-            new UserAccount { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+            new UserProfile { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
         };
 
         [TestMethod]

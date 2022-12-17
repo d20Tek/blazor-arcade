@@ -46,7 +46,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             // assert
             Assert.IsNotNull(results);
             Assert.AreEqual(3, results.Count);
-            Assert.IsInstanceOfType(results.First(), typeof(UserAccount));
+            Assert.IsInstanceOfType(results.First(), typeof(UserProfile));
             Assert.IsTrue(results.Any(p => p.Id == "test-account-1"));
             Assert.IsTrue(results.Any(p => p.Id == "test-account-3"));
             Assert.IsTrue(results.All(p => p.UserId == "test-user-1"));
@@ -68,7 +68,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(UserAccount));
+            Assert.IsInstanceOfType(result, typeof(UserProfile));
             Assert.AreEqual("test-account-1", result.Id);
             Assert.AreEqual("User1", result.Name);
             Assert.AreEqual("s1", result.Server);
@@ -100,7 +100,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var newAccount = new UserAccount
+            var newAccount = new UserProfile
             {
                 Name = "User1",
                 Gender = "M",
@@ -112,7 +112,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(UserAccount));
+            Assert.IsInstanceOfType(result, typeof(UserProfile));
             Assert.AreEqual("test-account-1", result.Id);
             Assert.AreEqual("User1", result.Name);
             Assert.AreEqual("s1", result.Server);
@@ -128,7 +128,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient_StatusCodeError(HttpStatusCode.Conflict);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var newAccount = new UserAccount
+            var newAccount = new UserProfile
             {
                 Id = "existing-account",
                 Name = "User1",
@@ -153,7 +153,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "test-account-1",
                 Name = "User1",
@@ -168,7 +168,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(UserAccount));
+            Assert.IsInstanceOfType(result, typeof(UserProfile));
             Assert.AreEqual("test-account-1", result.Id);
             Assert.AreEqual("User1", result.Name);
             Assert.AreEqual("s2", result.Server);
@@ -184,7 +184,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             var httpClient = MockHttpClientHelper.CreateTypedHttpClient_StatusCodeError(HttpStatusCode.NotFound);
             var service = new UserProfileClientService(httpClient, _storageService, _logger);
 
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "existing-account",
                 Name = "User1",
@@ -262,7 +262,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         public async Task GetCurrentProfileAsync()
         {
             // arrange
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "test-account-1",
                 Name = "User1",
@@ -273,7 +273,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             };
 
             var storage = new Mock<ILocalStorageService>();
-            storage.Setup(x => x.GetItemAsync<UserAccount>(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            storage.Setup(x => x.GetItemAsync<UserProfile>(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(account);
 
             var authState = CreateAuthenticatedUser();
@@ -305,7 +305,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
         public async Task SetCurrentProfileAsync()
         {
             // arrange
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "test-account-1",
                 Name = "User1",
@@ -316,8 +316,8 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             };
 
             var storage = new Mock<ILocalStorageService>();
-            storage.Setup(x => x.SetItemAsync<UserAccount>(
-                It.IsAny<string>(), It.IsAny<UserAccount>(), It.IsAny<CancellationToken>()));
+            storage.Setup(x => x.SetItemAsync<UserProfile>(
+                It.IsAny<string>(), It.IsAny<UserProfile>(), It.IsAny<CancellationToken>()));
 
             var authState = CreateAuthenticatedUser();
             var service = new UserProfileClientService(_nullClient, storage.Object, _logger);
@@ -327,7 +327,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             storage.Verify(
-                o => o.SetItemAsync<UserAccount>(It.IsAny<string>(), It.IsAny<UserAccount>(), It.IsAny<CancellationToken>()),
+                o => o.SetItemAsync<UserProfile>(It.IsAny<string>(), It.IsAny<UserProfile>(), It.IsAny<CancellationToken>()),
                 Times.Once);
         }
 

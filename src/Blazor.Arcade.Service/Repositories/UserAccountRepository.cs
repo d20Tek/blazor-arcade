@@ -9,7 +9,7 @@ using Blazor.Arcade.Service.Entities;
 
 namespace Blazor.Arcade.Service.Repositories
 {
-    internal class UserAccountRepository : CosmosRepository<UserAccount, UserAccountEntity>
+    internal class UserAccountRepository : CosmosRepository<UserProfile, UserAccountEntity>
     {
         private const string _cosmosDb = "blazor-arcade-cdb";
         private const string _userAccountsContainer = "user-accounts";

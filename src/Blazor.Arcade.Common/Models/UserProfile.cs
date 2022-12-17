@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Blazor.Arcade.Common.Models
 {
-    public class UserAccount : IEquatable<UserAccount>
+    public class UserProfile : IEquatable<UserProfile>
     {
         public string Id { get; set; } = string.Empty;
 
@@ -26,10 +26,10 @@ namespace Blazor.Arcade.Common.Models
 
         public override bool Equals(object? obj)
         {
-            return Equals(obj as UserAccount);
+            return Equals(obj as UserProfile);
         }
 
-        public bool Equals(UserAccount? other)
+        public bool Equals(UserProfile? other)
         {
             return other != null &&
                    Id == other.Id &&
@@ -48,13 +48,13 @@ namespace Blazor.Arcade.Common.Models
 
         public void ValidateModel()
         {
-            Id.ThrowIfEmpty(new FormatException("UserAccount must have a valid id"));
+            Id.ThrowIfEmpty(new FormatException("User profile must have a valid id"));
 
-            UserId.ThrowIfEmpty(new FormatException("UserAccount must have a valid user id"));
+            UserId.ThrowIfEmpty(new FormatException("User profile must have a valid user id"));
 
-            Server.ThrowIfEmpty(new FormatException("UserAccount must have a valid server id"));
+            Server.ThrowIfEmpty(new FormatException("User profile must have a valid server id"));
 
-            Name.ThrowIfEmpty(new FormatException("UserAccount must have a valid account name"));
+            Name.ThrowIfEmpty(new FormatException("User profile must have a valid account name"));
         }
     }
 }

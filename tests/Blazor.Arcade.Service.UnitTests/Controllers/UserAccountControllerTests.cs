@@ -18,7 +18,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
     {
         private readonly ILogger<UserAccountController> _logger = new Mock<ILogger<UserAccountController>>().Object;
         private readonly IReadRepository<ServerMetadata> _serverRepo = new ServerMetadataRepository();
-        private readonly UserAccount _userAccount = new()
+        private readonly UserProfile _userAccount = new()
         {
             Id = "test-account-1",
             Name = "Test",
@@ -29,13 +29,13 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         public async Task GetAccounts()
         {
             // arrange
-            var list = new List<UserAccount>
+            var list = new List<UserProfile>
             {
                 _userAccount,
-                new UserAccount { Id = "test-account-2", UserId = "e14e5bec-8700-4be5-9e7B-14fae1b2ba82" },
-                new UserAccount { Id = "test-account-3", UserId = "e14e5bec-8700-4be5-9e7B-14fae1b2ba82" }
+                new UserProfile { Id = "test-account-2", UserId = "e14e5bec-8700-4be5-9e7B-14fae1b2ba82" },
+                new UserProfile { Id = "test-account-3", UserId = "e14e5bec-8700-4be5-9e7B-14fae1b2ba82" }
             };
-            var mockRepo = new Mock<IRepository<UserAccount>>();
+            var mockRepo = new Mock<IRepository<UserProfile>>();
             mockRepo.Setup(x => x.GetPartitionItemsAsync(It.IsAny<string>()))
                     .ReturnsAsync(list);
 
@@ -61,7 +61,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         public async Task GetAccountById()
         {
             // arrange
-            var mockRepo = new Mock<IRepository<UserAccount>>();
+            var mockRepo = new Mock<IRepository<UserProfile>>();
             mockRepo.Setup(x => x.GetItemAsync(It.IsAny<string>(), It.IsAny<string>()))
                     .ReturnsAsync(_userAccount);
 
@@ -86,8 +86,8 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         public async Task CreateAccount()
         {
             // arrange
-            var mockRepo = new Mock<IRepository<UserAccount>>();
-            mockRepo.Setup(x => x.CreateItemAsync(It.IsAny<UserAccount>()))
+            var mockRepo = new Mock<IRepository<UserProfile>>();
+            mockRepo.Setup(x => x.CreateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
             var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
@@ -114,8 +114,8 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // arrange
             _userAccount.Server = "s1";
 
-            var mockRepo = new Mock<IRepository<UserAccount>>();
-            mockRepo.Setup(x => x.UpdateItemAsync(It.IsAny<UserAccount>()))
+            var mockRepo = new Mock<IRepository<UserProfile>>();
+            mockRepo.Setup(x => x.UpdateItemAsync(It.IsAny<UserProfile>()))
                     .ReturnsAsync(_userAccount);
 
             var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
@@ -140,7 +140,7 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
         public async Task DeleteAccount()
         {
             // arrange
-            var mockRepo = new Mock<IRepository<UserAccount>>();
+            var mockRepo = new Mock<IRepository<UserProfile>>();
             var accountMgr = new UserAccountActionManager(mockRepo.Object, _serverRepo);
 
             var controller = new UserAccountController(accountMgr, _logger)

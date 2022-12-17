@@ -59,12 +59,12 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render()
         {
             // arrange
-            var _currentAccount = new UserAccount { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" };
-            var _accountList = new List<UserAccount>
+            var _currentAccount = new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" };
+            var _accountList = new List<UserProfile>
             {
-                new UserAccount { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-account-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
+                new UserProfile { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
             var _accountServ = new Mock<IUserProfileClientService>();
@@ -157,11 +157,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_WithNoCachedAccount()
         {
             // arrange
-            var _accountList = new List<UserAccount>
+            var _accountList = new List<UserProfile>
             {
-                new UserAccount { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
-                new UserAccount { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserProfile { Id = "test-account-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-account-2", Name = "Test2", Server = "s2", UserId = "test-user-1" },
+                new UserProfile { Id = "test-account-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
             var _accountServ = new Mock<IUserProfileClientService>();
@@ -236,11 +236,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_DeleteAccount()
         {
             // arrange
-            var _accountList = new List<UserAccount>
+            var _accountList = new List<UserProfile>
             {
-                new UserAccount { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
             var _accountServ = new Mock<IUserProfileClientService>();
@@ -317,11 +317,11 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_DeleteAccount_CancelConfirm()
         {
             // arrange
-            var _accountList = new List<UserAccount>
+            var _accountList = new List<UserProfile>
             {
-                new UserAccount { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
-                new UserAccount { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
+                new UserProfile { Id = "test-profile-1", Name = "Test1", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-2", Name = "Test2", Server = "s1", UserId = "test-user-1" },
+                new UserProfile { Id = "test-profile-3", Name = "Test3", Server = "s3", UserId = "test-user-1" }
             };
 
             var _accountServ = new Mock<IUserProfileClientService>();

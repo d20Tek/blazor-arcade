@@ -58,7 +58,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void Render_Initial()
         {
             // arrange
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "test-profile-1",
                 Server = "s1",
@@ -135,7 +135,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void FormSubmitted()
         {
             // arrange
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "test-profile-1",
                 Server = "s1",
@@ -214,7 +214,7 @@ namespace Blazor.Arcade.Client.UnitTests.Pages.Accounts
         public void FormSubmitted_NotValid()
         {
             // arrange
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "test-profile-1",
                 Server = "s1",

@@ -45,8 +45,8 @@
 </div>
 
 @code {
-    private UserAccount? _currentProfile;
-    private IList<UserAccount>? _userProfiles;
+    private UserProfile? _currentProfile;
+    private IList<UserProfile>? _userProfiles;
 
     internal string EditProfileUrl => $"/profile/update/{_currentProfile?.Id}";
 
@@ -64,7 +64,7 @@
         }
     }
 
-    private async Task OnProfileChanged(UserAccount profile)
+    private async Task OnProfileChanged(UserProfile profile)
     {
         await _service.SetCurrentProfileAsync(AuthState, profile);
         _currentProfile = profile;

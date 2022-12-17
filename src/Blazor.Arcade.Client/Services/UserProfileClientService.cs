@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Blazor.Arcade.Client.Services
 {
-    internal class UserProfileClientService : CrudClientService<UserAccount>, IUserProfileClientService
+    internal class UserProfileClientService : CrudClientService<UserProfile>, IUserProfileClientService
     {
         private const string _baseServiceUrl = "/api/v1/account";
         private readonly ILocalStorageService _storageService;
@@ -30,22 +30,22 @@ namespace Blazor.Arcade.Client.Services
             return await _storageService.ContainKeyAsync(profileKey);
         }
 
-        public async Task<UserAccount> GetCurrentProfileAsync(
+        public async Task<UserProfile> GetCurrentProfileAsync(
             Task<AuthenticationState>? authState)
         {
             var profileKey = await Constants.GetUserAccountKey(authState);
-            var profile = await _storageService.GetItemAsync<UserAccount>(profileKey);
+            var profile = await _storageService.GetItemAsync<UserProfile>(profileKey);
 
-            return profile ?? new UserAccount();
+            return profile ?? new UserProfile();
         }
 
         public async Task SetCurrentProfileAsync(
-            Task<AuthenticationState>? authState, UserAccount? account)
+            Task<AuthenticationState>? authState, UserProfile? account)
         {
             var profileKey = await Constants.GetUserAccountKey(authState);
             if (account != null)
             {
-                await _storageService.SetItemAsync<UserAccount>(profileKey, account);
+                await _storageService.SetItemAsync<UserProfile>(profileKey, account);
             }
             else
             {

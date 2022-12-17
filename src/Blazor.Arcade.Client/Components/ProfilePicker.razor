@@ -42,26 +42,26 @@ else
 }
 
 @code {
-    private UserAccount? _selectedProfile;
+    private UserProfile? _selectedProfile;
 
     [Parameter]
-    public UserAccount? CurrentProfile { get; set; }
+    public UserProfile? CurrentProfile { get; set; }
 
     [Parameter]
-    public IList<UserAccount>? UserProfiles { get; set; } = new List<UserAccount>();
+    public IList<UserProfile>? UserProfiles { get; set; } = new List<UserProfile>();
 
     [Parameter]
-    public EventCallback<UserAccount> SelectedProfileChanged { get; set; }
+    public EventCallback<UserProfile> SelectedProfileChanged { get; set; }
 
     private bool IsButtonDisabled => _selectedProfile == null;
 
-    private bool IsCurrentRow(UserAccount profile) =>
+    private bool IsCurrentRow(UserProfile profile) =>
         profile.Id == CurrentProfile?.Id;
 
-    private string? GetRowCss(UserAccount profile) =>
+    private string? GetRowCss(UserProfile profile) =>
         profile.Id == _selectedProfile?.Id ? "selected" : null;
 
-    private void RowClicked(UserAccount profile) =>
+    private void RowClicked(UserProfile profile) =>
         _selectedProfile = profile;
 
     private void ProfileSwitched()

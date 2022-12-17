@@ -22,7 +22,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             var client = new CosmosClient("AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
             var repo = new UserAccountRepository(client, null, _logger);
 
-            var account = new UserAccount
+            var account = new UserProfile
             {
                 Id = "test-id-2",
                 Name = "Test",
@@ -43,7 +43,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
                 Assert.IsTrue(r1.Equals(r2));
 
                 // act 3 - update item
-                var update = new UserAccount
+                var update = new UserProfile
                 {
                     Id = "test-id-2",
                     Name = "Test Update",
