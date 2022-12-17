@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.SignalR.Client;
 @inject IChatHubClient _chatHub
+@inject IUserProfileClientService _profile
 
 <AuthorizeView>
     <Authorized>
@@ -67,15 +68,14 @@
 
         if (string.IsNullOrEmpty(_currentMessage) == false)
         {
-            var authState = await AuthState;
-            var userId = await AuthenticationHelper.GetUserId(AuthState);
-
+            var currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
             var message = new ChatMessage
-                {
-                    AccountId = userId,
-                    AccountName = userId,
-                    Message = _currentMessage
-                };
+            {
+                AccountId = currentProfile.Id,
+                AccountName = currentProfile.Name,
+                Message = _currentMessage
+            };
+
             await _chatHub.SendGlobalMessageAsync(message);
 
             _currentMessage = string.Empty;
