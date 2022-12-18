@@ -7,6 +7,9 @@
   <div class="col-12 col-lg-6" style="max-width: 600px">
     <h4>Manage Profiles</h4>
     <div style="font-weight: bold">Current Profile:</div>
+    <Loader IsVisible=@isLoading />
+@if (isLoading == false)
+{
     @if (_currentProfile != null)
     {
       <div class="float-end">
@@ -41,10 +44,12 @@
     <a id="create-profile-btn" class="btn btn-outline-light" href="/profile/create">
       Create New Profile
     </a>
+}
   </div>
 </div>
 
 @code {
+    private bool isLoading = true;
     private UserProfile? _currentProfile;
     private IList<UserProfile>? _userProfiles;
 
@@ -55,12 +60,19 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _currentProfile = await _service.GetCurrentProfileAsync(AuthState);
-
-        _userProfiles = await _service.GetEntitiesAsync();
-        if (_userProfiles?.Any(p => p.Id == _currentProfile?.Id) == false)
+        try
         {
-            await ClearProfileFromStorage();
+            _currentProfile = await _service.GetCurrentProfileAsync(AuthState);
+
+            _userProfiles = await _service.GetEntitiesAsync();
+            if (_userProfiles?.Any(p => p.Id == _currentProfile?.Id) == false)
+            {
+                await ClearProfileFromStorage();
+            }
+        }
+        finally
+        {
+            isLoading = false;
         }
     }
 
@@ -74,7 +86,8 @@
     {
         if (_currentProfile != null)
         {
-            var confirmed = await _msgbox.Confirm("Are you sure you want to permanently delete this profile? \r\nYou will not be able to recover it later.");
+            var msg = $"Are you sure you want to permanently delete the profile for '{_currentProfile.Name}'? \r\nYou will not be able to recover it later.";
+            var confirmed = await _msgbox.Confirm(msg);
             if (confirmed == true)
             {
                 await _service.DeleteEntityAsync(_currentProfile.Id);

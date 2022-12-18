@@ -1,0 +1,12 @@
+﻿@if (IsVisible)
+{
+    <div class="text-center mt-3">
+        <span class="spinner-border spinner-border-sm app-themed-spinner"
+          role="status" aria-hidden="true" />
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool IsVisible { get; set; }
+}
