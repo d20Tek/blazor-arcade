@@ -28,9 +28,10 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-user-1",
-                AccountName = "Test User",
-                Message = "Hi there!"
+                ProfileId = "test-profile-1",
+                ProfileName = "Test User",
+                Message = "Hi there!",
+                UserId = "test-user-1"
             };
             var hub = InitializeChatHub();
 
@@ -53,9 +54,10 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
             var message = (ChatMessage)objMessage;
             return message.MessageId != string.Empty &&
                    message.ChannelId == "channel:global" &&
-                   message.AccountId == expected.AccountId &&
-                   message.AccountName == expected.AccountName &&
-                   message.Message == expected.Message;
+                   message.ProfileId == expected.ProfileId &&
+                   message.ProfileName == expected.ProfileName &&
+                   message.Message == expected.Message &&
+                   message.UserId == expected.UserId;
         }
 
         private ChatHub InitializeChatHub()

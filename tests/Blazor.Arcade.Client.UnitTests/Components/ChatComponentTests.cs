@@ -7,6 +7,7 @@ using Blazor.Arcade.Common.Models;
 using Bunit;
 using Bunit.TestDoubles;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
@@ -17,6 +18,21 @@ namespace Blazor.Arcade.Client.UnitTests.Components
     public class ChatComponentTests
     {
         private readonly Mock<IChatHubClient> _mockChatClient = new Mock<IChatHubClient>();
+        private readonly Mock<IUserProfileClientService> _mockProfiles =
+            new Mock<IUserProfileClientService>();
+
+        public ChatComponentTests()
+        {
+            var profile = new UserProfile
+            {
+                Id = "test-profile-1",
+                Name = "Test User",
+                UserId = "test-user-1",
+                Server = "s1"
+            };
+            _mockProfiles.Setup(x => x.GetCurrentProfileAsync(It.IsAny<Task<AuthenticationState>>()))
+                         .ReturnsAsync(profile);
+        }
 
         [TestMethod]
         public void Render()
@@ -24,6 +40,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_mockProfiles.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
@@ -56,8 +73,8 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-user-id",
-                AccountName = "test-user-id",
+                ProfileId = "test-profile-id",
+                ProfileName = "Test User",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
@@ -65,6 +82,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
 
             var ctx = new b.TestContext();
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
+            ctx.Services.AddSingleton<IUserProfileClientService>(_mockProfiles.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
                .SetClaims(new Claim("oid", "test-user-id"));
@@ -91,7 +109,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
       </div>
     </div>
     <div class=""overflow-auto chat-message-list"">
-      <div>test-user-id: Test message.</div>
+      <div>Test User: Test message.</div>
     </div>
 ";
             comp.MarkupMatches(expectedHtml);
@@ -101,7 +119,9 @@ namespace Blazor.Arcade.Client.UnitTests.Components
         public async Task SendClicked_NotAuthenticated()
         {
             // arrange
+            var profileService = new Mock<IUserProfileClientService>().Object;
             var ctx = new b.TestContext();
+            ctx.Services.AddSingleton<IUserProfileClientService>(profileService);
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
             ctx.AddTestAuthorization();
 
@@ -125,6 +145,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
         {
             // arrange
             var ctx = new b.TestContext();
+            ctx.Services.AddSingleton<IUserProfileClientService>(_mockProfiles.Object);
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User");
@@ -159,6 +180,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
         {
             // arrange
             var ctx = new b.TestContext();
+            ctx.Services.AddSingleton<IUserProfileClientService>(_mockProfiles.Object);
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -196,14 +218,15 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-user-id",
-                AccountName = "test-user-id",
+                ProfileId = "test-profile-id",
+                ProfileName = "Tester",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
             };
 
             var ctx = new b.TestContext();
+            ctx.Services.AddSingleton<IUserProfileClientService>(_mockProfiles.Object);
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -232,7 +255,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
       </div>
     </div>
     <div class=""overflow-auto chat-message-list"">
-      <div>test-user-id: Test message.</div>
+      <div>Tester: Test message.</div>
     </div>
 ";
             comp.MarkupMatches(expectedHtml);
@@ -244,14 +267,15 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-user-id",
-                AccountName = "test-user-id",
+                ProfileId = "test-profile-id",
+                ProfileName = "Tester",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
             };
 
             var ctx = new b.TestContext();
+            ctx.Services.AddSingleton<IUserProfileClientService>(_mockProfiles.Object);
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")
@@ -280,7 +304,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
       </div>
     </div>
     <div class=""overflow-auto chat-message-list"">
-      <div>test-user-id: Test message.</div>
+      <div>Tester: Test message.</div>
     </div>
 ";
             comp.MarkupMatches(expectedHtml);
@@ -292,14 +316,15 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-user-id",
-                AccountName = "test-user-id",
+                ProfileId = "test-profile-id",
+                ProfileName = "Tester",
                 ChannelId = "channel:global",
                 MessageId = "message-101",
                 Message = "Test message."
             };
 
             var ctx = new b.TestContext();
+            ctx.Services.AddSingleton<IUserProfileClientService>(_mockProfiles.Object);
             ctx.Services.AddSingleton<IChatHubClient>(_mockChatClient.Object);
             ctx.AddTestAuthorization()
                .SetAuthorized("Test User")

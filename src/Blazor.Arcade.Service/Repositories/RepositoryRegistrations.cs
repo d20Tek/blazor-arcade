@@ -14,12 +14,14 @@ namespace Blazor.Arcade.Service.Repositories
             services.AddSingleton<IReadRepository<GameMetadata>, GameMetadataRepository>();
             services.AddSingleton<IReadRepository<ServerMetadata>, ServerMetadataRepository>();
             services.AddSingleton<ICacheService, MemoryCacheService>(); 
-            services.AddSingleton<IRepository<UserAccount>, UserAccountRepository>();
+            services.AddSingleton<IRepository<UserProfile>, UserProfileRepository>();
 
             return services;
         }
 
-        public static IServiceCollection AddCosmosClient(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddCosmosClient(
+            this IServiceCollection services,
+            string connectionString)
         {
             if (string.IsNullOrWhiteSpace(connectionString) == false)
             {

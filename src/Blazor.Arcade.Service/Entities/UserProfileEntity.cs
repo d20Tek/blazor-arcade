@@ -6,9 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazor.Arcade.Service.Entities
 {
-    internal class UserAccountEntity : CosmosStoreEntity
+    internal class UserProfileEntity : CosmosStoreEntity
     {
-        public string AccountId { get; set; } = string.Empty;
+        public string ProfileId { get; set; } = string.Empty;
 
         public string ServerId { get; set; } = string.Empty;
 
@@ -23,7 +23,7 @@ namespace Blazor.Arcade.Service.Entities
         public string UserId { get; set; } = string.Empty;
 
         [JsonPropertyName(DocumentId)]
-        public override string Id => AccountId;
+        public override string Id => ProfileId;
 
         [JsonPropertyName(DocumentPartitionId)]
         public override string PartitionId => this.UserId;

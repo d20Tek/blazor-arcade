@@ -1,20 +1,21 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using Blazor.Arcade.Common.Core.Client;
 using Blazor.Arcade.Common.Models;
 using System.Net.Http.Json;
 
 namespace Blazor.Arcade.Client.Services
 {
-    public class ArcadeMetadataService : ArcadeServiceBase, IArcadeMetadataService
+    public class ArcadeMetadataService : ClientServiceBase, IArcadeMetadataService
     {
         private const string _baseServiceUri = "api/v1/game-metadata";
-        private readonly IArcadeService _client;
+        private readonly HttpClient _client;
 
-        public ArcadeMetadataService(IArcadeService client, ILogger<ArcadeMetadataService> logger)
+        public ArcadeMetadataService(ITypedHttpClient typedClient, ILogger<ArcadeMetadataService> logger)
             : base(logger)
         {
-            _client= client;
+            _client= typedClient.HttpClient;
         }
 
         public async Task<IList<GameMetadata>?> GetGamesMetadataAsync()
@@ -24,6 +25,8 @@ namespace Blazor.Arcade.Client.Services
                 async () =>
                 {
                     var response = await _client.GetAsync(_baseServiceUri);
+                    response.EnsureSuccessStatusCode();
+
                     return await response.Content.ReadFromJsonAsync<List<GameMetadata>>();
                 });
         }

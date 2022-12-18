@@ -6,8 +6,14 @@
 Welcome to Blazor Arcade.
 <hr />
 
-<ChatComponent />
+<AuthorizeView>
+    <Authorized>
+        <ChatComponent />
+    </Authorized>
+    <NotAuthorized>
+        <div>To get in on the action, you must: <LoginDisplay /></div>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
-
 }

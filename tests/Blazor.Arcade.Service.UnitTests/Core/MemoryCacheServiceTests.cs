@@ -14,7 +14,7 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void MemoryCache_SetGetEntity()
         {
             // arrange
-            var id = "test-account-id-1";
+            var id = "test-profile-id-1";
             var entity = new TestEntity { TestId = id };
             var cache = new MemoryCacheService();
 
@@ -49,46 +49,46 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void MemoryCache_SetGetList()
         {
             // arrange
-            var id = "test-account-id-1";
-            var id2 = "test-account-id-2";
+            var id = "test-profile-id-1";
+            var id2 = "test-profile-id-2";
             var userId = "test-user-1";
-            var list = new List<UserAccountEntity>
+            var list = new List<UserProfileEntity>
             {
-                new UserAccountEntity { AccountId = id, UserId = userId },
-                new UserAccountEntity { AccountId = id2, UserId = userId },
+                new UserProfileEntity { ProfileId = id, UserId = userId },
+                new UserProfileEntity { ProfileId = id2, UserId = userId },
             };
             var cache = new MemoryCacheService();
 
             // act 1: add cached list
-            var result = cache.SetList<UserAccountEntity>(userId, list);
+            var result = cache.SetList<UserProfileEntity>(userId, list);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            Assert.IsTrue(result.Any(p => p.AccountId == id));
-            Assert.IsTrue(result.Any(p => p.AccountId == id2));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id2));
 
             // act 2: contains cached list
-            var contains = cache.ContainsList<UserAccountEntity>(userId);
+            var contains = cache.ContainsList<UserProfileEntity>(userId);
             Assert.IsTrue(contains);
 
             // act 3: get cached list
-            result = cache.GetList<UserAccountEntity>(userId);
+            result = cache.GetList<UserProfileEntity>(userId);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            Assert.IsTrue(result.Any(p => p.AccountId == id));
-            Assert.IsTrue(result.Any(p => p.AccountId == id2));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id2));
 
             // act 4: remove cached list
-            result = cache.RemoveList<UserAccountEntity>(userId);
+            result = cache.RemoveList<UserProfileEntity>(userId);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            Assert.IsTrue(result.Any(p => p.AccountId == id));
-            Assert.IsTrue(result.Any(p => p.AccountId == id2));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id2));
 
             // act 5: check list no longer contained.
-            contains = cache.ContainsList<UserAccountEntity>(userId);
+            contains = cache.ContainsList<UserProfileEntity>(userId);
             Assert.IsFalse(contains);
 
-            result = cache.GetList<UserAccountEntity>(userId);
+            result = cache.GetList<UserProfileEntity>(userId);
             Assert.IsNull(result);
         }
 
@@ -96,61 +96,61 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         public void MemoryCache_SetGetMixed()
         {
             // arrange
-            var id = "test-account-id-1";
-            var id2 = "test-account-id-2";
-            var id3 = "test-account-id-3";
+            var id = "test-profile-id-1";
+            var id2 = "test-profile-id-2";
+            var id3 = "test-profile-id-3";
             var userId = "test-user-1";
-            var list = new List<UserAccountEntity>
+            var list = new List<UserProfileEntity>
             {
-                new UserAccountEntity { AccountId = id, UserId = userId },
-                new UserAccountEntity { AccountId = id2, UserId = userId },
+                new UserProfileEntity { ProfileId = id, UserId = userId },
+                new UserProfileEntity { ProfileId = id2, UserId = userId },
             };
-            var account3 = new UserAccountEntity { AccountId = id3, UserId = userId };
+            var profile3 = new UserProfileEntity { ProfileId = id3, UserId = userId };
 
             var cache = new MemoryCacheService();
 
             // act 1: add cached list
-            var result = cache.SetList<UserAccountEntity>(userId, list);
+            var result = cache.SetList<UserProfileEntity>(userId, list);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            Assert.IsTrue(result.Any(p => p.AccountId == id));
-            Assert.IsTrue(result.Any(p => p.AccountId == id2));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id2));
 
             // act 2: contains cached list
-            var contains = cache.ContainsList<UserAccountEntity>(userId);
+            var contains = cache.ContainsList<UserProfileEntity>(userId);
             Assert.IsTrue(contains);
 
             // act 3: add new entity
-            var r3 = cache.Set(id3, account3);
+            var r3 = cache.Set(id3, profile3);
 
-            result = cache.GetList<UserAccountEntity>(userId);
+            result = cache.GetList<UserProfileEntity>(userId);
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result.Count);
-            Assert.IsTrue(result.Any(p => p.AccountId == id));
-            Assert.IsTrue(result.Any(p => p.AccountId == id2));
-            Assert.IsTrue(result.Any(p => p.AccountId == id3));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id2));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id3));
 
             // act 4: update entity
-            account3.DisplayName = "updated";
-            _ = cache.Set<UserAccountEntity>(id3, account3);
+            profile3.DisplayName = "updated";
+            _ = cache.Set<UserProfileEntity>(id3, profile3);
 
-            result = cache.GetList<UserAccountEntity>(userId);
+            result = cache.GetList<UserProfileEntity>(userId);
             Assert.IsNotNull(result);
             Assert.AreEqual(3, result.Count);
-            Assert.IsTrue(result.Any(p => p.AccountId == id));
-            Assert.IsTrue(result.Any(p => p.AccountId == id2));
-            Assert.IsTrue(result.Any(p => p.AccountId == id3));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id2));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id3));
             Assert.AreEqual("updated", result.Last().DisplayName);
 
             // act 5: remove entity
-            _ = cache.Remove<UserAccountEntity>(id3);
+            _ = cache.Remove<UserProfileEntity>(id3);
 
-            result = cache.GetList<UserAccountEntity>(userId);
+            result = cache.GetList<UserProfileEntity>(userId);
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            Assert.IsTrue(result.Any(p => p.AccountId == id));
-            Assert.IsTrue(result.Any(p => p.AccountId == id2));
-            Assert.IsFalse(result.Any(p => p.AccountId == id3));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id));
+            Assert.IsTrue(result.Any(p => p.ProfileId == id2));
+            Assert.IsFalse(result.Any(p => p.ProfileId == id3));
         }
     }
 }

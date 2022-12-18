@@ -9,12 +9,12 @@ namespace Blazor.Arcade.Service.UnitTests.Core
     public class EqualityTests
     {
         [TestMethod]
-        public void UserAccout_Equals()
+        public void UserProfile_Equals()
         {
             // arrange
-            object m1 = new UserAccount
+            object m1 = new UserProfile
             {
-                Id = "test-account-1",
+                Id = "test-profile-1",
                 Server = "s1",
                 Avatar = "test-av",
                 Name = "Test User",
@@ -35,12 +35,12 @@ namespace Blazor.Arcade.Service.UnitTests.Core
         }
 
         [TestMethod]
-        public void UserAccout_NotEquals()
+        public void UserProfile_NotEquals()
         {
             // arrange
-            var m1 = new UserAccount
+            var m1 = new UserProfile
             {
-                Id = "test-account-1",
+                Id = "test-profile-1",
                 Server = "s1",
                 Avatar = "test-av",
                 Name = "Test User",
@@ -49,9 +49,9 @@ namespace Blazor.Arcade.Service.UnitTests.Core
                 UserId = "test-user-1"
             };
 
-            var m2 = new UserAccount
+            var m2 = new UserProfile
             {
-                Id = "test-account-1",
+                Id = "test-profile-1",
                 Server = "s1",
                 Avatar = "test-av",
                 Name = "Test User",

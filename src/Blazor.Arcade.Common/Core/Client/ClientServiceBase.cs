@@ -1,14 +1,17 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-namespace Blazor.Arcade.Client.Services
+using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Blazor.Arcade.Common.Core.Client
 {
-    public class ArcadeServiceBase
+    public class ClientServiceBase
     {
         private const int _defaultRetryAmount = 3;
         private readonly string _typeName;
 
-        public ArcadeServiceBase(ILogger logger)
+        public ClientServiceBase(ILogger logger)
         {
             Logger = logger;
             _typeName = GetType().Name;
@@ -16,6 +19,7 @@ namespace Blazor.Arcade.Client.Services
 
         protected ILogger Logger { get; }
 
+        [ExcludeFromCodeCoverage]
         protected async Task<T> ServiceOperationAsync<T>(
             string methodName,
             Func<Task<T>> operation,
@@ -25,23 +29,23 @@ namespace Blazor.Arcade.Client.Services
 
             try
             {
-                while (retries > 0)
-                {
-                    Logger.LogTrace($"Begin Service Call: '{serviceName}'");
-                    var result = await operation();
-                    Logger.LogTrace($"End Service Call: '{serviceName}'");
+                Logger.LogTrace($"Begin Service Call: '{serviceName}'");
+                var result = await operation();
+                Logger.LogTrace($"End Service Call: '{serviceName}'");
 
-                    return result;
-                }
+                return result;
             }
             catch (Exception ex)
             {
-                Logger.LogWarning($"Retrying ServiceOperation: '{serviceName}' with error '{ex.Message}'");
-                return await ServiceOperationAsync<T>(methodName, operation, --retries);
-            }
+                if (retries > 0)
+                {
+                    Logger.LogWarning($"Retrying ServiceOperation: '{serviceName}' with error '{ex.Message}'");
+                    return await ServiceOperationAsync<T>(methodName, operation, --retries);
+                }
 
-            Logger.LogError($"Failed ServiceOperation request '{serviceName}'.");
-            throw new InvalidOperationException();
+                Logger.LogError($"Failed ServiceOperation request '{serviceName}'.");
+                throw;
+            }
         }
     }
 }

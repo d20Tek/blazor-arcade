@@ -66,8 +66,8 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-user-id",
-                AccountName = "Test User",
+                ProfileId = "test-user-id",
+                ProfileName = "Test User",
                 Message = "Test message",
             };
             var hub = new ChatHubClient(_mockProxy.Object, _mockLogger.Object);
@@ -89,8 +89,8 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             // arrange
             var message = new ChatMessage
             {
-                AccountId = "test-user-id",
-                AccountName = "Test User",
+                ProfileId = "test-user-id",
+                ProfileName = "Test User",
                 Message = "Test message",
             };
 

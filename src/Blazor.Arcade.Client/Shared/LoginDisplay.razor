@@ -2,14 +2,23 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using System.Security.Claims;
 @attribute [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+@implements IDisposable
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
+@inject IUserProfileClientService _profile;
 
 <AuthorizeView>
     <Authorized>
-        Hi, @GetDisplayUserName(context.User)!
-        <a class="float-end" href="" @onclick="BeginLogout">Log out</a>
+        @GetDisplayUserName(context.User)
+        <a class="float-end btn-light-outline mx-1" href=""
+           title="Log out" @onclick="BeginLogout">
+            <span class="oi oi-account-logout" aria-hidden="true"></span>
+        </a>
+        <a class="float-end btn-light-outline mx-1"
+           href="/profiles/manage" title="Manage Profiles">
+            <span class="oi oi-person" aria-hidden="true"></span>
+        </a>
     </Authorized>
     <NotAuthorized>
         <a href="authentication/login">Log in</a>
@@ -17,6 +26,32 @@
 </AuthorizeView>
 
 @code{
+    private UserProfile? _currentProfile;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _profile.OnCurrentProfileChanged += OnCurrentProfileChanged;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (await AuthenticationHelper.IsUserAuthenticated(AuthState))
+        {
+            if (await _profile.HasCurrentProfileAsync(AuthState))
+            {
+                _currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
+                StateHasChanged();
+            }
+            else
+            {
+                Navigation.NavigateTo("/profiles/manage");
+            }
+        }
+    }
+
     private async Task BeginLogout(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
@@ -25,6 +60,22 @@
 
     private string? GetDisplayUserName(ClaimsPrincipal user)
     {
-        return user.FindFirst("given_name")?.Value ?? user.Identity?.Name;
+        if (_currentProfile == null)
+        {
+            return user.FindFirst("given_name")?.Value ?? user.Identity?.Name;
+        }
+
+        return _currentProfile.Name;
+    }
+
+    private void OnCurrentProfileChanged(UserProfile? newProfile)
+    {
+        _currentProfile = newProfile;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        _profile.OnCurrentProfileChanged -= OnCurrentProfileChanged;
     }
 }

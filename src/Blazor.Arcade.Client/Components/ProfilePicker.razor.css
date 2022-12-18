@@ -1,0 +1,11 @@
+﻿.selected {
+    background-color: dimgray;
+}
+
+.glyph-column {
+    width: 28px;
+}
+
+.glyph-mark {
+    color: darkslateblue;
+}

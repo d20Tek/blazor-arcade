@@ -37,7 +37,7 @@ namespace Blazor.Arcade.Service.UnitTests
 
             // assert project-specific services
             Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IReadRepository<GameMetadata>)));
-            Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IRepository<UserAccount>)));
+            Assert.IsTrue(result.Services.Any(p => p.ServiceType == typeof(IRepository<UserProfile>)));
         }
 
         [TestMethod]

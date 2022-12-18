@@ -1,14 +1,15 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Blazor.Arcade.Common.Models;
-
-namespace Blazor.Arcade.Client.Services
+namespace Blazor.Arcade.Common.Core.Client
 {
-    public interface IArcadeService
+    public class TypedHttpClient : ITypedHttpClient
     {
-        public Task<ServiceDiagnostics?> GetAuthDiagnosticsAsync();
+        public TypedHttpClient(HttpClient httpClient)
+        {
+            HttpClient= httpClient;
+        }
 
-        public Task<HttpResponseMessage> GetAsync(string requestUri);
+        public HttpClient HttpClient { get; private set; }
     }
 }

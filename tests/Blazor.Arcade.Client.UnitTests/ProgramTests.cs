@@ -3,6 +3,8 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
 using Blazor.Arcade.Client.UnitTests.Mocks;
+using Blazor.Arcade.Client.UnitTests.Services;
+using Blazor.Arcade.Common.Core.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -30,11 +32,12 @@ namespace Blazor.Arcade.Client.UnitTests
 
             // assert
             Assert.IsTrue(services.Count > 35);
-            Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IArcadeService)));
+            Assert.IsTrue(services.Any(p => p.ServiceType == typeof(ITypedHttpClient)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(HttpClient)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IAuthorizationService)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(CustomAuthorizationMessageHandler)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IArcadeMetadataService)));
+            Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IUserProfileClientService)));
         }
 
         [TestMethod]
@@ -63,8 +66,9 @@ namespace Blazor.Arcade.Client.UnitTests
             // assert
             Assert.IsNotNull(provider);
             Assert.IsNotNull(provider.GetService<HttpClient>());
-            Assert.IsNotNull(provider.GetService<IArcadeService>());
+            Assert.IsNotNull(provider.GetService<ITypedHttpClient>());
             Assert.IsNotNull(provider.GetService<IArcadeMetadataService>());
+            Assert.IsNotNull(provider.GetService<IUserProfileClientService>());
         }
     }
 }

@@ -1,10 +1,10 @@
 {
-  "name": "Blazor.Arcade.Client",
-  "short_name": "Blazor.Arcade.Client",
+  "name": "Blazor Arcade",
+  "short_name": "Arcade",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#03173d",
+  "theme_color": "#483D8B",
   "prefer_related_applications": false,
   "icons": [
     {

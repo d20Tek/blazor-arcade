@@ -1,0 +1,96 @@
+﻿@page "/profile/update/{ProfileId}"
+@attribute [Authorize]
+@inject IUserProfileClientService _service
+@inject NavigationManager _nav;
+
+<h4>Change Profile</h4>
+<p>Change this profile's information that is displayed in Arcade.</p>
+<hr />
+
+<div class="row">
+  <div class="col-12 col-lg-6" style="max-width: 600px">
+    <EditForm id="profile-form" Model=@_profile OnSubmit=@FormSubmitted>
+    @if (_hasProfile == true)
+    {
+      <DataAnnotationsValidator />
+    
+      <div class="form-group">
+        <label>Profile Id:</label>
+        <div>@_profile.Id</div>
+      </div>
+      <div class="form-group mt-2">
+        <label>Logged In User:</label>
+        <div>@_profile.UserId</div>
+      </div>
+      <div class="form-group mt-2">
+        <label for="profile-name">Name:</label>
+        <InputText @bind-Value=_profile.Name class="form-control" id="profile-name"
+                   placeholder="Enter display name..." />
+        <ValidationMessage For="() => _profile.Name"/>
+      </div>
+      <div class="form-group mt-2">
+        <label for="profile-server">Select Server:</label>
+        <InputSelect @bind-Value=_profile.Server class="form-control" id="profile-server">
+          <option value="s1">s1</option>
+        </InputSelect>
+        <ValidationMessage For="() => _profile.Server"/>
+      </div>
+      <div class="form-group mt-2">
+        <label for="profile-gender">Gender:</label>
+        <InputSelect @bind-Value=_profile.Gender class="form-control" id="profile-gender">
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+          <option value="U">Unspecified</option>
+        </InputSelect>
+        <ValidationMessage For="() => _profile.Gender"/>
+      </div>
+      <div class="form-group my-2">
+        <label for="profile-avatar">Avatar (coming soon):</label>
+        <InputFile @bind-Value=_profile.Avatar class="form-control" id="profile-avatar"
+                   disabled/>
+      </div>
+    }
+    else
+    {
+      <div class="mb-2">There is no profile found for id: @ProfileId.</div>
+    }
+      <input type="submit" id="submit-btn" class="btn btn-primary" value="Save" />
+      <a class="btn btn-light" href="/profiles/manage">Cancel</a>
+    </EditForm>
+  </div>
+</div>
+
+@code {
+    private UserProfile _profile = new UserProfile();
+    private bool _hasProfile = false;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    [Parameter]
+    public string? ProfileId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ProfileId != null)
+        {
+            var temp = await _service.GetEntityAsync(ProfileId);
+            if (temp != null)
+            {                
+                _profile = temp;
+                _hasProfile = true;
+            }
+        }
+    }
+
+    private async Task FormSubmitted(EditContext editContext)
+    {
+        if (editContext.Validate() && _hasProfile == true)
+        {
+            var updatedProfile = await _service.UpdateEntityAsync(_profile.Id, _profile);
+            await _service.SetCurrentProfileAsync(AuthState, updatedProfile);
+
+            _nav.NavigateTo("/profiles/manage");
+        }
+    }
+}

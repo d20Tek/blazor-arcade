@@ -10,7 +10,10 @@ namespace Blazor.Arcade.Client.Services
     {
         public static IServiceCollection AddClientServices(this IServiceCollection services)
         {
+            services.AddSingleton<IDiagnosticsService, DiagnosticsService>();
             services.AddSingleton<IArcadeMetadataService, ArcadeMetadataService>();
+            services.AddSingleton<IMessageBoxService, MessageBoxService>();
+            services.AddSingleton<IUserProfileClientService, UserProfileClientService>();
             services.AddSingleton<IChatHubClient, ChatHubClient>();
             return services;
         }

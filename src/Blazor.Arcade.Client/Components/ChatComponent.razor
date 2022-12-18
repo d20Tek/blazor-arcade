@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.SignalR.Client;
 @inject IChatHubClient _chatHub
+@inject IUserProfileClientService _profile
 
 <AuthorizeView>
     <Authorized>
@@ -19,7 +20,7 @@
         <div class="overflow-auto chat-message-list">
             @foreach (var m in _messages)
             {
-                <div>@m.AccountName: @m.Message</div>
+                <div>@m.ProfileName: @m.Message</div>
             }
         </div>
     </Authorized>
@@ -67,15 +68,15 @@
 
         if (string.IsNullOrEmpty(_currentMessage) == false)
         {
-            var authState = await AuthState;
-            var userId = authState.User.FindFirst("oid")?.Value ?? "Unknown User";
-
+            var currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
             var message = new ChatMessage
-                {
-                    AccountId = userId,
-                    AccountName = userId,
-                    Message = _currentMessage
-                };
+            {
+                ProfileId = currentProfile.Id,
+                ProfileName = currentProfile.Name,
+                Message = _currentMessage,
+                UserId = currentProfile.UserId
+            };
+
             await _chatHub.SendGlobalMessageAsync(message);
 
             _currentMessage = string.Empty;

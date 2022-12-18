@@ -2,14 +2,16 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
-using Moq.Protected;
-using System.Net;
+using Blazor.Arcade.Client.UnitTests.Mocks;
+using Microsoft.Extensions.Logging;
 
 namespace Blazor.Arcade.Client.UnitTests.Services
 {
     [TestClass]
-    public class ArcadeClientServiceTests
+    public class DiagnosticsServiceTests
     {
+        private readonly ILogger<DiagnosticsService> _logger = new Mock<ILogger<DiagnosticsService>>().Object;
+
         [TestMethod]
         public async Task GetAuthDiagnosticsAsync()
         {
@@ -23,8 +25,8 @@ namespace Blazor.Arcade.Client.UnitTests.Services
                 ""timestamp"": 1234
             }";
 
-            var httpClient = CreateHttpClient(responseContent);
-            var service = new ArcadeService(httpClient);
+            var typedClient = MockHttpClientHelper.CreateTypedHttpClient(responseContent);
+            var service = new DiagnosticsService(typedClient, _logger);
 
             // act
             var result = await service.GetAuthDiagnosticsAsync();
@@ -36,31 +38,6 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             Assert.AreEqual("test-user-id", result.CallerId);
             Assert.AreEqual("Test User", result.CallerName);
             Assert.AreEqual(1234, result.Timestamp);
-        }
-
-        private HttpClient CreateHttpClient(string returnedContent)
-        {
-            var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            handlerMock.Protected()
-                       .Setup<Task<HttpResponseMessage>>(
-                          "SendAsync",
-                          ItExpr.IsAny<HttpRequestMessage>(),
-                          ItExpr.IsAny<CancellationToken>()
-                       )
-                       .ReturnsAsync(new HttpResponseMessage()
-                       {
-                           StatusCode = HttpStatusCode.OK,
-                           Content = new StringContent(returnedContent),
-                       })
-                       .Verifiable();
-
-            // create http client with our mocked handler.
-            var httpClient = new HttpClient(handlerMock.Object)
-            {
-                BaseAddress = new Uri("http://test.com/"),
-            };
-
-            return httpClient;
         }
     }
 }

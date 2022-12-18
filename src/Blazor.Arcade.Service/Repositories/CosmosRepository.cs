@@ -16,10 +16,10 @@ namespace Blazor.Arcade.Service.Repositories
         private const int _defaultRetryAmount = 3;
         private readonly TimeSpan _operationTimeout = TimeSpan.FromSeconds(4);
 
-        private CosmosClient _cosmosClient;
-        private string _dbId;
-        private string _containerId;
-        private string _partitionDef;
+        private readonly CosmosClient _cosmosClient;
+        private readonly string _dbId;
+        private readonly string _containerId;
+        private readonly string _partitionDef;
         private readonly string _typeName;
         private readonly IModelEntityConverter<T, TEntity> _converter;
         private readonly ICacheService? _cache;

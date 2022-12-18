@@ -14,18 +14,18 @@ using System.Net;
 namespace Blazor.Arcade.Service.UnitTests.Repositories
 {
     [TestClass]
-    public class UserAccountRepositoryTests
+    public class UserProfileRepositoryTests
     {
-        private readonly ILogger<UserAccountRepository> _logger = new Mock<ILogger<UserAccountRepository>>().Object;
+        private readonly ILogger<UserProfileRepository> _logger = new Mock<ILogger<UserProfileRepository>>().Object;
         private readonly Mock<ICacheService> _defaultCache = new Mock<ICacheService>();
 
         [TestMethod]
         public async Task GetItemAsync()
         {
             // arrange
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             var result = await repo.GetItemAsync("foo", "bar");
@@ -40,9 +40,9 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task GetItemAsync_NoPartitionId()
         {
             // arrange
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             var result = await repo.GetItemAsync("foo");
@@ -60,7 +60,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         {
             // arrange
             var client = CreateMockClient();
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             _ = await repo.GetItemAsync("test-id-9", "user-id-1");
@@ -75,7 +75,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         {
             // arrange
             var mockContainer = new Mock<CosmosContainer>();
-            mockContainer.Setup(x => x.ReadItemAsync<UserAccountEntity>(
+            mockContainer.Setup(x => x.ReadItemAsync<UserProfileEntity>(
                             It.IsAny<string>(),
                             It.IsAny<PartitionKey>(),
                             It.IsAny<ItemRequestOptions>(),
@@ -83,7 +83,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
                          .ThrowsAsync(new CosmosException("testError", (int)HttpStatusCode.Forbidden));
 
             var client = CreateMockClient(mockContainer);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             _ = await repo.GetItemAsync("test-id-err", "user-id-1");
@@ -98,7 +98,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         {
             // arrange
             var mockContainer = new Mock<CosmosContainer>();
-            mockContainer.Setup(x => x.ReadItemAsync<UserAccountEntity>(
+            mockContainer.Setup(x => x.ReadItemAsync<UserProfileEntity>(
                             It.IsAny<string>(),
                             It.IsAny<PartitionKey>(),
                             It.IsAny<ItemRequestOptions>(),
@@ -106,7 +106,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
                          .ThrowsAsync(new InvalidOperationException());
 
             var client = CreateMockClient(mockContainer);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             _ = await repo.GetItemAsync("test-id-err", "user-id-1");
@@ -118,14 +118,14 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task GetItemAsync_FromCache()
         {
             // arrange
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var mockCache = new Mock<ICacheService>();
-            mockCache.Setup(x => x.Contains<UserAccountEntity>("foo")).Returns(true);
-            mockCache.Setup(x => x.Get<UserAccountEntity>("foo"))
+            mockCache.Setup(x => x.Contains<UserProfileEntity>("foo")).Returns(true);
+            mockCache.Setup(x => x.Get<UserProfileEntity>("foo"))
                      .Returns(expected);
 
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, mockCache.Object, _logger);
+            var repo = new UserProfileRepository(client, mockCache.Object, _logger);
 
             // act
             var result = await repo.GetItemAsync("foo", "bar");
@@ -134,16 +134,16 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual("foo", result.Id);
             Assert.AreEqual("bar", result.UserId);
-            mockCache.Verify(o => o.Get<UserAccountEntity>("foo"), Times.Once);
+            mockCache.Verify(o => o.Get<UserProfileEntity>("foo"), Times.Once);
         }
 
         [TestMethod]
         public async Task GetItemAsync_SetToCache()
         {
             // arrange
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, _defaultCache.Object, _logger);
+            var repo = new UserProfileRepository(client, _defaultCache.Object, _logger);
 
             // act
             var result = await repo.GetItemAsync("foo", "bar");
@@ -153,7 +153,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.AreEqual("foo", result.Id);
             Assert.AreEqual("bar", result.UserId);
             _defaultCache.Verify(
-                o => o.Set<UserAccountEntity>(It.IsAny<string>(), It.IsAny<UserAccountEntity>()),
+                o => o.Set<UserProfileEntity>(It.IsAny<string>(), It.IsAny<UserProfileEntity>()),
                 Times.Once);
         }
 
@@ -161,9 +161,9 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task DeleteItemAsync()
         {
             // arrange
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             await repo.DeleteItemAsync("foo", "bar");
@@ -175,16 +175,16 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task DeleteItemAsync_WithCache()
         {
             // arrange
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, _defaultCache.Object, _logger);
+            var repo = new UserProfileRepository(client, _defaultCache.Object, _logger);
 
             // act
             await repo.DeleteItemAsync("foo", "bar");
 
             // assert
             _defaultCache.Verify(
-                o => o.Remove<UserAccountEntity>(It.IsAny<string>()),
+                o => o.Remove<UserProfileEntity>(It.IsAny<string>()),
                 Times.Once);
         }
 
@@ -195,7 +195,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         {
             // arrange
             var client = CreateMockClient();
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             await repo.DeleteItemAsync("test-id-9", "user-id-1");
@@ -210,7 +210,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         {
             // arrange
             var mockContainer = new Mock<CosmosContainer>();
-            mockContainer.Setup(x => x.DeleteItemAsync<UserAccountEntity>(
+            mockContainer.Setup(x => x.DeleteItemAsync<UserProfileEntity>(
                             It.IsAny<string>(),
                             It.IsAny<PartitionKey>(),
                             It.IsAny<ItemRequestOptions>(),
@@ -218,7 +218,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
                          .ThrowsAsync(new CosmosException("testError", (int)HttpStatusCode.Forbidden));
 
             var client = CreateMockClient(mockContainer);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             await repo.DeleteItemAsync("test-id-err", "user-id-1");
@@ -230,10 +230,10 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync()
         {
             // arrange
-            var model = new UserAccount { Id = "foo", UserId = "bar" };
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var model = new UserProfile { Id = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             var result = await repo.CreateItemAsync(model);
@@ -248,10 +248,10 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync_WithCache()
         {
             // arrange
-            var model = new UserAccount { Id = "foo", UserId = "bar" };
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var model = new UserProfile { Id = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, _defaultCache.Object, _logger);
+            var repo = new UserProfileRepository(client, _defaultCache.Object, _logger);
 
             // act
             var result = await repo.CreateItemAsync(model);
@@ -261,7 +261,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.AreEqual("foo", result.Id);
             Assert.AreEqual("bar", result.UserId);
             _defaultCache.Verify(
-                o => o.Set<UserAccountEntity>(It.IsAny<string>(), It.IsAny<UserAccountEntity>()),
+                o => o.Set<UserProfileEntity>(It.IsAny<string>(), It.IsAny<UserProfileEntity>()),
                 Times.Once);
         }
 
@@ -271,9 +271,9 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync_AlreadyExists()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var client = CreateMockClient();
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             await repo.CreateItemAsync(model);
@@ -287,17 +287,17 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task CreateItemAsync_Exception()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var mockContainer = new Mock<CosmosContainer>();
-            mockContainer.Setup(x => x.CreateItemAsync<UserAccountEntity>(
-                            It.IsAny<UserAccountEntity>(),
+            mockContainer.Setup(x => x.CreateItemAsync<UserProfileEntity>(
+                            It.IsAny<UserProfileEntity>(),
                             It.IsAny<PartitionKey>(),
                             It.IsAny<ItemRequestOptions>(),
                             It.IsAny<CancellationToken>()))
                          .ThrowsAsync(new CosmosException("testError", (int)HttpStatusCode.Forbidden));
 
             var client = CreateMockClient(mockContainer);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             await repo.CreateItemAsync(model);
@@ -309,10 +309,10 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync()
         {
             // arrange
-            var model = new UserAccount { Id = "foo2", UserId = "bar" };
-            var expected = new UserAccountEntity { AccountId = "foo2", UserId = "bar" };
+            var model = new UserProfile { Id = "foo2", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo2", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             var result = await repo.UpdateItemAsync(model);
@@ -327,10 +327,10 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync_WithCache()
         {
             // arrange
-            var model = new UserAccount { Id = "foo2", UserId = "bar" };
-            var expected = new UserAccountEntity { AccountId = "foo2", UserId = "bar" };
+            var model = new UserProfile { Id = "foo2", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo2", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, _defaultCache.Object, _logger);
+            var repo = new UserProfileRepository(client, _defaultCache.Object, _logger);
 
             // act
             var result = await repo.UpdateItemAsync(model);
@@ -340,7 +340,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.AreEqual("foo2", result.Id);
             Assert.AreEqual("bar", result.UserId);
             _defaultCache.Verify(
-                o => o.Set<UserAccountEntity>(It.IsAny<string>(), It.IsAny<UserAccountEntity>()),
+                o => o.Set<UserProfileEntity>(It.IsAny<string>(), It.IsAny<UserProfileEntity>()),
                 Times.Once);
         }
 
@@ -350,9 +350,9 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync_AlreadyExists()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var client = CreateMockClient();
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             await repo.UpdateItemAsync(model);
@@ -366,10 +366,10 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task UpdateItemAsync_Exception()
         {
             // arrange
-            var model = new UserAccount { Id = "test-id-9", UserId = "user-id-1" };
+            var model = new UserProfile { Id = "test-id-9", UserId = "user-id-1" };
             var mockContainer = new Mock<CosmosContainer>();
-            mockContainer.Setup(x => x.ReplaceItemAsync<UserAccountEntity>(
-                            It.IsAny<UserAccountEntity>(),
+            mockContainer.Setup(x => x.ReplaceItemAsync<UserProfileEntity>(
+                            It.IsAny<UserProfileEntity>(),
                             It.IsAny<string>(),
                             It.IsAny<PartitionKey>(),
                             It.IsAny<ItemRequestOptions>(),
@@ -377,7 +377,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
                          .ThrowsAsync(new CosmosException("testError", (int)HttpStatusCode.Forbidden));
 
             var client = CreateMockClient(mockContainer);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             await repo.UpdateItemAsync(model);
@@ -389,9 +389,9 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task GetItemsAsync()
         {
             // arrange
-            var expected = new UserAccountEntity { AccountId = "foo", UserId = "bar" };
+            var expected = new UserProfileEntity { ProfileId = "foo", UserId = "bar" };
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             var result = await repo.GetItemsAsync(new List<string> { "foo", "foo2" }, "bar");
@@ -405,14 +405,14 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task GetPartitionItemsAsync()
         {
             // arrange
-            var expected = new List<UserAccountEntity>
+            var expected = new List<UserProfileEntity>
             {
-                new UserAccountEntity { AccountId = "foo", UserId = "bar" },
-                new UserAccountEntity { AccountId = "foo2", UserId = "bar" },
+                new UserProfileEntity { ProfileId = "foo", UserId = "bar" },
+                new UserProfileEntity { ProfileId = "foo2", UserId = "bar" },
             };
 
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, null, _logger);
+            var repo = new UserProfileRepository(client, null, _logger);
 
             // act
             var result = await repo.GetPartitionItemsAsync("bar");
@@ -426,18 +426,18 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
         public async Task GetPartitionItemsAsync_FromCache()
         {
             // arrange
-            var expected = new List<UserAccountEntity>
+            var expected = new List<UserProfileEntity>
             {
-                new UserAccountEntity { AccountId = "foo", UserId = "bar" },
-                new UserAccountEntity { AccountId = "foo2", UserId = "bar" },
+                new UserProfileEntity { ProfileId = "foo", UserId = "bar" },
+                new UserProfileEntity { ProfileId = "foo2", UserId = "bar" },
             };
             var mockCache = new Mock<ICacheService>();
-            mockCache.Setup(x => x.ContainsList<UserAccountEntity>("bar")).Returns(true);
-            mockCache.Setup(x => x.GetList<UserAccountEntity>("bar"))
+            mockCache.Setup(x => x.ContainsList<UserProfileEntity>("bar")).Returns(true);
+            mockCache.Setup(x => x.GetList<UserProfileEntity>("bar"))
                      .Returns(expected);
 
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, mockCache.Object, _logger);
+            var repo = new UserProfileRepository(client, mockCache.Object, _logger);
 
             // act
             var result = await repo.GetPartitionItemsAsync("bar");
@@ -445,21 +445,21 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             // assert
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            mockCache.Verify(o => o.GetList<UserAccountEntity>("bar"), Times.Once);
+            mockCache.Verify(o => o.GetList<UserProfileEntity>("bar"), Times.Once);
         }
 
         [TestMethod]
         public async Task GetPartitionItemsAsync_SetListCache()
         {
             // arrange
-            var expected = new List<UserAccountEntity>
+            var expected = new List<UserProfileEntity>
             {
-                new UserAccountEntity { AccountId = "foo", UserId = "bar" },
-                new UserAccountEntity { AccountId = "foo2", UserId = "bar" },
+                new UserProfileEntity { ProfileId = "foo", UserId = "bar" },
+                new UserProfileEntity { ProfileId = "foo2", UserId = "bar" },
             };
 
             var client = CreateMockClient(expected);
-            var repo = new UserAccountRepository(client, _defaultCache.Object, _logger);
+            var repo = new UserProfileRepository(client, _defaultCache.Object, _logger);
 
             // act
             var result = await repo.GetPartitionItemsAsync("bar");
@@ -468,14 +468,14 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
             _defaultCache.Verify(
-                o => o.SetList<UserAccountEntity>(It.IsAny<string>(), It.IsAny<IList<UserAccountEntity>>()),
+                o => o.SetList<UserProfileEntity>(It.IsAny<string>(), It.IsAny<IList<UserProfileEntity>>()),
                 Times.Once);
         }
 
-        private CosmosClient CreateMockClient(UserAccountEntity? expectedItem = null)
+        private CosmosClient CreateMockClient(UserProfileEntity? expectedItem = null)
         {
             var mockContainer = new Mock<CosmosContainer>();
-            mockContainer.Setup(x => x.ReadItemAsync<UserAccountEntity>(
+            mockContainer.Setup(x => x.ReadItemAsync<UserProfileEntity>(
                             "test-id-9",
                             It.IsAny<PartitionKey>(),
                             It.IsAny<ItemRequestOptions>(),
@@ -484,7 +484,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
 
             if (expectedItem != null)
             {
-                mockContainer.Setup(x => x.ReadItemAsync<UserAccountEntity>(
+                mockContainer.Setup(x => x.ReadItemAsync<UserProfileEntity>(
                                 It.IsAny<string>(),
                                 It.IsAny<PartitionKey>(),
                                 It.IsAny<ItemRequestOptions>(),
@@ -492,7 +492,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
                              .ReturnsAsync(CreateMockResponse(expectedItem));
             }
 
-            mockContainer.Setup(x => x.DeleteItemAsync<UserAccountEntity>(
+            mockContainer.Setup(x => x.DeleteItemAsync<UserProfileEntity>(
                             "test-id-9",
                             It.IsAny<PartitionKey>(),
                             It.IsAny<ItemRequestOptions>(),
@@ -501,7 +501,7 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
 
             if (expectedItem != null)
             {
-                mockContainer.Setup(x => x.DeleteItemAsync<UserAccountEntity>(
+                mockContainer.Setup(x => x.DeleteItemAsync<UserProfileEntity>(
                                 expectedItem.Id,
                                 It.IsAny<PartitionKey>(),
                                 It.IsAny<ItemRequestOptions>(),
@@ -511,8 +511,8 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
 
             if (expectedItem != null)
             {
-                mockContainer.Setup(x => x.CreateItemAsync<UserAccountEntity>(
-                                It.IsAny<UserAccountEntity>(),
+                mockContainer.Setup(x => x.CreateItemAsync<UserProfileEntity>(
+                                It.IsAny<UserProfileEntity>(),
                                 It.IsAny<PartitionKey>(),
                                 It.IsAny<ItemRequestOptions>(),
                                 It.IsAny<CancellationToken>()))
@@ -520,8 +520,8 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             }
             else
             {
-                mockContainer.Setup(x => x.CreateItemAsync<UserAccountEntity>(
-                                It.IsAny<UserAccountEntity>(),
+                mockContainer.Setup(x => x.CreateItemAsync<UserProfileEntity>(
+                                It.IsAny<UserProfileEntity>(),
                                 It.IsAny<PartitionKey>(),
                                 It.IsAny<ItemRequestOptions>(),
                                 It.IsAny<CancellationToken>()))
@@ -530,8 +530,8 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
 
             if (expectedItem != null)
             {
-                mockContainer.Setup(x => x.ReplaceItemAsync<UserAccountEntity>(
-                                It.IsAny<UserAccountEntity>(),
+                mockContainer.Setup(x => x.ReplaceItemAsync<UserProfileEntity>(
+                                It.IsAny<UserProfileEntity>(),
                                 It.IsAny<string>(),
                                 It.IsAny<PartitionKey>(),
                                 It.IsAny<ItemRequestOptions>(),
@@ -540,8 +540,8 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             }
             else
             {
-                mockContainer.Setup(x => x.ReplaceItemAsync<UserAccountEntity>(
-                                It.IsAny<UserAccountEntity>(),
+                mockContainer.Setup(x => x.ReplaceItemAsync<UserProfileEntity>(
+                                It.IsAny<UserProfileEntity>(),
                                 It.IsAny<string>(),
                                 It.IsAny<PartitionKey>(),
                                 It.IsAny<ItemRequestOptions>(),
@@ -552,16 +552,16 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             return CreateMockClient(mockContainer);
         }
 
-        private CosmosClient CreateMockClient(IList<UserAccountEntity> expectedItems)
+        private CosmosClient CreateMockClient(IList<UserProfileEntity> expectedItems)
         {
-            var pages = new List<Page<UserAccountEntity>>
+            var pages = new List<Page<UserProfileEntity>>
             {
-                Page<UserAccountEntity>.FromValues(expectedItems.ToArray(), null, new Mock<Response>().Object),
+                Page<UserProfileEntity>.FromValues(expectedItems.ToArray(), null, new Mock<Response>().Object),
             };
 
-            var results = AsyncPageable<UserAccountEntity>.FromPages(pages);
+            var results = AsyncPageable<UserProfileEntity>.FromPages(pages);
             var mockContainer = new Mock<CosmosContainer>();
-            mockContainer.Setup(x => x.GetItemQueryIterator<UserAccountEntity>(
+            mockContainer.Setup(x => x.GetItemQueryIterator<UserProfileEntity>(
                             It.IsAny<QueryDefinition>(),
                             It.IsAny<string>(),
                             It.IsAny<QueryRequestOptions>(),
