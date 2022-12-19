@@ -33,8 +33,11 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             Assert.IsNotNull(results);
-            Assert.AreEqual(2, results.Count);
-            Assert.IsTrue(results.Any(p => p.Id == "game.test.1"));
+            if (results != null)
+            {
+                Assert.AreEqual(2, results.Count);
+                Assert.IsTrue(results.Any(p => p.Id == "game.test.1"));
+            }
         }
     }
 }

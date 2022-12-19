@@ -33,11 +33,14 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("Ok", result.Result);
-            Assert.AreEqual("https://test.com/api", result.EndpointUrl);
-            Assert.AreEqual("test-user-id", result.CallerId);
-            Assert.AreEqual("Test User", result.CallerName);
-            Assert.AreEqual(1234, result.Timestamp);
+            if (result != null)
+            {
+                Assert.AreEqual("Ok", result.Result);
+                Assert.AreEqual("https://test.com/api", result.EndpointUrl);
+                Assert.AreEqual("test-user-id", result.CallerId);
+                Assert.AreEqual("Test User", result.CallerName);
+                Assert.AreEqual(1234, result.Timestamp);
+            }
         }
     }
 }

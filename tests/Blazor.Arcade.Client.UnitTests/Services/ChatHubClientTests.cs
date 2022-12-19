@@ -26,8 +26,21 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             await hub.InitializeAsync();
 
             // assert
-            _mockProxy.Verify(o => o.StartAsync(), Times.Once);
-            VerifyLogCall(_mockLogger, LogLevel.Trace, Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _mockProxy.Verify(o => o.StartAsync(), Times.Once);
+                _mockLogger.Verify(
+                    o => o.Log(
+                        LogLevel.Trace,
+                        It.IsAny<EventId>(),
+                        It.IsAny<It.IsAnyType>(),
+                        It.IsAny<Exception>(),
+                        (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
+                    Times.Once);
+            }
         }
 
         [TestMethod]
@@ -41,8 +54,21 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             await hub.InitializeAsync();
 
             // assert
-            _mockProxy.Verify(o => o.StartAsync(), Times.Never);
-            VerifyLogCall(_mockLogger, LogLevel.Trace, Times.Never);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _mockProxy.Verify(o => o.StartAsync(), Times.Never);
+                _mockLogger.Verify(
+                    o => o.Log(
+                        LogLevel.Trace,
+                        It.IsAny<EventId>(),
+                        It.IsAny<It.IsAnyType>(),
+                        It.IsAny<Exception>(),
+                        (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
+                    Times.Never);
+            }
         }
 
         [TestMethod]
@@ -56,8 +82,21 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             await hub.InitializeAsync();
 
             // assert
-            _mockProxy.Verify(o => o.StartAsync(), Times.Once);
-            VerifyLogCall(_mockLogger, LogLevel.Error, Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _mockProxy.Verify(o => o.StartAsync(), Times.Once);
+                _mockLogger.Verify(
+                o => o.Log(
+                    LogLevel.Error,
+                    It.IsAny<EventId>(),
+                    It.IsAny<It.IsAnyType>(),
+                    It.IsAny<Exception>(),
+                    (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
+                Times.Once);
+            }
         }
 
         [TestMethod]
@@ -76,9 +115,15 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             await hub.SendGlobalMessageAsync(message);
 
             // assert
-            _mockProxy.Verify(
-                o => o.InvokeAsync("SendGlobalMessage", It.IsAny<ChatMessage>(), It.IsAny<CancellationToken>()),
-                Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _mockProxy.Verify(
+                    o => o.InvokeAsync("SendGlobalMessage", It.IsAny<ChatMessage>(), It.IsAny<CancellationToken>()),
+                    Times.Once);
+            }
         }
 
         [TestMethod]
@@ -115,24 +160,18 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             hub.OnReceiveMessageHandler(OnReceiveMessage);
 
             // assert
-            _mockProxy.Verify(
-                o => o.On<ChatMessage>("onReceiveMessage", It.IsAny<Action<ChatMessage>>()),
-                Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _mockProxy.Verify(
+                    o => o.On<ChatMessage>("onReceiveMessage", It.IsAny<Action<ChatMessage>>()),
+                    Times.Once);
+            }
         }
 
         [ExcludeFromCodeCoverage]
         private void OnReceiveMessage(ChatMessage message) { }
-
-        private void VerifyLogCall(Mock<ILogger<ChatHubClient>> mockLogger, LogLevel level, Func<Times> times)
-        {
-            mockLogger.Verify(
-                o => o.Log(
-                    level,
-                    It.IsAny<EventId>(),
-                    It.IsAny<It.IsAnyType>(),
-                    It.IsAny<Exception>(),
-                    (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
-                times);
-        }
     }
 }

@@ -52,7 +52,7 @@ namespace Blazor.Arcade.Service
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR()
                             .AddAzureSignalR(builder.Configuration[_configSignalRConnection]);
-            builder.Services.AddCosmosClient(builder.Configuration[_configCosmosDbConnection]);
+            builder.Services.AddCosmosClient(builder.Configuration[_configCosmosDbConnection] ?? string.Empty);
 
             return builder;
         }

@@ -12,7 +12,7 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
     public class ChatHubTests
     {
         private readonly Mock<IHubCallerClients> _mockClients = new Mock<IHubCallerClients>();
-        private readonly Mock<IClientProxy> _mockClientProxy = new Mock<IClientProxy>();
+        private readonly Mock<ISingleClientProxy> _mockClientProxy = new Mock<ISingleClientProxy>();
         private readonly Mock<IGroupManager> _mockGroups = new Mock<IGroupManager>();
 
         public ChatHubTests()
@@ -40,6 +40,12 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
 
             // assert
             _mockClients.Verify(clients => clients.All, Times.Once);
+            VerifyHubMessage(message);
+        }
+
+        [ExcludeFromCodeCoverage]
+        private void VerifyHubMessage(ChatMessage message)
+        {
             _mockClientProxy.Verify(
                 proxy => proxy.SendCoreAsync(
                     "onReceiveMessage",

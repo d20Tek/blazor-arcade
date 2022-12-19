@@ -134,7 +134,13 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual("foo", result.Id);
             Assert.AreEqual("bar", result.UserId);
-            mockCache.Verify(o => o.Get<UserProfileEntity>("foo"), Times.Once);
+            Verify(mockCache);
+
+            [ExcludeFromCodeCoverage]
+            static void Verify(Mock<ICacheService> mockCache)
+            {
+                mockCache.Verify(o => o.Get<UserProfileEntity>("foo"), Times.Once);
+            }
         }
 
         [TestMethod]
@@ -152,9 +158,15 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual("foo", result.Id);
             Assert.AreEqual("bar", result.UserId);
-            _defaultCache.Verify(
-                o => o.Set<UserProfileEntity>(It.IsAny<string>(), It.IsAny<UserProfileEntity>()),
-                Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _defaultCache.Verify(
+                    o => o.Set<UserProfileEntity>(It.IsAny<string>(), It.IsAny<UserProfileEntity>()),
+                    Times.Once);
+            }
         }
 
         [TestMethod]
@@ -183,9 +195,15 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             await repo.DeleteItemAsync("foo", "bar");
 
             // assert
-            _defaultCache.Verify(
-                o => o.Remove<UserProfileEntity>(It.IsAny<string>()),
-                Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _defaultCache.Verify(
+                    o => o.Remove<UserProfileEntity>(It.IsAny<string>()),
+                    Times.Once);
+            }
         }
 
         [TestMethod]
@@ -339,9 +357,15 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual("foo2", result.Id);
             Assert.AreEqual("bar", result.UserId);
-            _defaultCache.Verify(
-                o => o.Set<UserProfileEntity>(It.IsAny<string>(), It.IsAny<UserProfileEntity>()),
-                Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _defaultCache.Verify(
+                    o => o.Set<UserProfileEntity>(It.IsAny<string>(), It.IsAny<UserProfileEntity>()),
+                    Times.Once);
+            }
         }
 
         [TestMethod]
@@ -445,7 +469,13 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             // assert
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            mockCache.Verify(o => o.GetList<UserProfileEntity>("bar"), Times.Once);
+            Verify(mockCache);
+
+            [ExcludeFromCodeCoverage]
+            static void Verify(Mock<ICacheService> mockCache)
+            {
+                mockCache.Verify(o => o.GetList<UserProfileEntity>("bar"), Times.Once);
+            }
         }
 
         [TestMethod]
@@ -467,9 +497,15 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             // assert
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.Count);
-            _defaultCache.Verify(
-                o => o.SetList<UserProfileEntity>(It.IsAny<string>(), It.IsAny<IList<UserProfileEntity>>()),
-                Times.Once);
+            Verify();
+
+            [ExcludeFromCodeCoverage]
+            void Verify()
+            {
+                _defaultCache.Verify(
+                    o => o.SetList<UserProfileEntity>(It.IsAny<string>(), It.IsAny<IList<UserProfileEntity>>()),
+                    Times.Once);
+            }
         }
 
         private CosmosClient CreateMockClient(UserProfileEntity? expectedItem = null)
