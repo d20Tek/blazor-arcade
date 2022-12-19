@@ -48,7 +48,7 @@ namespace Blazor.Arcade.Client
             services.AddBlazoredLocalStorageAsSingleton();
         }
 
-        private static void ConfigureHttpClients(
+        internal static void ConfigureHttpClients(
             IServiceCollection services,
             ArcadeConfiguration config)
         {
@@ -59,9 +59,10 @@ namespace Blazor.Arcade.Client
                 });
 
             services.AddScoped<CustomAuthorizationMessageHandler>();
+
+            var serviceUrl = config.ServiceUrl ?? string.Empty;
             services.AddHttpClient<ITypedHttpClient, TypedHttpClient>(client =>
             {
-                var serviceUrl = config.ServiceUrl;
                 client.BaseAddress = new Uri(serviceUrl);
             }).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
         }

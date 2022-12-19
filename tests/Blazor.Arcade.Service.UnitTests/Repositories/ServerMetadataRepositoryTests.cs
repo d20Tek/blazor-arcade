@@ -34,8 +34,11 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
 
             // assert
             Assert.IsNotNull(metadata);
-            Assert.AreEqual("001", metadata.Prefix);
-            Assert.AreEqual("s1", metadata.Name);
+            if (metadata != null)
+            {
+                Assert.AreEqual("001", metadata.Prefix);
+                Assert.AreEqual("s1", metadata.Name);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Client.Services;
+using Blazor.Arcade.Client.Types;
 using Blazor.Arcade.Client.UnitTests.Mocks;
 using Blazor.Arcade.Client.UnitTests.Services;
 using Blazor.Arcade.Common.Core.Client;
@@ -38,6 +39,42 @@ namespace Blazor.Arcade.Client.UnitTests
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(CustomAuthorizationMessageHandler)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IArcadeMetadataService)));
             Assert.IsTrue(services.Any(p => p.ServiceType == typeof(IUserProfileClientService)));
+        }
+
+        [TestMethod]
+        public void ConfigureHttpClients_NullServiceUrl()
+        {
+            // arrange
+            var services = new ServiceCollection();
+            var config = new ArcadeConfiguration
+            {
+                BaseDefaultUrl = "https://test.com/",
+                ServiceUrl = null
+            };
+
+            // act
+            Program.ConfigureHttpClients(services, config);
+
+            // assert
+            Assert.IsTrue(services.Count >= 21);
+        }
+
+        [TestMethod]
+        public void ConfigureHttpClients_ServiceUrl()
+        {
+            // arrange
+            var services = new ServiceCollection();
+            var config = new ArcadeConfiguration
+            {
+                BaseDefaultUrl = "https://test.com/",
+                ServiceUrl = "https://test.com/api/v1"
+            };
+
+            // act
+            Program.ConfigureHttpClients(services, config);
+
+            // assert
+            Assert.IsTrue(services.Count >= 21);
         }
 
         [TestMethod]

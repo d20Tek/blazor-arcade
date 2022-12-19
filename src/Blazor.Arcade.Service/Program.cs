@@ -52,7 +52,7 @@ namespace Blazor.Arcade.Service
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR()
                             .AddAzureSignalR(builder.Configuration[_configSignalRConnection]);
-            builder.Services.AddCosmosClient(builder.Configuration[_configCosmosDbConnection]);
+            builder.Services.AddCosmosClient(builder.Configuration[_configCosmosDbConnection] ?? string.Empty);
 
             return builder;
         }
@@ -69,13 +69,14 @@ namespace Blazor.Arcade.Service
             app.UseHttpsRedirection();
 
             app.UseCors();
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllers();
-            app.UseAzureSignalR(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<ChatHub>("/api/v1/chat");
+                endpoints.MapHub<ChatHub>("/api/v1/chat");
+                endpoints.MapControllers();
             });
 
 

@@ -7,6 +7,6 @@ namespace Blazor.Arcade.Client.Types
     {
         public string BaseDefaultUrl { get; set; } = string.Empty;
 
-        public string ServiceUrl { get; set; } = string.Empty;
+        public string? ServiceUrl { get; set; } = string.Empty;
     }
 }

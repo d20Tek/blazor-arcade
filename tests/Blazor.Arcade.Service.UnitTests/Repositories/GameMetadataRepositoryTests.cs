@@ -35,15 +35,18 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
 
             // assert
             Assert.IsNotNull(metadata);
-            Assert.AreEqual("arcade.game.tictactoe", metadata.Id);
-            Assert.AreEqual("Tic-Tac-Toe", metadata.Name);
-            Assert.AreEqual(1, metadata.NumPlayers.Min);
-            Assert.AreEqual(2, metadata.NumPlayers.Max);
-            Assert.AreEqual(1, metadata.Duration.Min);
-            Assert.AreEqual(1, metadata.Duration.Max);
-            Assert.AreEqual(100, metadata.SortOrder);
-            Assert.AreEqual("/games/tic-tac-toe", metadata.Locations.GameUrl);
-            Assert.AreEqual("/images/games/tic-tac-toe/icon.png", metadata.Locations.IconUrl);
+            if (metadata != null)
+            {
+                Assert.AreEqual("arcade.game.tictactoe", metadata.Id);
+                Assert.AreEqual("Tic-Tac-Toe", metadata.Name);
+                Assert.AreEqual(1, metadata.NumPlayers.Min);
+                Assert.AreEqual(2, metadata.NumPlayers.Max);
+                Assert.AreEqual(1, metadata.Duration.Min);
+                Assert.AreEqual(1, metadata.Duration.Max);
+                Assert.AreEqual(100, metadata.SortOrder);
+                Assert.AreEqual("/games/tic-tac-toe", metadata.Locations.GameUrl);
+                Assert.AreEqual("/images/games/tic-tac-toe/icon.png", metadata.Locations.IconUrl);
+            }
         }
     }
 }

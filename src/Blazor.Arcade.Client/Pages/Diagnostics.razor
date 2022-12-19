@@ -1,4 +1,5 @@
 ﻿@page "/diagnostics"
+@using System.Security.Principal;
 @attribute [Authorize]
 @inject IDiagnosticsService _serviceClient
 
@@ -10,7 +11,7 @@
     <Authorized>
         <h4>Authenticated User:</h4>
         <hr />
-        <div>Name: @context.User.Identity.Name</div>
+        <div>Name: @GetDisplayName(context.User.Identity)</div>
         @foreach (var claim in context.User.Claims)
         {
             <div>@claim.ToString()</div>
@@ -43,6 +44,11 @@
 
 @code {
     private ServiceDiagnostics? _diag = null;
+
+    internal string GetDisplayName(IIdentity? identity)
+    {
+        return identity?.Name ?? string.Empty;
+    }
 
     protected override async Task OnInitializedAsync()
     {

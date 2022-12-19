@@ -5,7 +5,6 @@
 @implements IDisposable
 
 @inject NavigationManager Navigation
-@inject SignOutSessionStateManager SignOutManager
 @inject IUserProfileClientService _profile;
 
 <AuthorizeView>
@@ -52,10 +51,9 @@
         }
     }
 
-    private async Task BeginLogout(MouseEventArgs args)
+    private void BeginLogout(MouseEventArgs args)
     {
-        await SignOutManager.SetSignOutState();
-        Navigation.NavigateTo("authentication/logout");
+        Navigation.NavigateToLogout("authentication/logout");
     }
 
     private string? GetDisplayUserName(ClaimsPrincipal user)

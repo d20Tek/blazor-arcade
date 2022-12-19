@@ -116,5 +116,23 @@ namespace Blazor.Arcade.Client.UnitTests.Pages
 ";
             comp.MarkupMatches(expectedHtml);
         }
+
+        [TestMethod]
+        public void GetDisplayName_WithNullIdentity()
+        {
+            // arrange
+            var mockClientService = new Mock<IDiagnosticsService>();
+
+            var ctx = new b.TestContext();
+            ctx.AddTestAuthorization();
+            ctx.Services.AddScoped<IDiagnosticsService>(f => mockClientService.Object);
+
+            // act
+            var comp = ctx.RenderComponent<Diagnostics>();
+            var name = comp.Instance.GetDisplayName(null);
+
+            // assert
+            Assert.AreEqual(string.Empty, name);
+        }
     }
 }

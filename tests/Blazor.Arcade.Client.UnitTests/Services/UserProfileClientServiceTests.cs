@@ -68,11 +68,14 @@ namespace Blazor.Arcade.Client.UnitTests.Services
 
             // assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(UserProfile));
-            Assert.AreEqual("test-profile-1", result.Id);
-            Assert.AreEqual("User1", result.Name);
-            Assert.AreEqual("s1", result.Server);
-            Assert.AreEqual("test-user-1", result.UserId);
+            if (result != null)
+            {
+                Assert.IsInstanceOfType(result, typeof(UserProfile));
+                Assert.AreEqual("test-profile-1", result.Id);
+                Assert.AreEqual("User1", result.Name);
+                Assert.AreEqual("s1", result.Server);
+                Assert.AreEqual("test-user-1", result.UserId);
+            }
         }
 
         [TestMethod]
@@ -349,10 +352,16 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             await service.SetCurrentProfileAsync(authState, null);
 
             // assert
-            storage.Verify(
-                o => o.RemoveItemAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-                Times.Once);
+            Verify(storage);
             Assert.IsTrue(eventCalled);
+
+            [ExcludeFromCodeCoverage]
+            static void Verify(Mock<ILocalStorageService> storage)
+            {
+                storage.Verify(
+                    o => o.RemoveItemAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+                    Times.Once);
+            }
         }
 
         private Task<AuthenticationState> CreateAuthenticatedUser()

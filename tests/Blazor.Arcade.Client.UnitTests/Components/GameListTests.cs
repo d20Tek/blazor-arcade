@@ -91,7 +91,10 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // assert
             Assert.IsNotNull(comp);
             Assert.IsNotNull(comp.Instance._games);
-            Assert.AreEqual(2, comp.Instance._games.Count);
+            if (comp.Instance._games != null)
+            {
+                Assert.AreEqual(2, comp.Instance._games.Count);
+            }
         }
 
         [TestMethod]
