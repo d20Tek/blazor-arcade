@@ -34,7 +34,10 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(results);
             Assert.IsNotNull(results.Value);
-            Assert.AreEqual(3, results.Value.Count);
+            if (results.Value != null)
+            {
+                Assert.AreEqual(3, results.Value.Count);
+            }
         }
 
         [TestMethod]
@@ -53,7 +56,10 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Value);
-            Assert.AreEqual("one", result.Value.Id);
+            if (result.Value != null)
+            {
+                Assert.AreEqual("one", result.Value.Id);
+            }
         }
 
         [TestMethod]

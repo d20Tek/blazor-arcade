@@ -52,9 +52,12 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Value);
-            Assert.AreEqual(3, result.Value.Count);
-            Assert.IsTrue(result.Value.First().Equals(_userProfile));
-            Assert.IsTrue(result.Value.All(p => p.UserId == "e14e5bec-8700-4be5-9e7B-14fae1b2ba82"));
+            if (result.Value != null)
+            {
+                Assert.AreEqual(3, result.Value.Count);
+                Assert.IsTrue(result.Value.First().Equals(_userProfile));
+                Assert.IsTrue(result.Value.All(p => p.UserId == "e14e5bec-8700-4be5-9e7B-14fae1b2ba82"));
+            }
         }
 
         [TestMethod]
@@ -78,8 +81,11 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Value);
-            Assert.AreEqual("test-profile-1", result.Value.Id);
-            Assert.AreEqual("e14e5bec-8700-4be5-9e7B-14fae1b2ba82", result.Value.UserId);
+            if (result.Value != null)
+            {
+                Assert.AreEqual("test-profile-1", result.Value.Id);
+                Assert.AreEqual("e14e5bec-8700-4be5-9e7B-14fae1b2ba82", result.Value.UserId);
+            }
         }
 
         [TestMethod]
@@ -103,9 +109,12 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Value);
-            Assert.IsTrue(result.Value.Id.StartsWith("001-"));
-            Assert.AreEqual("s1", result.Value.Server);
-            Assert.AreEqual("e14e5bec-8700-4be5-9e7B-14fae1b2ba82", result.Value.UserId);
+            if (result.Value != null)
+            {
+                Assert.IsTrue(result.Value.Id.StartsWith("001-"));
+                Assert.AreEqual("s1", result.Value.Server);
+                Assert.AreEqual("e14e5bec-8700-4be5-9e7B-14fae1b2ba82", result.Value.UserId);
+            }
         }
 
         [TestMethod]
@@ -131,9 +140,12 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Value);
-            Assert.AreEqual("test-profile-1", result.Value.Id);
-            Assert.AreEqual("s1", result.Value.Server);
-            Assert.AreEqual("e14e5bec-8700-4be5-9e7B-14fae1b2ba82", result.Value.UserId);
+            if (result.Value != null)
+            {
+                Assert.AreEqual("test-profile-1", result.Value.Id);
+                Assert.AreEqual("s1", result.Value.Server);
+                Assert.AreEqual("e14e5bec-8700-4be5-9e7B-14fae1b2ba82", result.Value.UserId);
+            }
         }
 
         [TestMethod]
@@ -154,9 +166,12 @@ namespace Blazor.Arcade.Service.UnitTests.Controllers
             // assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Result);
-            Assert.AreEqual(
-                StatusCodes.Status204NoContent,
-                ((StatusCodeResult)result.Result).StatusCode);
+            if (result.Result != null)
+            {
+                Assert.AreEqual(
+                    StatusCodes.Status204NoContent,
+                    ((StatusCodeResult)result.Result).StatusCode);
+            }
         }
     }
 }
