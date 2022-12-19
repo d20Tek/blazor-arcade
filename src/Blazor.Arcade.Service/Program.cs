@@ -69,13 +69,14 @@ namespace Blazor.Arcade.Service
             app.UseHttpsRedirection();
 
             app.UseCors();
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllers();
-            app.UseAzureSignalR(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<ChatHub>("/api/v1/chat");
+                endpoints.MapHub<ChatHub>("/api/v1/chat");
+                endpoints.MapControllers();
             });
 
 
