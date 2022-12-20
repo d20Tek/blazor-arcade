@@ -9,17 +9,17 @@ using Blazor.Arcade.Service.Entities;
 
 namespace Blazor.Arcade.Service.Repositories
 {
-    internal class UserProfileRepository : CosmosRepository<UserProfile, UserProfileEntity>
+    internal class GameSessionRepository : CosmosRepository<GameSession, GameSessionEntity>
     {
         private const string _cosmosDb = "blazor-arcade-cdb";
-        private const string _containerName = "user-profiles";
+        private const string _containerName = "game-sessions";
         private const string _partitionDef = "/_partitionid";
-        private static readonly UserProfileToEntityConverter conv = new UserProfileToEntityConverter();
+        private static readonly GameSessionToEntityConverter conv = new GameSessionToEntityConverter();
 
-        public UserProfileRepository(
+        public GameSessionRepository(
             CosmosClient cosmosClient,
             ICacheService? cache,
-            ILogger<UserProfileRepository> logger)
+            ILogger<GameSessionRepository> logger)
             : base(cosmosClient, _cosmosDb, _containerName, _partitionDef, conv, cache, logger)
         {
         }
