@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Blazor.Arcade.Common;
 using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Arcade.Service.Hubs
 {
@@ -33,6 +34,7 @@ namespace Blazor.Arcade.Service.Hubs
             await Clients.Group(groupName).SendAsync(messageName, messageBody);
         }
 
+        [ExcludeFromCodeCoverage]
         protected async Task HubOperationAsync(string hubMethod, Func<Task> operation)
         {
             var operationName = string.Format("/{0}.{1}", _typeName, hubMethod);
@@ -49,6 +51,7 @@ namespace Blazor.Arcade.Service.Hubs
                 this.Logger.LogWarning(msg);
 
                 await Clients.Caller.SendAsync("onOperationError", msg);
+                throw;
             }
             catch (Exception ex)
             {
@@ -57,9 +60,11 @@ namespace Blazor.Arcade.Service.Hubs
                 this.Logger.LogError(ex, msg);
 
                 await Clients.Caller.SendAsync("onOperationError", msg);
+                throw;
             }
         }
 
+        [ExcludeFromCodeCoverage]
         protected async Task<T> HubOperationAsync<T>(string hubMethod, Func<Task<T>> operation)
         {
             var operationName = string.Format("/{0}.{1}", _typeName, hubMethod);

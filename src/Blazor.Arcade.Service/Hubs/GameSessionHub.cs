@@ -7,14 +7,14 @@ using Blazor.Arcade.Service.Logic;
 
 namespace Blazor.Arcade.Service.Hubs
 {
-    public class GameSessionHub : ArcadeHubBase
+    public class TestHub : ArcadeHubBase
     {
         private const string _onSessionChangedMessage = "onSessionChanged";
         private readonly IGameSessionActionManager _actionMgr;
 
-        public GameSessionHub(
+        public TestHub(
             IGameSessionActionManager actionMgr,
-            ILogger<GameSessionHub> logger)
+            ILogger<TestHub> logger)
             : base(logger)
         {
             _actionMgr = actionMgr;

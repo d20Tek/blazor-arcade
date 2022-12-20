@@ -39,7 +39,7 @@ namespace Blazor.Arcade.Common.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, ServerId, Name, MetadataId, HostId, Phase);
+            return HashCode.Combine(Id, ServerId, Name, MetadataId, HostId, Phase, GameState);
         }
 
         public void ValidateModel()
