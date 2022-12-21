@@ -35,10 +35,16 @@ namespace Blazor.Arcade.Client.Services
             }
         }
 
-        public void OnReceiveMessageHandler(Action<ChatMessage> handler)
+        public void AddReceiveMessageHandler(Action<ChatMessage> handler)
         {
-            using var scope = _logger.BeginScope("ChatHub.OnReceiveMessageHandler method");
+            using var scope = _logger.BeginScope("ChatHub.AddReceiveMessageHandler method");
             _connection.On<ChatMessage>("onReceiveMessage", handler);
+        }
+
+        public void RemoveReceiveMessageHandler(Action<ChatMessage> handler)
+        {
+            using var scope = _logger.BeginScope("ChatHub.RemoveReceiveMessageHandler method");
+            _connection.Off<ChatMessage>("onReceiveMessage", handler);
         }
 
         public async Task SendGlobalMessageAsync(ChatMessage message)

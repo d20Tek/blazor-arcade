@@ -75,6 +75,7 @@ namespace Blazor.Arcade.Service
 
             app.MapControllers();
             app.MapHub<ChatHub>("/api/v1/chat");
+            app.MapHub<GameSessionHub>("/api/v1/session");
 
             return app;
         }

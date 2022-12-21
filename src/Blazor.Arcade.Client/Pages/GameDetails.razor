@@ -1,0 +1,40 @@
+﻿@page "/games/details/{MetadataId}"
+@attribute [Authorize]
+@inject IUserProfileClientService _profile
+@inject IArcadeMetadataService _metadata
+@inject IGameSessionHubClient _sessionHub
+
+<h4>@_title</h4>
+<Loader IsVisible=@_isLoading />
+
+@code {
+    private bool _isLoading = true;
+    private UserProfile? _currentProfile;
+    private GameMetadata? _gameMetadata;
+    private string _title => _gameMetadata?.Name ?? "Game Details";
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    [Parameter]
+    public string MetadataId { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
+            await _sessionHub.InitializeAsync(_currentProfile.Server);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _gameMetadata = await _metadata.GetGameMetadataByIdAsync(MetadataId);
+    }
+
+}

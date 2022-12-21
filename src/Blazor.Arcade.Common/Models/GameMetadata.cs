@@ -11,9 +11,15 @@ namespace Blazor.Arcade.Common.Models
 
         public string Name { get; set; } = string.Empty;
 
+        public string Description { get; set; } = string.Empty;
+
         public ValueRange NumPlayers { get; set; }
 
         public ValueRange Duration { get; set; }
+
+        public int Complexity { get; set; } = 1;
+
+        public IList<string> Tags { get; set; } = new List<string>();
 
         public int SortOrder { get; set; } = 9999;
 

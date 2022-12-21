@@ -15,6 +15,8 @@ namespace Blazor.Arcade.Client.Services
             services.AddSingleton<IMessageBoxService, MessageBoxService>();
             services.AddSingleton<IUserProfileClientService, UserProfileClientService>();
             services.AddSingleton<IChatHubClient, ChatHubClient>();
+            services.AddSingleton<IGameSessionHubClient, GameSessionHubClient>();
+
             return services;
         }
 
@@ -27,6 +29,12 @@ namespace Blazor.Arcade.Client.Services
                 .WithAutomaticReconnect()
                 .Build();
             services.AddSingleton<IHubProxy<IChatHubClient>>(new HubProxy<IChatHubClient>(chatConnection));
+
+            var sessionConnection = new HubConnectionBuilder()
+                .WithUrl($"{config.ServiceUrl}/api/v1/session")
+                .WithAutomaticReconnect()
+                .Build();
+            services.AddSingleton<IHubProxy<IGameSessionHubClient>>(new HubProxy<IGameSessionHubClient>(sessionConnection));
 
             return services;
         }

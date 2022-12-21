@@ -5,14 +5,14 @@ using Blazor.Arcade.Common.Models;
 
 namespace Blazor.Arcade.Client.Services
 {
-    public interface IChatHubClient
+    public interface IGameSessionHubClient
     {
-        public Task InitializeAsync();
+        public Task InitializeAsync(string groupName);
 
-        public Task SendGlobalMessageAsync(ChatMessage message);
+        public Task CreateSessionAsync(UserProfile profile, string metadataId, string sessionName);
 
-        public void AddReceiveMessageHandler(Action<ChatMessage> handler);
+        public void AddSessionChangedHandler(Action<GameSession> handler);
 
-        public void RemoveReceiveMessageHandler(Action<ChatMessage> handler);
+        public void RemoveReceiveMessageHandler(Action<GameSession> handler);
     }
 }

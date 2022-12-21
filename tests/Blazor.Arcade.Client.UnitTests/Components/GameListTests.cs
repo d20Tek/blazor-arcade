@@ -35,13 +35,13 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // assert
             var expectedHtml =
 @"<div class=""nav-item px-3"" >
-    <a href=""/test-game/lobby"" class=""nav-link"">
+    <a href=""/games/details/test.1"" class=""nav-link"">
       <img class=""game-tile"" src=""/images/games/test-game/testIcon.png"" >
       <span class=""game-tile-title"" >Test Game</span>
     </a>
   </div>
   <div class=""nav-item px-3"" >
-    <a href=""/test-game-2/lobby"" class=""nav-link"">
+    <a href=""/games/details/test.2"" class=""nav-link"">
       <img class=""game-tile"" src=""/images/games/test-game-2/testIcon.png"" >
       <span class=""game-tile-title"" >Another Game</span>
     </a>

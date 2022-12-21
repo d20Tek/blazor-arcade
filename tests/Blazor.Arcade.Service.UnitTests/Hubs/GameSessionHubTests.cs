@@ -15,7 +15,7 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
     [TestClass]
     public class GameSessionHubTests
     {
-        private readonly ILogger<TestHub> _logger = new Mock<ILogger<TestHub>>().Object;
+        private readonly ILogger<GameSessionHub> _logger = new Mock<ILogger<GameSessionHub>>().Object;
         private readonly Mock<IHubCallerClients> _mockClients = new Mock<IHubCallerClients>();
         private readonly Mock<ISingleClientProxy> _mockClientProxy = new Mock<ISingleClientProxy>();
         private readonly Mock<IGroupManager> _mockGroups = new Mock<IGroupManager>();
@@ -96,15 +96,15 @@ namespace Blazor.Arcade.Service.UnitTests.Hubs
             return (new GameSessionActionManager(mockRepo.Object), session);
         }
 
-        private TestHub InitializeGameSessionHub(
+        private GameSessionHub InitializeGameSessionHub(
             GameSessionActionManager actionMgr,
-            ILogger<TestHub>? logger = null)
+            ILogger<GameSessionHub>? logger = null)
         {
             logger ??= _logger;
             var context = new Mock<HubCallerContext>();
             context.Setup(x => x.ConnectionId).Returns("test-connection-id");
 
-            var hub = new TestHub(actionMgr, logger)
+            var hub = new GameSessionHub(actionMgr, logger)
             {
                 Context= context.Object,
                 Clients = _mockClients.Object,

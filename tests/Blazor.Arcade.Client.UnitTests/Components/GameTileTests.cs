@@ -37,7 +37,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // assert
             var expectedHtml =
 @"  <div class=""nav-item px-3"">
-      <a href=""/test-game/lobby"" class=""nav-link"">
+      <a href=""/games/details/test.1"" class=""nav-link"">
         <img class=""game-tile"" src=""/images/games/test-game/testIcon.png"" >
         <span class=""game-tile-title"" >Test Game</span>
       </a>
@@ -58,7 +58,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
             // assert
             var expectedHtml =
 @"  <div class=""nav-item px-3"">
-      <a class=""nav-link active"">
+      <a href=""/games/details/"" class=""nav-link"">
         <img class=""game-tile"" >
         <span class=""game-tile-title"" ></span>
       </a>

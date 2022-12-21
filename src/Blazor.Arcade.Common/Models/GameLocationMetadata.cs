@@ -11,6 +11,10 @@ namespace Blazor.Arcade.Common.Models
 
         public string IconUrl { get; set; } = string.Empty;
 
+        public string LargeLogoUrl { get; set; } = string.Empty;
+
+        public string BannerImageUrl { get; set; } = string.Empty;
+
         public virtual string GameLobbyUrl => GameUrl + _defaultLobbyPath;
     }
 }

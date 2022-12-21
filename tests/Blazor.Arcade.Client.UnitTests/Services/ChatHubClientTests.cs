@@ -157,7 +157,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
             var hub = new ChatHubClient(_mockProxy.Object, _mockLogger.Object);
 
             // act
-            hub.OnReceiveMessageHandler(OnReceiveMessage);
+            hub.AddReceiveMessageHandler(OnReceiveMessage);
 
             // assert
             Verify();
