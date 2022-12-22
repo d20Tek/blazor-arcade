@@ -1,6 +1,6 @@
 [
   {
-    "id": "arcade.game.tictactoe",
+    "id": "arcade-game-tictactoe",
     "name": "Tic-Tac-Toe",
     "description": "The classic pen and paper game of Xs and Os. Get three of your pieces in a row, column, or diagonally to win. Configure it to play multiple rounds of this fast paced game with your friends.",
     "numPlayers": {
@@ -22,7 +22,7 @@
     }
   },
   {
-    "id": "arcade.game.rockpaperscissors",
+    "id": "arcade-game-rockpaperscissors",
     "name": "Rock Paper Scissors",
     "description": "Simple choice game played between two players. Rock breaks scissors, scissors cut paper, and paper covers rock. Configure it to play multiple rounds. Coming soon... addition options, like lizard, spock",
     "numPlayers": {

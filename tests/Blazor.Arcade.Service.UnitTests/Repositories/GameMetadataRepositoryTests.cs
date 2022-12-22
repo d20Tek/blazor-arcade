@@ -20,8 +20,8 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             // assert
             Assert.IsNotNull(metadata);
             Assert.AreEqual(2, metadata.Count);
-            Assert.IsTrue(metadata.Any(p => p.Id == "arcade.game.tictactoe"));
-            Assert.IsTrue(metadata.Any(p => p.Id == "arcade.game.rockpaperscissors"));
+            Assert.IsTrue(metadata.Any(p => p.Id == "arcade-game-tictactoe"));
+            Assert.IsTrue(metadata.Any(p => p.Id == "arcade-game-rockpaperscissors"));
         }
 
         [TestMethod]
@@ -31,13 +31,13 @@ namespace Blazor.Arcade.Service.UnitTests.Repositories
             var repo = new GameMetadataRepository();
 
             // act
-            var metadata = await repo.GetById("arcade.game.tictactoe");
+            var metadata = await repo.GetById("arcade-game-tictactoe");
 
             // assert
             Assert.IsNotNull(metadata);
             if (metadata != null)
             {
-                Assert.AreEqual("arcade.game.tictactoe", metadata.Id);
+                Assert.AreEqual("arcade-game-tictactoe", metadata.Id);
                 Assert.AreEqual("Tic-Tac-Toe", metadata.Name);
                 Assert.AreNotEqual(string.Empty, metadata.Description);
                 Assert.AreEqual(1, metadata.NumPlayers.Min);
