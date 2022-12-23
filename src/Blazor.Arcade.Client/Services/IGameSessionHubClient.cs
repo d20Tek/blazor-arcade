@@ -9,7 +9,7 @@ namespace Blazor.Arcade.Client.Services
     {
         public Task InitializeAsync(string groupName);
 
-        public Task CreateSessionAsync(UserProfile profile, string metadataId, string sessionName);
+        public Task<GameSession> CreateSessionAsync(UserProfile profile, string metadataId, string sessionName);
 
         public void AddSessionChangedHandler(Action<GameSession> handler);
 

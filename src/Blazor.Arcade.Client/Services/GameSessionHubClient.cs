@@ -40,7 +40,7 @@ namespace Blazor.Arcade.Client.Services
             }
         }
 
-        public async Task CreateSessionAsync(
+        public async Task<GameSession> CreateSessionAsync(
             UserProfile profile, string metadataId, string sessionName)
         {
             using var scope = _logger.BeginScope("GameSessionHub.CreateSessionAsync method");
@@ -54,7 +54,7 @@ namespace Blazor.Arcade.Client.Services
                     Name = sessionName,
                 };
 
-                await _connection.InvokeAsync("CreateSessionAsync", request);
+                return await _connection.InvokeAsync<GameSession>("CreateSessionAsync", request);
             }
             catch (Exception ex)
             {

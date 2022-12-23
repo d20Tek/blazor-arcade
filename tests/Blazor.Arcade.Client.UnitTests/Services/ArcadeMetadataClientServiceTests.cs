@@ -23,9 +23,7 @@ namespace Blazor.Arcade.Client.UnitTests.Services
                 { ""id"": ""game.test.2"" }
             ]";
 
-            var httpClient = MockHttpClientHelper.CreateHttpClient(responseContent);
-            var typedClient = new TypedHttpClient(httpClient);
-
+            var typedClient = CreateMockClient(responseContent);
             var service = new ArcadeMetadataService(typedClient, _logger);
 
             // act
@@ -38,6 +36,33 @@ namespace Blazor.Arcade.Client.UnitTests.Services
                 Assert.AreEqual(2, results.Count);
                 Assert.IsTrue(results.Any(p => p.Id == "game.test.1"));
             }
+        }
+
+        [TestMethod]
+        public async Task GetGameMetadataById()
+        {
+            // arrange
+            var responseContent = @"{ ""id"": ""game.test.1"" }";
+            var typedClient = CreateMockClient(responseContent);
+            var service = new ArcadeMetadataService(typedClient, _logger);
+
+            // act
+            var result = await service.GetGameMetadataByIdAsync("game.test.1");
+
+            // assert
+            Assert.IsNotNull(result);
+            if (result != null)
+            {
+                Assert.AreEqual("game.test.1", result.Id);
+            }
+        }
+
+        private ITypedHttpClient CreateMockClient(string content)
+        {
+            var httpClient = MockHttpClientHelper.CreateHttpClient(content);
+            var typedClient = new TypedHttpClient(httpClient);
+
+            return typedClient;
         }
     }
 }
