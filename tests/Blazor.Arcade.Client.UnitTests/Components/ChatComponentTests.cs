@@ -47,6 +47,7 @@ namespace Blazor.Arcade.Client.UnitTests.Components
 
             // act
             var comp = ctx.RenderComponent<ChatComponent>();
+            comp.Instance.Dispose();
 
             // assert
             var expectedHtml =

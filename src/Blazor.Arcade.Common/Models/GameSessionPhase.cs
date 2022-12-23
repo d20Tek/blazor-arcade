@@ -1,14 +1,15 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using Blazor.Arcade.Common.Models;
-
-namespace Blazor.Arcade.Client.Services
+namespace Blazor.Arcade.Common.Models
 {
-    public interface IArcadeMetadataService
+    public enum GameSessionPhase
     {
-        public Task<IList<GameMetadata>?> GetGamesMetadataAsync();
-
-        public Task<GameMetadata?> GetGameMetadataByIdAsync(string metadataId);
+        Created = 0,
+        Available = 1,
+        Initializing = 10,
+        Playing = 20,
+        BetweenRounds = 90,
+        Completed = 100
     }
 }

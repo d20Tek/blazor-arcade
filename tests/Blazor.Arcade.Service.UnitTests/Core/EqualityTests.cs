@@ -68,5 +68,91 @@ namespace Blazor.Arcade.Service.UnitTests.Core
             Assert.IsFalse(eq);
             Assert.IsFalse(hash);
         }
+
+        [TestMethod]
+        public void GameSession_Equals()
+        {
+            // arrange
+            object m1 = new GameSession
+            {
+                Id = "test-session-1",
+                ServerId = "s1",
+                Name = "Test Session",
+                MetadataId = "arcade.games.tictactoe",
+                Phase = 1,
+                GameState = new Dictionary<string, object> { { "test-key", "test-value" } },
+                HostId = "test-profile-1",
+            };
+
+            object m2 = m1;
+
+            // act
+            var eq = m1.Equals(m2);
+            var hash = m1.GetHashCode() == m2.GetHashCode();
+
+            // assert
+            Assert.IsTrue(eq);
+            Assert.IsTrue(hash);
+        }
+
+
+        [TestMethod]
+        public void GameSession_NotEquals()
+        {
+            // arrange
+            object m1 = new GameSession
+            {
+                Id = "test-session-1",
+                ServerId = "s1",
+                Name = "Test Session",
+                MetadataId = "arcade.games.tictactoe",
+                Phase = 1,
+                GameState = new Dictionary<string, object> { { "test-key", "test-value" } },
+                HostId = "test-profile-1",
+            };
+
+            object m2 = new GameSession
+            {
+                Id = "test-session-1",
+                ServerId = "s1",
+                Name = "Test Session",
+                MetadataId = "arcade.games.tictactoe",
+                Phase = 1,
+                GameState = new Dictionary<string, object> { { "test-key", "test-value-2" } },
+                HostId = "test-profile-1",
+            };
+
+            // act
+            var eq = m1.Equals(m2);
+            var hash = m1.GetHashCode() == m2.GetHashCode();
+
+            // assert
+            Assert.IsFalse(eq);
+            Assert.IsFalse(hash);
+        }
+
+        [TestMethod]
+        public void GameSession_EqualsNull()
+        {
+            // arrange
+            object m1 = new GameSession
+            {
+                Id = "test-session-1",
+                ServerId = "s1",
+                Name = "Test Session",
+                MetadataId = "arcade.games.tictactoe",
+                Phase = 1,
+                GameState = new Dictionary<string, object> { { "test-key", "test-value" } },
+                HostId = "test-profile-1",
+            };
+
+            object? m2 = null;
+
+            // act
+            var eq = m1.Equals(m2);
+
+            // assert
+            Assert.IsFalse(eq);
+        }
     }
 }

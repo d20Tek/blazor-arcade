@@ -15,7 +15,7 @@ namespace Blazor.Arcade.Client.Services
         public ArcadeMetadataService(ITypedHttpClient typedClient, ILogger<ArcadeMetadataService> logger)
             : base(logger)
         {
-            _client= typedClient.HttpClient;
+            _client = typedClient.HttpClient;
         }
 
         public async Task<IList<GameMetadata>?> GetGamesMetadataAsync()
@@ -28,6 +28,20 @@ namespace Blazor.Arcade.Client.Services
                     response.EnsureSuccessStatusCode();
 
                     return await response.Content.ReadFromJsonAsync<List<GameMetadata>>();
+                });
+        }
+
+        public async Task<GameMetadata?> GetGameMetadataByIdAsync(string metadataId)
+        {
+            return await ServiceOperationAsync<GameMetadata?>(
+                nameof(GetGameMetadataByIdAsync),
+                async () =>
+                {
+                    var fullUrl = $"{_baseServiceUri}/{metadataId}";
+                    var response = await _client.GetAsync(fullUrl);
+                    response.EnsureSuccessStatusCode();
+
+                    return await response.Content.ReadFromJsonAsync<GameMetadata>();
                 });
         }
     }

@@ -13,6 +13,8 @@ namespace Blazor.Arcade.Client.Services
 
         public void On<T>(string methodName, Action<T> handler);
 
+        public void Off<T>(string methodName, Action<T> handler);
+
         public Task InvokeAsync(string methodName, object? arg1, CancellationToken cancellationToken = default);
     }
 }

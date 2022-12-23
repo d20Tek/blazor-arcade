@@ -73,12 +73,9 @@ namespace Blazor.Arcade.Service
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHub<ChatHub>("/api/v1/chat");
-                endpoints.MapControllers();
-            });
-
+            app.MapControllers();
+            app.MapHub<ChatHub>("/api/v1/chat");
+            app.MapHub<GameSessionHub>("/api/v1/session");
 
             return app;
         }

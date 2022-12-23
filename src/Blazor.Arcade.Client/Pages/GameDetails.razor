@@ -1,0 +1,73 @@
+﻿@page "/games/details/{metadataId}"
+
+@attribute [Authorize]
+@inject IUserProfileClientService _profile
+@inject IArcadeMetadataService _metadata
+@inject IGameSessionHubClient _sessionHub
+
+<div style="height: 3.5rem;background-color: rgb(1 20 56);margin-top: -18px;margin-left: -32px;margin-right: -24px;">
+    <h4 class="px-3" style="padding-top: 12px;">@_title</h4>
+</div>
+<Loader IsVisible=@_isLoading />
+
+<div style="position: relative; background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
+                                url('/images/games/tic-tac-toe/banner-background.png') center center / cover no-repeat;
+                    z-index: -1;" class="mt-2 p-3">
+    <!-- <div class="overflow-hidden">
+        <div style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
+                                url('/images/games/tic-tac-toe/banner-background.png') center center / cover no-repeat;
+                    z-index: -1; height: 40vh; min-height: 400px; position: absolute; top: 0; left: 0; width: 100%;">
+        </div>
+    </div> -->
+    <div class="row my-2 justify-content-center">
+        <div class="col-md-6 col-lg-4 col-sm-12 justify-content-center">
+            <img class="text-center" height="172" src="@_gameMetadata?.Locations.LargeLogoUrl" />
+        </div>
+        <div class="col-md-6 col-lg-4 col-sm-12">
+            [Details...]
+        </div>
+    </div>
+    <div class="row my-2 justify-content-center">
+        <div class="col-md-6 col-lg-4 col-sm-12">
+            <img class="mx-2 float-start" src="@_gameMetadata?.Locations.IconUrl" />
+            <div class="mx-2 fw-bold">About Game:</div>
+            <div class="mx-2 overflow-auto" style="max-height: 172px;">@_gameMetadata?.Description</div>
+        </div>
+        <div class="col-md-6 col-lg-4 col-sm-12 justify-content-center">
+            <button class="btn btn-primary">Create Game Session</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool _isLoading = true;
+    private UserProfile? _currentProfile;
+    private GameMetadata? _gameMetadata;
+    private string _title => _gameMetadata?.Name ?? "Game Details";
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+    [Parameter]
+    public string MetadataId { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
+            await _sessionHub.InitializeAsync(_currentProfile.Server);
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _gameMetadata = await _metadata.GetGameMetadataByIdAsync(MetadataId);
+    }
+
+}
