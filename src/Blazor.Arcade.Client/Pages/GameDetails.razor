@@ -5,9 +5,7 @@
 @inject IArcadeMetadataService _metadata
 @inject IGameSessionHubClient _sessionHub
 
-<div style="height: 3.5rem;background-color: rgb(1 20 56);margin-top: -18px;margin-left: -32px;margin-right: -24px;">
-    <h4 class="px-3" style="padding-top: 12px;">@_title</h4>
-</div>
+<HeaderBar Title="@_title" />
 <Loader IsVisible=@_isLoading />
 
 <div style="position: relative; background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
