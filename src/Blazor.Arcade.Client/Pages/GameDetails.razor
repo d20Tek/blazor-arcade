@@ -1,6 +1,6 @@
 ﻿@page "/games/details/{metadataId}"
 
-@attribute [Authorize]
+<!-- attribute [Authorize] -->
 @inject IUserProfileClientService _profile
 @inject IArcadeMetadataService _metadata
 @inject IGameSessionHubClient _sessionHub
@@ -11,29 +11,23 @@
 <Loader IsVisible=@_isLoading />
 
 <div style="position: relative; background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
-                                url('/images/games/tic-tac-toe/banner-background.png') center center / cover no-repeat;
-                    z-index: -1;" class="mt-2 p-3">
-    <!-- <div class="overflow-hidden">
-        <div style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
-                                url('/images/games/tic-tac-toe/banner-background.png') center center / cover no-repeat;
-                    z-index: -1; height: 40vh; min-height: 400px; position: absolute; top: 0; left: 0; width: 100%;">
-        </div>
-    </div> -->
+                                url('/images/games/tic-tac-toe/banner-background.png') center center / cover no-repeat;"
+     class="mt-2 p-3">
     <div class="row my-2 justify-content-center">
-        <div class="col-md-6 col-lg-4 col-sm-12 justify-content-center">
-            <img class="text-center" height="172" src="@_gameMetadata?.Locations.LargeLogoUrl" />
+        <div class="col-lg-6 col-xl-4 col-sm-12">
+            <img class="text-center" height="180" src="@_gameMetadata?.Locations.LargeLogoUrl" />
         </div>
-        <div class="col-md-6 col-lg-4 col-sm-12">
+        <div class="col-lg-6 col-xl-4 col-sm-12">
             [Details...]
         </div>
     </div>
     <div class="row my-2 justify-content-center">
-        <div class="col-md-6 col-lg-4 col-sm-12">
+        <div class="col-lg-6 col-xl-4 col-sm-12">
             <img class="mx-2 float-start" src="@_gameMetadata?.Locations.IconUrl" />
             <div class="mx-2 fw-bold">About Game:</div>
-            <div class="mx-2 overflow-auto" style="max-height: 172px;">@_gameMetadata?.Description</div>
+            <div class="mx-2 overflow-auto" style="max-height: 200px;">@_gameMetadata?.Description</div>
         </div>
-        <div class="col-md-6 col-lg-4 col-sm-12 justify-content-center">
+        <div class="col-lg-6 col-xl-4 col-sm-12">
             <button class="btn btn-primary">Create Game Session</button>
         </div>
     </div>
@@ -55,8 +49,8 @@
     {
         try
         {
-            _currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
-            await _sessionHub.InitializeAsync(_currentProfile.Server);
+            //_currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
+            //await _sessionHub.InitializeAsync(_currentProfile.Server);
         }
         finally
         {
@@ -67,7 +61,33 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        _gameMetadata = await _metadata.GetGameMetadataByIdAsync(MetadataId);
+        //_gameMetadata = await _metadata.GetGameMetadataByIdAsync(MetadataId);
+        _gameMetadata = new GameMetadata
+        {
+            Id = "arcade-game-tictactoe",
+            Name = "Tic-Tac-Toe",
+            Description = "The classic pen and paper game of Xs and Os. Get three of your pieces in a row, column, or diagonally to win. Configure it to play multiple rounds of this fast paced game with your friends.",
+            NumPlayers = new Common.Core.ValueRange
+            {
+              Min = 1,
+              Max = 2
+            },
+            Duration = new Common.Core.ValueRange
+            {
+              Min = 1,
+              Max = 1
+            },
+            Complexity = 1,
+            Tags = new List<string> { "Classic", "Easy", "Pencil & Paper" },
+            SortOrder = 100,
+            Locations = new GameLocationMetadata
+            {
+              GameUrl = "/games/tic-tac-toe",
+              IconUrl = "/images/games/tic-tac-toe/icon.png",
+              LargeLogoUrl = "/images/games/tic-tac-toe/large-logo.png",
+              BannerImageUrl = "/images/games/tic-tac-toe/banner-background.png"
+            }
+        };
     }
 
 }
