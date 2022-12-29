@@ -39,9 +39,14 @@ namespace Blazor.Arcade.Client.Services
             }
         }
 
-        public Task InvokeAsync(
+        public async Task InvokeAsync(
             string methodName, object? arg1, CancellationToken cancellationToken = default) =>
-            _connection.InvokeAsync(methodName, arg1, cancellationToken);
+            await _connection.InvokeAsync(methodName, arg1, cancellationToken);
+
+        public async Task<TResult> InvokeAsync<TResult>(
+            string methodName, object? arg1, CancellationToken cancellationToken = default) =>
+            await _connection.InvokeAsync<TResult>(methodName, arg1, cancellationToken);
+
 
         protected virtual void Dispose(bool disposing)
         {

@@ -1,0 +1,17 @@
+﻿<div class="header-top-bar">
+    @if (ChildContent != null)
+    {
+    <div class="px-3 float-end">
+        @ChildContent
+    </div>
+    }
+    <h4 class="px-3 header-brand">@Title</h4>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Header";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
