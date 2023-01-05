@@ -1,6 +1,6 @@
 ﻿@page "/games/details/{metadataId}"
 
-<!-- attribute [Authorize] -->
+@attribute [Authorize]
 @inject IUserProfileClientService _profile
 @inject IArcadeMetadataService _metadata
 @inject IGameSessionHubClient _sessionHub
@@ -8,24 +8,47 @@
 <HeaderBar Title="@_title" />
 <Loader IsVisible=@_isLoading />
 
-<div style="position: relative; background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
-                                url('/images/games/tic-tac-toe/banner-background.png') center center / cover no-repeat;"
-     class="mt-2 p-3">
-    <div class="row my-2 justify-content-center">
-        <div class="col-lg-6 col-xl-4 col-sm-12">
-            <img class="text-center" height="180" src="@_gameMetadata?.Locations.LargeLogoUrl" />
+<div class="banner-background mt-2 p-3" style=@BackgroundImageStyle>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-xl-4 col-sm-12 my-2 text-center">
+            <img class="text-center" height="180" 
+                 src="@_gameMetadata?.Locations.LargeLogoUrl" />
         </div>
-        <div class="col-lg-6 col-xl-4 col-sm-12">
-            [Details...]
+        <div class="col-lg-6 col-xl-4 col-sm-12 my-2 text-center">
+            <div class="overflow-auto my-2">
+                @if (_gameMetadata != null)
+                {
+                    @foreach (var tag in _gameMetadata.Tags)
+                    {
+                    <span class="badge badge-pill-outline">@tag</span>
+                    }
+                }
+            </div>
+            <div class="my-2">
+                <span class="mx-2">
+                    <span class="oi oi-person me-1" aria-hidden="true"></span>
+                    <span>@_gameMetadata?.NumPlayers.ToString()</span>
+                </span>
+                <span class="mx-2">
+                    <span class="oi oi-clock me-1" aria-hidden="true"></span>
+                    <span>@_gameMetadata?.Duration.ToString() min</span>
+                </span>
+                <span class="mx-2">
+                    <span>Difficulty: </span>
+                    <span>@_gameMetadata?.Complexity / 10</span>
+                </span>
+            </div>
         </div>
     </div>
-    <div class="row my-2 justify-content-center">
-        <div class="col-lg-6 col-xl-4 col-sm-12">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-xl-4 col-sm-12 my-2">
             <img class="mx-2 float-start" src="@_gameMetadata?.Locations.IconUrl" />
             <div class="mx-2 fw-bold">About Game:</div>
-            <div class="mx-2 overflow-auto" style="max-height: 200px;">@_gameMetadata?.Description</div>
+            <div class="mx-2 overflow-auto" style="max-height: 200px;">
+                @_gameMetadata?.Description
+            </div>
         </div>
-        <div class="col-lg-6 col-xl-4 col-sm-12">
+        <div class="col-lg-6 col-xl-4 col-sm-12 my-2 text-center">
             <button class="btn btn-primary">Create Game Session</button>
         </div>
     </div>
@@ -37,6 +60,15 @@
     private GameMetadata? _gameMetadata;
     private string _title => _gameMetadata?.Name ?? "Game Details";
 
+    private string BackgroundImageStyle
+    {
+        get
+        {
+            var url = _gameMetadata?.Locations.BannerImageUrl ?? string.Empty;
+            return $"background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%), url('{url}') center center / cover no-repeat;";
+        }
+    }
+
     [CascadingParameter]
     public Task<AuthenticationState>? AuthState { get; set; }
 
@@ -47,8 +79,8 @@
     {
         try
         {
-            //_currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
-            //await _sessionHub.InitializeAsync(_currentProfile.Server);
+            _currentProfile = await _profile.GetCurrentProfileAsync(AuthState);
+            await _sessionHub.InitializeAsync(_currentProfile.Server);
         }
         finally
         {
@@ -59,33 +91,6 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        //_gameMetadata = await _metadata.GetGameMetadataByIdAsync(MetadataId);
-        _gameMetadata = new GameMetadata
-        {
-            Id = "arcade-game-tictactoe",
-            Name = "Tic-Tac-Toe",
-            Description = "The classic pen and paper game of Xs and Os. Get three of your pieces in a row, column, or diagonally to win. Configure it to play multiple rounds of this fast paced game with your friends.",
-            NumPlayers = new Common.Core.ValueRange
-            {
-              Min = 1,
-              Max = 2
-            },
-            Duration = new Common.Core.ValueRange
-            {
-              Min = 1,
-              Max = 1
-            },
-            Complexity = 1,
-            Tags = new List<string> { "Classic", "Easy", "Pencil & Paper" },
-            SortOrder = 100,
-            Locations = new GameLocationMetadata
-            {
-              GameUrl = "/games/tic-tac-toe",
-              IconUrl = "/images/games/tic-tac-toe/icon.png",
-              LargeLogoUrl = "/images/games/tic-tac-toe/large-logo.png",
-              BannerImageUrl = "/images/games/tic-tac-toe/banner-background.png"
-            }
-        };
+        _gameMetadata = await _metadata.GetGameMetadataByIdAsync(MetadataId);
     }
-
 }

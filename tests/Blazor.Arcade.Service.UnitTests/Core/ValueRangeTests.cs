@@ -276,5 +276,44 @@ namespace Blazor.Arcade.Service.UnitTests.Core
             // act
             _ = new ValueRange(10, 9);
         }
+
+        [TestMethod]
+        public void ToString_MinMax()
+        {
+            // arrange
+            object range = new ValueRange(5, 10);
+
+            // act
+            var actual = range.ToString();
+
+            // assert
+            Assert.AreEqual("5 - 10", actual);
+        }
+
+        [TestMethod]
+        public void ToString_MinOnly()
+        {
+            // arrange
+            object range = new ValueRange(5, null);
+
+            // act
+            var actual = range.ToString();
+
+            // assert
+            Assert.AreEqual("5+", actual);
+        }
+
+        [TestMethod]
+        public void ToString_MinMaxEqual()
+        {
+            // arrange
+            object range = new ValueRange(5, 5);
+
+            // act
+            var actual = range.ToString();
+
+            // assert
+            Assert.AreEqual("5", actual);
+        }
     }
 }

@@ -1,0 +1,10 @@
+﻿.banner-background {
+    position: relative;
+}
+
+.badge-pill-outline {
+    outline: 2px white solid;
+    border-radius: 15px;
+    margin-left: 4px;
+    margin-right: 4px;
+}

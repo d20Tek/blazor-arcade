@@ -3,7 +3,7 @@
     "Blazor.Arcade.Client": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "games/details/arcade-game-tictactoe",
+      "launchUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

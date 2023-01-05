@@ -49,5 +49,23 @@ namespace Blazor.Arcade.Common.Core
 
         public override int GetHashCode() =>
             Min.GetHashCode() ^ Max.GetHashCode();
+
+        public override string ToString()
+        {
+            string? result;
+            if (Max == null)
+            {
+                result = $"{Min}+";
+            }
+            else if (Min == Max)
+            {
+                result = $"{Min}";
+            }
+            else
+            {
+                result = $"{Min} - {Max}";
+            }
+            return result;
+        }
     }
 }
