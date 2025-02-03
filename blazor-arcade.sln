@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Arcade.Web", "src\D20Tek.Arcade.Web\D20Tek.Arcade.Web.csproj", "{43F39E05-4E66-4E21-9F38-96CDCDD572C6}"
 EndProject

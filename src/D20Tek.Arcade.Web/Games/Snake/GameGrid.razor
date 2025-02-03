@@ -1,28 +1,12 @@
-﻿@page "/games/snake"
-@inject IJSRuntime JS
-
-<h3>Ssssnake!</h3>
-
-<div class="title fw-bold my-2">SCORE: @_gameState.Score</div>
-@if (ShowCountDownText)
-{
-    <div class="title fw-bold my-1">@_countDownText</div>
-}
-<div class="full-area">
-    <div class="grid-container">
-        @for (int row = 0; row < _rows; row++)
+﻿<div class="grid-container">
+    @for (int row = 0; row < Rows; row++)
+    {
+        @for (int col = 0; col < Columns; col++)
         {
-            @for (int col = 0; col < _cols; col++)
-            {
-                <div class="grid-cell" style="@GetCellStyle(row, col)"></div>
-            }
+            <div class="grid-cell" style="@GetCellStyle(row, col)"></div>
         }
-    </div>
+    }
 </div>
-@if (ShowGameOverText)
-{
-    <div class="title fw-bold my-2">@_gameOverText</div>
-}
 
 <style>
     /* Center the entire grid using Flexbox */

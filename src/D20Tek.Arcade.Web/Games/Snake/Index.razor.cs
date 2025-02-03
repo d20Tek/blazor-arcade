@@ -1,4 +1,6 @@
-﻿namespace D20Tek.Arcade.Web.Games.Snake;
+﻿using Microsoft.JSInterop;
+
+namespace D20Tek.Arcade.Web.Games.Snake;
 
 public partial class Index
 {
@@ -20,6 +22,11 @@ public partial class Index
     private readonly string[,] _gridImages;
     private GameState _gameState;
     private bool _gameRunning;
+    private string? _countDownText = null;
+    private string? _gameOverText = null;
+
+    private bool ShowCountDownText => !string.IsNullOrEmpty(_countDownText);
+    private bool ShowGameOverText => !string.IsNullOrEmpty(_gameOverText);
 
     public Index()
     {
@@ -31,20 +38,41 @@ public partial class Index
     {
         if (firstRender)
         {
+            var dotNetRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
+
             await RunGame();
         }
     }
 
-    private Task RunGame()
+    [JSInvokable]
+    public void ChangeDirection(string key)
+    {
+        if (key == "ArrowUp") _gameState.ChangeDirection(Direction.Up);
+        if (key == "ArrowDown") _gameState.ChangeDirection(Direction.Down);
+        if (key == "ArrowLeft") _gameState.ChangeDirection(Direction.Left);
+        if (key == "ArrowRight") _gameState.ChangeDirection(Direction.Right);
+    }
+
+    private async Task RunGame()
     {
         Draw();
-        return Task.CompletedTask;
 
-        //await ShowCountdown();
-        //Overlay.Visibility = Visibility.Hidden;
-        //await GameLoop();
-        //await ShowGameOver();
-        //_gameState = new GameState(_rows, _cols);
+        await ShowCountdown();
+
+        await GameLoop();
+        await ShowGameOver();
+        _gameState = new GameState(_rows, _cols);
+    }
+
+    private async Task GameLoop()
+    {
+        while (!_gameState.GameOver)
+        {
+            await Task.Delay(150);
+            _gameState.Move();
+            Draw();
+        }
     }
 
     private void Draw()
@@ -67,6 +95,40 @@ public partial class Index
                 _gridImages[r, c] = _gridValToImage[gridVal];
             }
         }
+    }
+
+    private async Task DrawDeadSnake()
+    {
+        var positions = _gameState.SnakePositions().ToList();
+        for (int i = 0; i < positions.Count; i++)
+        {
+            var pos = positions[i];
+            var source = (i == 0) ? Images.DeadHead : Images.DeadBody;
+            _gridImages[pos.Row, pos.Col] = source;
+
+            StateHasChanged();
+            await Task.Delay(50);
+        }
+    }
+
+    private async Task ShowCountdown()
+    {
+        for (int i = 3; i >= 1; i--)
+        {
+            _countDownText = $"Game starts in ... {i}";
+            StateHasChanged() ;
+
+            await Task.Delay(500);
+        }
+
+        _countDownText = null;
+    }
+
+    private async Task ShowGameOver()
+    {
+        await DrawDeadSnake();
+        _gameOverText = "GAME OVER... WOULD YOU LIKE TO PLAY AGAIN?";
+        StateHasChanged();
     }
 
     private string? GetCellStyle(int row, int col)
