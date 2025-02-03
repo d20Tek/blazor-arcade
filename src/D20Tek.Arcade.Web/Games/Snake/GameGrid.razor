@@ -1,4 +1,7 @@
-﻿<div class="grid-container">
+﻿@inject IJSRuntime JS
+
+<div class="title fw-bold my-2">SCORE: @_gameState.Score</div><br />
+<div class="grid-container">
     @for (int row = 0; row < Rows; row++)
     {
         @for (int col = 0; col < Columns; col++)
