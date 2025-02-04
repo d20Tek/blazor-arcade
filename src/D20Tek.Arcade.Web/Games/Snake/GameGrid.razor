@@ -1,14 +1,16 @@
 ﻿@inject IJSRuntime JS
 
-<div class="title fw-bold my-2">SCORE: @_gameState.Score</div><br />
-<div class="grid-container">
-    @for (int row = 0; row < Rows; row++)
-    {
-        @for (int col = 0; col < Columns; col++)
+<div class="title fw-bold my-2">SCORE: @_gameState.Score</div>
+<div class="full-area">
+    <div class="grid-container">
+        @for (int row = 0; row < Rows; row++)
         {
-            <div class="grid-cell" style="@GetCellStyle(row, col)"></div>
+            @for (int col = 0; col < Columns; col++)
+            {
+                <div class="grid-cell" style="@GetCellStyle(row, col)"></div>
+            }
         }
-    }
+    </div>
 </div>
 
 <style>
@@ -34,11 +36,5 @@
         width: 100%;
         height: 100%;
         border: 1px solid #4f4867;
-    }
-
-    /* Optional: Center the title */
-    .title {
-        text-align: center;
-        display: block;
     }
 </style>

@@ -112,3 +112,9 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+/* App specific styles */
+.title {
+    text-align: center;
+    display: block;
+}

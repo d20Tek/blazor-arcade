@@ -2,28 +2,27 @@
 
 public partial class Index
 {
-    private string? _countDownText = null;
-    private string? _gameOverText = null;
-
-    private bool ShowCountDownText => !string.IsNullOrEmpty(_countDownText);
-    private bool ShowGameOverText => !string.IsNullOrEmpty(_gameOverText);
-
-    private async Task ShowCountdown()
+    enum Stages
     {
-        for (int i = 3; i >= 1; i--)
-        {
-            _countDownText = $"Game starts in ... {i}";
-            StateHasChanged() ;
-
-            await Task.Delay(500);
-        }
-
-        _countDownText = null;
+        Start,
+        Running,
+        GameOver,
+        Exit
     }
 
-    private async Task ShowGameOver()
+    private Stages _currentStage = Stages.Start;
+
+    private string? _gameOverText = null;
+
+    private bool ShowGameOverText => !string.IsNullOrEmpty(_gameOverText);
+
+    private void ShowGameOver()
     {
         _gameOverText = "GAME OVER... WOULD YOU LIKE TO PLAY AGAIN?";
         StateHasChanged();
     }
+
+    private void OnGameStarted() => _currentStage = Stages.Running;
+
+    private void OnGameEnded() => _currentStage = Stages.GameOver;
 }

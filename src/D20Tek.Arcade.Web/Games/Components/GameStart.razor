@@ -1,0 +1,49 @@
+﻿<div @attributes="AdditionalAttributes">
+    <div class="title fw-bold my-1">
+        WELCOME TO @Title!
+    </div>
+    <div class="title my-2">
+        Press the 'Start' button to begin the game...
+    </div>
+    <div class="title my-3">
+        <button class="btn btn-light" @onclick=OnStartClicked>START</button>
+    </div>
+
+    @if (ShowCountDownText)
+    {
+        <div class="title my-5">@_countDownText</div>
+    }
+</div>
+
+@code {
+    private string? _countDownText = null;
+    private bool ShowCountDownText => !string.IsNullOrEmpty(_countDownText);
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback GameStarted { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = new();
+
+    private async Task OnStartClicked()
+    {
+        await ShowCountdown();
+        await GameStarted.InvokeAsync();
+    }
+
+    private async Task ShowCountdown()
+    {
+        for (int i = 3; i >= 1; i--)
+        {
+            _countDownText = $"Game starts in ... {i}";
+            StateHasChanged();
+
+            await Task.Delay(1000);
+        }
+
+        _countDownText = null;
+    }
+}

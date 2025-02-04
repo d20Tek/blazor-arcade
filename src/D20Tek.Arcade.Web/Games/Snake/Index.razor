@@ -1,22 +1,19 @@
 ﻿@page "/games/snake"
+@using D20Tek.Arcade.Web.Games.Components;
 
 <h3>Ssssnake!</h3>
 
-@if (ShowCountDownText)
+@if (_currentStage == Stages.Start)
 {
-    <div class="title fw-bold my-1">@_countDownText</div>
-}
-<div class="full-area">
-    <GameGrid Rows="15" Columns="15" />
-</div>
-@if (ShowGameOverText)
-{
-    <div class="title fw-bold my-2">@_gameOverText</div>
+    <GameStart Title="THE SNAKE GAME" GameStarted=OnGameStarted style="margin-top: 120px;" />
 }
 
-<style>
-    .title {
-        text-align: center;
-        display: block;
-    }
-</style>
+@if (_currentStage == Stages.Running)
+{
+    <GameGrid Rows="15" Columns="15" GameEnded=OnGameEnded />
+}
+
+@if (_currentStage == Stages.GameOver)
+{
+    <div class="title fw-bold my-2">Game Over</div>
+}

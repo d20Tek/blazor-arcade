@@ -29,6 +29,9 @@ public partial class GameGrid
     [Parameter]
     public int Columns { get; set; }
 
+    [Parameter]
+    public EventCallback GameEnded { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -58,7 +61,8 @@ public partial class GameGrid
         await GameLoop();
 
         await DrawDeadSnake();
-        _gameState = new GameState(Rows, Columns);
+        
+        await GameEnded.InvokeAsync();
     }
 
     private void InitializeLevel()
@@ -111,6 +115,8 @@ public partial class GameGrid
             StateHasChanged();
             await Task.Delay(50);
         }
+
+        await Task.Delay(250);
     }
 
     private string? GetCellStyle(int row, int col)
