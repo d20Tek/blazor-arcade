@@ -44,7 +44,7 @@ public partial class GameGrid
     }
 
     [JSInvokable]
-    public void ChangeDirection(string key)
+    public void HandleKeydown(string key)
     {
         if (key == "ArrowUp") _gameState.ChangeDirection(Direction.Up);
         if (key == "ArrowDown") _gameState.ChangeDirection(Direction.Down);

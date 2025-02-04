@@ -1,5 +1,5 @@
 ﻿window.addKeyListener = (dotNetRef) => {
     document.addEventListener("keydown", (event) => {
-        dotNetRef.invokeMethodAsync("ChangeDirection", event.key);
+        dotNetRef.invokeMethodAsync("HandleKeydown", event.key);
     });
 };
