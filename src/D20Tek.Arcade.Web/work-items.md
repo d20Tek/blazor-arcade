@@ -4,4 +4,6 @@
 - [x] Refactor game over screen to a shared component.
 - [x] Refactor snake game GameGrid code that should be separate classes.
 - [x] Add game image/logo to GameStart component.
-- [ ] Add multiple levels to snake game.
+- [x] Add multiple levels to snake game.
+- [ ] Add rock placement to snake game.
+- [ ] Add rock check to hit test for game over.
