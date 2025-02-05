@@ -1,4 +1,6 @@
-﻿namespace D20Tek.Arcade.Web.Games.Snake;
+﻿using D20Tek.Arcade.Web.Games.Components;
+
+namespace D20Tek.Arcade.Web.Games.Snake;
 
 public partial class Index
 {
@@ -11,18 +13,13 @@ public partial class Index
     }
 
     private Stages _currentStage = Stages.Start;
-
-    private string? _gameOverText = null;
-
-    private bool ShowGameOverText => !string.IsNullOrEmpty(_gameOverText);
-
-    private void ShowGameOver()
-    {
-        _gameOverText = "GAME OVER... WOULD YOU LIKE TO PLAY AGAIN?";
-        StateHasChanged();
-    }
+    private GameMessage _message = new() { GameTitle = "THE SNAKE GAME" };
 
     private void OnGameStarted() => _currentStage = Stages.Running;
 
-    private void OnGameEnded() => _currentStage = Stages.GameOver;
+    private void OnGameEnded(int score)
+    {
+        _message.Score = score.ToString();
+        _currentStage = Stages.GameOver;
+    }
 }

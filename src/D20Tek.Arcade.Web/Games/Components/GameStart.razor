@@ -1,6 +1,6 @@
 ﻿<div @attributes="AdditionalAttributes">
     <div class="title fw-bold my-1">
-        WELCOME TO @Title!
+        WELCOME TO @GameMessage.GameTitle!
     </div>
     <div class="title my-2">
         Press the 'Start' button to begin the game...
@@ -20,7 +20,7 @@
     private bool ShowCountDownText => !string.IsNullOrEmpty(_countDownText);
 
     [Parameter]
-    public string Title { get; set; } = string.Empty;
+    public GameMessage GameMessage { get; set; } = new();
 
     [Parameter]
     public EventCallback GameStarted { get; set; }

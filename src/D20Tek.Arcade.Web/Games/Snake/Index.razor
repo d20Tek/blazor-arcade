@@ -3,17 +3,15 @@
 
 <h3>Ssssnake!</h3>
 
-@if (_currentStage == Stages.Start)
+@switch(_currentStage)
 {
-    <GameStart Title="THE SNAKE GAME" GameStarted=OnGameStarted style="margin-top: 120px;" />
-}
-
-@if (_currentStage == Stages.Running)
-{
-    <GameGrid Rows="15" Columns="15" GameEnded=OnGameEnded />
-}
-
-@if (_currentStage == Stages.GameOver)
-{
-    <div class="title fw-bold my-2">Game Over</div>
+    case Stages.Start:
+        <GameStart GameMessage=_message GameStarted=OnGameStarted style="margin-top: 120px;" />
+        break;
+    case Stages.Running:
+        <GameGrid Rows="15" Columns="15" GameEnded=OnGameEnded />
+        break;
+    case Stages.GameOver:
+        <GameOver GameMessage=_message GameRestarted=OnGameStarted style="margin-top: 120px;" />
+        break;
 }

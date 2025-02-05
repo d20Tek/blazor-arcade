@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using D20Tek.Arcade.Web.Games.Components;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace D20Tek.Arcade.Web.Games.Snake;
@@ -30,7 +31,7 @@ public partial class GameGrid
     public int Columns { get; set; }
 
     [Parameter]
-    public EventCallback GameEnded { get; set; }
+    public EventCallback<int> GameEnded { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -62,7 +63,7 @@ public partial class GameGrid
 
         await DrawDeadSnake();
         
-        await GameEnded.InvokeAsync();
+        await GameEnded.InvokeAsync(_gameState.Score);
     }
 
     private void InitializeLevel()

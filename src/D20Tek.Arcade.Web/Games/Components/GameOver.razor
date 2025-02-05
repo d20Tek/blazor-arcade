@@ -1,0 +1,23 @@
+﻿<div @attributes="AdditionalAttributes">
+    <div class="title fw-bold my-1">SCORE: @GameMessage.Score</div>
+
+    <div class="title fw-bold my-2">
+        GAME OVER... WOULD YOU LIKE TO PLAY AGAIN?
+    </div>
+    <div class="title my-3">
+        <button class="btn btn-light" @onclick=OnRestartClicked>RESTART</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public GameMessage GameMessage { get; set; } = new();
+
+    [Parameter]
+    public EventCallback GameRestarted { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = new();
+
+    private void OnRestartClicked() => GameRestarted.InvokeAsync();
+}
