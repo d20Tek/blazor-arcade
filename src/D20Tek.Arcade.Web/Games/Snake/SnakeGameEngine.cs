@@ -2,111 +2,57 @@
 
 internal class SnakeGameEngine
 {
-    private readonly Dictionary<GridValue, string> _gridValToImage = new()
-    {
-        { GridValue.Empty, Images.Empty },
-        { GridValue.Snake, Images.Body },
-        { GridValue.Food, Images.Food },
-    };
-
-    private readonly Dictionary<Direction, int> _dirToRotation = new()
-    {
-        { Direction.Up, 0 },
-        { Direction.Right, 90 },
-        { Direction.Down, 180 },
-        { Direction.Left, 270 }
-    };
-
     private int _rows;
     private int _columns;
     private Action _stateChanged;
+    private GameState _gameState = new(15, 15);
+    private string[,] _gridImages = new string[15, 15];
 
-    public GameState GameState { get; set; } = new(15, 15);
-
-    public string[,] GridImages = new string[15, 15];
-
-    private SnakeGameEngine(int rows, int columns, Action stateChangedAction)
+    public SnakeGameEngine(int rows, int columns, Action stateChangedAction)
     {
         _rows = rows;
         _columns = columns;
         _stateChanged = stateChangedAction;
     }
 
-    public static SnakeGameEngine Create(int rows, int columns, Action stateChangedAction) =>
-        new(rows, columns, stateChangedAction);
-
     public async Task RunGameAsync()
     {
         InitializeLevel();
 
-        Draw();
+        SnakeGridRenderer.Draw(_gameState, _gridImages, _stateChanged);
 
         await GameLoop();
 
-        await DrawDeadSnake();
+        await SnakeGridRenderer.DrawDeadSnake(_gameState, _gridImages, _stateChanged);
     }
 
-    public void ChangeDirection(Direction direction) => GameState.ChangeDirection(direction);
+    public void ChangeDirection(Direction direction) => _gameState.ChangeDirection(direction);
+
+    public int GetScore() => _gameState.Score;
 
     public int GetHeadRotation(int row, int column)
     {
-        var headPos = GameState.HeadPosition();
-        var rotation = (row == headPos.Row && column == headPos.Col) ? _dirToRotation[GameState.Direction] : 0;
-
-        return rotation;
+        var headPos = _gameState.HeadPosition();
+        return (row == headPos.Row && column == headPos.Col)
+                     ? HeadRotationMapper.GetRotation(_gameState.Direction)
+                     : 0;
     }
+
+    public string GetGridImage(int row, int column) => _gridImages[row, column];
 
     private void InitializeLevel()
     {
-        GridImages = new string[_rows, _columns];
-        GameState = new GameState(_rows, _columns);
+        _gridImages = new string[_rows, _columns];
+        _gameState = new GameState(_rows, _columns);
     }
 
     private async Task GameLoop()
     {
-        while (!GameState.GameOver)
+        while (!_gameState.GameOver)
         {
             await Task.Delay(150);
-            GameState.Move();
-            Draw();
+            _gameState.Move();
+            SnakeGridRenderer.Draw(_gameState, _gridImages, _stateChanged);
         }
-    }
-
-    private void Draw()
-    {
-        DrawGrid();
-
-        var headPos = GameState.HeadPosition();
-        GridImages[headPos.Row, headPos.Col] = Images.Head;
-
-        _stateChanged();
-    }
-
-    private void DrawGrid()
-    {
-        for (int r = 0; r < _rows; r++)
-        {
-            for (int c = 0; c < _columns; c++)
-            {
-                var gridVal = GameState.Grid[r, c];
-                GridImages[r, c] = _gridValToImage[gridVal];
-            }
-        }
-    }
-
-    private async Task DrawDeadSnake()
-    {
-        var positions = GameState.SnakePositions().ToList();
-        for (int i = 0; i < positions.Count; i++)
-        {
-            var pos = positions[i];
-            var source = (i == 0) ? Images.DeadHead : Images.DeadBody;
-            GridImages[pos.Row, pos.Col] = source;
-
-            _stateChanged();
-            await Task.Delay(50);
-        }
-
-        await Task.Delay(250);
     }
 }

@@ -23,9 +23,9 @@ public partial class GameGrid
             var dotNetRef = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
 
-            _engine = SnakeGameEngine.Create(Rows, Columns, StateHasChanged);
+            _engine = new SnakeGameEngine(Rows, Columns, StateHasChanged);
             await _engine!.RunGameAsync();
-            await GameEnded.InvokeAsync(_engine.GameState.Score);
+            await GameEnded.InvokeAsync(_engine.GetScore());
         }
     }
 
@@ -43,9 +43,10 @@ public partial class GameGrid
         if (_engine is null) return null;
 
         var rotation = _engine.GetHeadRotation(row, col);
+        var gridImage = _engine.GetGridImage(row, col);
 
-        return !string.IsNullOrEmpty(_engine.GridImages[row, col])
-            ? $"background-image: url('{_engine.GridImages[row, col]}'); background-size: cover; transform: rotate({rotation}deg)"
+        return !string.IsNullOrEmpty(gridImage)
+            ? $"background-image: url('{gridImage}'); background-size: cover; transform: rotate({rotation}deg)"
             : null;
     }
 }
