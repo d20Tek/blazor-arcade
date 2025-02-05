@@ -13,7 +13,11 @@ public partial class Index
     }
 
     private Stages _currentStage = Stages.Start;
-    private GameMessage _message = new() { GameTitle = "THE SNAKE GAME" };
+    private readonly GameMessage _message = new()
+    {
+        GameTitle = "THE SNAKE GAME",
+        GameImageUrl = "assets/snake/snake-logo.png"
+    };
 
     private void OnGameStarted() => _currentStage = Stages.Running;
 

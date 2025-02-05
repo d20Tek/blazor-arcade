@@ -3,5 +3,5 @@
 [x] Refactor game start screen to a shared component.
 [x] Refactor game over screen to a shared component.
 [x] Refactor snake game GameGrid code that should be separate classes.
-[ ] Add game image/logo to GameStart component.
+[x] Add game image/logo to GameStart component.
 [ ] Add multiple levels to snake game.

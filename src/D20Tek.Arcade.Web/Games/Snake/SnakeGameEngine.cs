@@ -1,4 +1,6 @@
-﻿namespace D20Tek.Arcade.Web.Games.Snake;
+﻿using D20Tek.Arcade.Web.Games.Snake.Model;
+
+namespace D20Tek.Arcade.Web.Games.Snake;
 
 internal class SnakeGameEngine
 {

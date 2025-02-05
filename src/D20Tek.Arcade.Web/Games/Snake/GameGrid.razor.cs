@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using D20Tek.Arcade.Web.Games.Snake.Model;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace D20Tek.Arcade.Web.Games.Snake;

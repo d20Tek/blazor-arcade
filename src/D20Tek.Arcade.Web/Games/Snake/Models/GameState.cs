@@ -1,4 +1,4 @@
-﻿namespace D20Tek.Arcade.Web.Games.Snake;
+﻿namespace D20Tek.Arcade.Web.Games.Snake.Model;
 
 internal class GameState
 {
@@ -93,7 +93,7 @@ internal class GameState
         }
     }
 
-    private Direction GetLastDirection() => (_dirChanges.Count == 0) ? Direction : _dirChanges.Last!.Value;
+    private Direction GetLastDirection() => _dirChanges.Count == 0 ? Direction : _dirChanges.Last!.Value;
 
     private bool CanChangeDirection(Direction newDir)
     {

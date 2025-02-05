@@ -1,4 +1,4 @@
-﻿namespace D20Tek.Arcade.Web.Games.Snake;
+﻿namespace D20Tek.Arcade.Web.Games.Snake.Model;
 
 internal class Position
 {

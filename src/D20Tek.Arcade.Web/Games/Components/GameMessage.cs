@@ -7,4 +7,6 @@ public class GameMessage
     public string GameImageUrl { get; set; } = string.Empty;
     
     public string Score { get; set; } = string.Empty;
+
+    public bool HasImageUrl => !string.IsNullOrEmpty(GameImageUrl);
 };

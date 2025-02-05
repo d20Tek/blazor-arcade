@@ -2,6 +2,12 @@
     <div class="title fw-bold my-1">
         WELCOME TO @GameMessage.GameTitle!
     </div>
+    @if (GameMessage.HasImageUrl)
+    {
+    <div class="title my-2 p-2">
+        <img height="128" width="128" src=@GameMessage.GameImageUrl />
+    </div>
+    }
     <div class="title my-2">
         Press the 'Start' button to begin the game...
     </div>
