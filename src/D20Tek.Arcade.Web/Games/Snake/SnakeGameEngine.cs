@@ -58,10 +58,10 @@ internal class SnakeGameEngine
         {
             await Task.Delay(_gameState.Speed);
 
-            await HandleNewLevel();
-
             _gameState.Move();
             SnakeGridRenderer.Draw(_gameState, _gridImages, _stateChanged);
+
+            await HandleNewLevel();
         }
     }
 

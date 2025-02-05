@@ -57,7 +57,7 @@ public partial class GameGrid
     {
         _levelText = $"CONGRATS! NOW STARTING LEVEL {newLevel} ...";
         StateHasChanged();
-        await Task.Delay(1500);
+        await Task.Delay(2000);
         _levelText = null;
     }
 }

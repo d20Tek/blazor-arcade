@@ -162,10 +162,11 @@ internal class GameState
     {
         if (GameOver) return false;
 
-        if (_currentLevel.Apples < 0 || _consumedApples < _currentLevel.ApplesToComplete) return false;
+        if (_currentLevel.ApplesToComplete < 0 || _consumedApples < _currentLevel.ApplesToComplete) return false;
 
         Grid = new GridValue[Rows, Cols];
         Direction = Direction.Right;
+        _dirChanges.Clear();
         _consumedApples = 0;
         _currentLevel = _levelTracker.GetNextLevel();
 
