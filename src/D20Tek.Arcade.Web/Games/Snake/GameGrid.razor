@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime JS
 
-<div class="title fw-bold my-2">SCORE: @_engine?.GetScore()</div>
+<div class="title fw-bold my-2">LEVEL: @_engine?.GetLevel() - SCORE: @_engine?.GetScore()</div>
 <div class="full-area">
     <div class="grid-container">
         @for (int row = 0; row < Rows; row++)
@@ -12,6 +12,10 @@
         }
     </div>
 </div>
+@if (_hasLevelText)
+{
+<div class="title fw-bold my-2">@_levelText</div>
+}
 
 <style>
     /* Center the entire grid using Flexbox */

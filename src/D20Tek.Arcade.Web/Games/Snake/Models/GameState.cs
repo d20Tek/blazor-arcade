@@ -1,18 +1,27 @@
-﻿namespace D20Tek.Arcade.Web.Games.Snake.Model;
+﻿using D20Tek.Arcade.Web.Games.Snake.Models;
+
+namespace D20Tek.Arcade.Web.Games.Snake.Model;
 
 internal class GameState
 {
     private readonly LinkedList<Direction> _dirChanges = new();
     private readonly LinkedList<Position> _snakePositions = new();
     private readonly Random _random = new();
+    private readonly LevelTracker _levelTracker = new();
+    private Level _currentLevel;
+    private int _consumedApples;
 
     public int Rows { get; }
 
     public int Cols { get; }
 
-    public GridValue[,] Grid { get; }
+    public GridValue[,] Grid { get; private set; }
 
     public Direction Direction { get; private set; }
+
+    public int Level => _currentLevel.Id;
+
+    public int Speed => _currentLevel.Speed;
 
     public int Score { get; private set; }
 
@@ -24,16 +33,18 @@ internal class GameState
         Cols = cols;
         Grid = new GridValue[Rows, Cols];
         Direction = Direction.Right;
+        _currentLevel = _levelTracker.GetNextLevel();
 
         AddSnake();
-        AddFood();
+        AddFood(_currentLevel.Apples);
     }
 
     private void AddSnake()
     {
+        _snakePositions.Clear();
         int r = Rows / 2;
 
-        for (int c = 1; c <= 3; c++)
+        for (int c = 1; c <= _currentLevel.StartingSnakeLength; c++)
         {
             Grid[r, c] = GridValue.Snake;
             _snakePositions.AddFirst(new Position(r, c));
@@ -54,7 +65,7 @@ internal class GameState
         }
     }
 
-    private void AddFood()
+    private void AddFood(int amount)
     {
         var empty = EmptyPositions().ToList();
         if (empty.Count == 0)
@@ -62,8 +73,13 @@ internal class GameState
             return;
         }
 
-        var pos = empty[_random.Next(empty.Count)];
-        Grid[pos.Row, pos.Col] = GridValue.Food;
+        for (int a = 1; a <= amount; a++)
+        {
+            var pos = empty[_random.Next(empty.Count)];
+            Grid[pos.Row, pos.Col] = GridValue.Food;
+
+            empty.Remove(pos);
+        }
     }
 
     public Position HeadPosition() => _snakePositions.First!.Value;
@@ -136,8 +152,26 @@ internal class GameState
         else if (hit == GridValue.Food)
         {
             AddHead(newHeadPos);
-            Score++;
-            AddFood();
+            Score += _currentLevel.PointMultiplier;
+            _consumedApples++;
+            AddFood(1);
         }
+    }
+
+    public bool ChangeLevel()
+    {
+        if (GameOver) return false;
+
+        if (_currentLevel.Apples < 0 || _consumedApples < _currentLevel.ApplesToComplete) return false;
+
+        Grid = new GridValue[Rows, Cols];
+        Direction = Direction.Right;
+        _consumedApples = 0;
+        _currentLevel = _levelTracker.GetNextLevel();
+
+        AddSnake();
+        AddFood(_currentLevel.Apples);
+
+        return true;
     }
 }

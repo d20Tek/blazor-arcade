@@ -7,6 +7,8 @@ namespace D20Tek.Arcade.Web.Games.Snake;
 public partial class GameGrid
 {
     private SnakeGameEngine? _engine;
+    private string? _levelText;
+    private bool _hasLevelText => !string.IsNullOrEmpty(_levelText);
 
     [Parameter]
     public int Rows { get; set; }
@@ -24,7 +26,7 @@ public partial class GameGrid
             var dotNetRef = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
 
-            _engine = new SnakeGameEngine(Rows, Columns, StateHasChanged);
+            _engine = new SnakeGameEngine(Rows, Columns, StateHasChanged, OnLevelChanged);
             await _engine!.RunGameAsync();
             await GameEnded.InvokeAsync(_engine.GetScore());
         }
@@ -49,5 +51,13 @@ public partial class GameGrid
         return !string.IsNullOrEmpty(gridImage)
             ? $"background-image: url('{gridImage}'); background-size: cover; transform: rotate({rotation}deg)"
             : null;
+    }
+
+    private async Task OnLevelChanged(int newLevel)
+    {
+        _levelText = $"CONGRATS! NOW STARTING LEVEL {newLevel} ...";
+        StateHasChanged();
+        await Task.Delay(1500);
+        _levelText = null;
     }
 }
