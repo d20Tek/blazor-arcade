@@ -1,28 +1,11 @@
-﻿using D20Tek.Arcade.Web.Games.Components;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace D20Tek.Arcade.Web.Games.Snake;
 
 public partial class GameGrid
 {
-    private readonly Dictionary<GridValue, string> _gridValToImage = new()
-    {
-        { GridValue.Empty, Images.Empty },
-        { GridValue.Snake, Images.Body },
-        { GridValue.Food, Images.Food },
-    };
-
-    private readonly Dictionary<Direction, int> _dirToRotation = new()
-    {
-        { Direction.Up, 0 },
-        { Direction.Right, 90 },
-        { Direction.Down, 180 },
-        { Direction.Left, 270 }
-    };
-
-    private GameState _gameState = new GameState(15, 15);
-    private string[,] _gridImages = new string[15, 15] ;
+    private SnakeGameEngine? _engine;
 
     [Parameter]
     public int Rows { get; set; }
@@ -40,93 +23,29 @@ public partial class GameGrid
             var dotNetRef = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
 
-            await RunGame();
+            _engine = SnakeGameEngine.Create(Rows, Columns, StateHasChanged);
+            await _engine!.RunGameAsync();
+            await GameEnded.InvokeAsync(_engine.GameState.Score);
         }
     }
 
     [JSInvokable]
     public void HandleKeydown(string key)
     {
-        if (key == "ArrowUp") _gameState.ChangeDirection(Direction.Up);
-        if (key == "ArrowDown") _gameState.ChangeDirection(Direction.Down);
-        if (key == "ArrowLeft") _gameState.ChangeDirection(Direction.Left);
-        if (key == "ArrowRight") _gameState.ChangeDirection(Direction.Right);
-    }
-
-    private async Task RunGame()
-    {
-        InitializeLevel();
-
-        Draw();
-
-        await GameLoop();
-
-        await DrawDeadSnake();
-        
-        await GameEnded.InvokeAsync(_gameState.Score);
-    }
-
-    private void InitializeLevel()
-    {
-        _gridImages = new string[Rows, Columns];
-        _gameState = new GameState(Rows, Columns);
-    }
-
-    private async Task GameLoop()
-    {
-        while (!_gameState.GameOver)
-        {
-            await Task.Delay(150);
-            _gameState.Move();
-            Draw();
-        }
-    }
-
-    private void Draw()
-    {
-        DrawGrid();
-
-        var headPos = _gameState.HeadPosition();
-        _gridImages[headPos.Row, headPos.Col] = Images.Head;
-
-        StateHasChanged();
-    }
-
-    private void DrawGrid()
-    {
-        for (int r = 0; r < Rows; r++)
-        {
-            for (int c = 0; c < Columns; c++)
-            {
-                var gridVal = _gameState.Grid[r, c];
-                _gridImages[r, c] = _gridValToImage[gridVal];
-            }
-        }
-    }
-
-    private async Task DrawDeadSnake()
-    {
-        var positions = _gameState.SnakePositions().ToList();
-        for (int i = 0; i < positions.Count; i++)
-        {
-            var pos = positions[i];
-            var source = (i == 0) ? Images.DeadHead : Images.DeadBody;
-            _gridImages[pos.Row, pos.Col] = source;
-
-            StateHasChanged();
-            await Task.Delay(50);
-        }
-
-        await Task.Delay(250);
+        if (key == "ArrowUp") _engine?.ChangeDirection(Direction.Up);
+        if (key == "ArrowDown") _engine?.ChangeDirection(Direction.Down);
+        if (key == "ArrowLeft") _engine?.ChangeDirection(Direction.Left);
+        if (key == "ArrowRight") _engine?.ChangeDirection(Direction.Right);
     }
 
     private string? GetCellStyle(int row, int col)
     {
-        var headPos = _gameState.HeadPosition();
-        var rotation = (row == headPos.Row && col == headPos.Col) ? _dirToRotation[_gameState.Direction] : 0;
+        if (_engine is null) return null;
 
-        return !string.IsNullOrEmpty(_gridImages[row, col])
-            ? $"background-image: url('{_gridImages[row, col]}'); background-size: cover; transform: rotate({rotation}deg)"
+        var rotation = _engine.GetHeadRotation(row, col);
+
+        return !string.IsNullOrEmpty(_engine.GridImages[row, col])
+            ? $"background-image: url('{_engine.GridImages[row, col]}'); background-size: cover; transform: rotate({rotation}deg)"
             : null;
     }
 }

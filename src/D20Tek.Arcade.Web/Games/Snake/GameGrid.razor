@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime JS
 
-<div class="title fw-bold my-2">SCORE: @_gameState.Score</div>
+<div class="title fw-bold my-2">SCORE: @_engine?.GameState.Score</div>
 <div class="full-area">
     <div class="grid-container">
         @for (int row = 0; row < Rows; row++)
