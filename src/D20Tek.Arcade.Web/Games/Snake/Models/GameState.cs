@@ -5,7 +5,6 @@ namespace D20Tek.Arcade.Web.Games.Snake.Model;
 internal class GameState
 {
     private readonly DirectionChanges _dirChanges = new();
-    private readonly Random _random = new();
     private readonly LevelTracker _levelTracker = new();
     private Level _currentLevel;
     private int _consumedApples;
@@ -33,37 +32,6 @@ internal class GameState
 
         _currentLevel = _levelTracker.GetNextLevel();
         InitializeForLevel();
-    }
-
-    private IEnumerable<Position> EmptyPositions()
-    {
-        for (int r = 0; r < Rows; r++)
-        {
-            for (int c = 0; c < Cols; c++)
-            {
-                if (Grid[r, c] == GridValue.Empty)
-                {
-                    yield return new Position(r, c);
-                }
-            }
-        }
-    }
-
-    private void AddFood(int amount)
-    {
-        var empty = EmptyPositions().ToList();
-        if (empty.Count == 0)
-        {
-            return;
-        }
-
-        for (int a = 1; a <= amount; a++)
-        {
-            var pos = empty[_random.Next(empty.Count)];
-            Grid[pos.Row, pos.Col] = GridValue.Food;
-
-            empty.Remove(pos);
-        }
     }
 
     public void ChangeDirection(Direction direction) => _dirChanges.ChangeDirection(direction, Snake.Direction);
@@ -101,7 +69,7 @@ internal class GameState
                 Snake.AddHead(newHeadPos);
                 Score += _currentLevel.PointMultiplier;
                 _consumedApples++;
-                AddFood(1);
+                Grid.AddFood(Rows, Cols, 1);
                 break;
         }
     }
@@ -124,7 +92,7 @@ internal class GameState
         Snake = new(Grid);
         Snake.Add(Rows / 2, _currentLevel.StartingSnakeLength);
 
-        AddFood(_currentLevel.Apples);
+        Grid.AddFood(Rows, Cols, _currentLevel.Apples);
     }
 
     private bool ShouldNotChangeLevel(int consumedApples) =>
