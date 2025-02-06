@@ -59,6 +59,7 @@ internal class GameState
         {
             case GridValue.Outside:
             case GridValue.Snake:
+            case GridValue.Rock:
                 GameOver = true;
                 break;
             case GridValue.Empty:
@@ -93,6 +94,7 @@ internal class GameState
         Snake.Add(Rows / 2, _currentLevel.StartingSnakeLength);
 
         Grid.AddFood(Rows, Cols, _currentLevel.Apples);
+        Grid.AddRock(Rows, Cols, _currentLevel.Blocks);
     }
 
     private bool ShouldNotChangeLevel(int consumedApples) =>

@@ -5,5 +5,6 @@ internal enum GridValue
     Empty,
     Snake,
     Food,
+    Rock,
     Outside
 }

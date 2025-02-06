@@ -20,14 +20,20 @@ internal static class GridExtensions
         }
     }
 
-    public static void AddFood(this GridValue[,] grid, int rows, int cols, int amount)
+    public static void AddFood(this GridValue[,] grid, int rows, int cols, int amount) =>
+        grid.AddItem(rows, cols, amount, GridValue.Food);
+
+    public static void AddRock(this GridValue[,] grid, int rows, int cols, int amount) =>
+        grid.AddItem(rows, cols, amount, GridValue.Rock);
+
+    private static void AddItem(this GridValue[,] grid, int rows, int cols, int amount, GridValue itemType)
     {
         var empty = grid.EmptyPositions(rows, cols).ToList();
 
         for (int a = 1; a <= amount; a++)
         {
             var pos = empty[_random.Next(empty.Count)];
-            grid[pos.Row, pos.Col] = GridValue.Food;
+            grid[pos.Row, pos.Col] = itemType;
 
             empty.Remove(pos);
         }

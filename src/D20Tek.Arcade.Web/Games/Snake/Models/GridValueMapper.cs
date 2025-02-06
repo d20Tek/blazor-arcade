@@ -7,6 +7,7 @@ internal static class GridValueMapper
         { GridValue.Empty, Images.Empty },
         { GridValue.Snake, Images.Body },
         { GridValue.Food, Images.Food },
+        { GridValue.Rock, Images.Rock },
     };
 
     public static string GetImage(GridValue gridValue) => _gridValToImage[gridValue];
