@@ -37,7 +37,7 @@ internal class SnakeGameEngine
     public int GetLevel() => _gameState.Level;
 
     public GridCellResponse GetGridCell(int row, int column) =>
-        new(_gridImages[row, column], _gameState.GetHeadRotation(row, column));
+        new(_gridImages[row, column], _gameState.Snake.GetHeadRotation(row, column));
 
     private void Initialize()
     {

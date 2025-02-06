@@ -7,7 +7,7 @@ internal static class SnakeGridRenderer
     public static void Draw(GameState state, string[,] gridImages, Action stateChanged)
     {
         DrawGrid(state, gridImages);
-        state.PlaceHead(gridImages);
+        state.Snake.PlaceHead(gridImages);
         stateChanged();
     }
 
@@ -25,7 +25,7 @@ internal static class SnakeGridRenderer
 
     public static async Task DrawDeadSnake(GameState state, string[,] gridImages, Action stateChanged)
     {
-        var positions = state.SnakePositions().ToList();
+        var positions = state.Snake.GetPositions();
         for (int i = 0; i < positions.Count; i++)
         {
             var pos = positions[i];

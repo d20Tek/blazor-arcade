@@ -5,7 +5,6 @@ namespace D20Tek.Arcade.Web.Games.Snake.Model;
 internal class GameState
 {
     private readonly DirectionChanges _dirChanges = new();
-    private readonly LinkedList<Position> _snakePositions = new();
     private readonly Random _random = new();
     private readonly LevelTracker _levelTracker = new();
     private Level _currentLevel;
@@ -17,7 +16,7 @@ internal class GameState
 
     public GridValue[,] Grid { get; private set; }
 
-    public Direction Direction { get; private set; }
+    public SnakeEntity Snake { get; private set; }
 
     public int Level => _currentLevel.Id;
 
@@ -32,23 +31,12 @@ internal class GameState
         Rows = rows;
         Cols = cols;
         Grid = new GridValue[Rows, Cols];
-        Direction = Direction.Right;
         _currentLevel = _levelTracker.GetNextLevel();
 
-        AddSnake();
+        Snake = new(Grid);
+        Snake.Add(Rows / 2, _currentLevel.StartingSnakeLength);
+
         AddFood(_currentLevel.Apples);
-    }
-
-    private void AddSnake()
-    {
-        _snakePositions.Clear();
-        int r = Rows / 2;
-
-        for (int c = 1; c <= _currentLevel.StartingSnakeLength; c++)
-        {
-            Grid[r, c] = GridValue.Snake;
-            _snakePositions.AddFirst(new Position(r, c));
-        }
     }
 
     private IEnumerable<Position> EmptyPositions()
@@ -82,55 +70,22 @@ internal class GameState
         }
     }
 
-    private Position HeadPosition() => _snakePositions.First!.Value;
-
-    private Position TailPosition() => _snakePositions.Last!.Value;
-
-    public IEnumerable<Position> SnakePositions() => _snakePositions;
-
-    public int GetHeadRotation(int row, int column)
-    {
-        var headPos = HeadPosition();
-        return (row == headPos.Row && column == headPos.Col)
-                    ? HeadRotationMapper.GetRotation(Direction)
-                    : 0;
-    }
-
-    public void PlaceHead(string[,] gridImages)
-    {
-        var headPos = HeadPosition();
-        gridImages[headPos.Row, headPos.Col] = Images.Head;
-    }
-
-    private void AddHead(Position pos)
-    {
-        _snakePositions.AddFirst(pos);
-        Grid[pos.Row, pos.Col] = GridValue.Snake;
-    }
-
-    private void RemoveTail()
-    {
-        var tail = _snakePositions.Last!.Value;
-        Grid[tail.Row, tail.Col] = GridValue.Empty;
-        _snakePositions.RemoveLast();
-    }
-
-    public void ChangeDirection(Direction direction) => _dirChanges.ChangeDirection(direction, Direction);
+    public void ChangeDirection(Direction direction) => _dirChanges.ChangeDirection(direction, Snake.Direction);
 
     public bool OutsideGrid(Position pos) => pos.Row < 0 || pos.Row >= Rows || pos.Col < 0 || pos.Col >= Cols;
 
     private GridValue WillHit(Position newHeadPos)
     {
         if (OutsideGrid(newHeadPos)) return GridValue.Outside;
-        if (newHeadPos == TailPosition()) return GridValue.Empty;
+        if (newHeadPos == Snake.TailPosition()) return GridValue.Empty;
 
         return Grid[newHeadPos.Row, newHeadPos.Col];
     }
 
     public void Move()
     {
-        Direction = _dirChanges.GetNextDirection() ?? Direction;
-        var newHeadPos = HeadPosition().Translate(Direction);
+        Snake.Direction = _dirChanges.GetNextDirection() ?? Snake.Direction;
+        var newHeadPos = Snake.HeadPosition().Translate(Snake.Direction);
         PerformMove(newHeadPos, WillHit(newHeadPos));
     }
 
@@ -143,11 +98,11 @@ internal class GameState
                 GameOver = true;
                 break;
             case GridValue.Empty:
-                RemoveTail();
-                AddHead(newHeadPos);
+                Snake.RemoveTail();
+                Snake.AddHead(newHeadPos);
                 break;
             case GridValue.Food:
-                AddHead(newHeadPos);
+                Snake.AddHead(newHeadPos);
                 Score += _currentLevel.PointMultiplier;
                 _consumedApples++;
                 AddFood(1);
@@ -157,17 +112,21 @@ internal class GameState
 
     public bool ChangeLevel()
     {
-        if (GameOver || _levelTracker.ShouldChangeLevel(_consumedApples) is false) return false;
+        if (ShouldNotChangeLevel(_consumedApples)) return false;
 
         Grid = new GridValue[Rows, Cols];
-        Direction = Direction.Right;
         _dirChanges.Clear();
         _consumedApples = 0;
         _currentLevel = _levelTracker.GetNextLevel();
 
-        AddSnake();
+        Snake = new(Grid);
+        Snake.Add(Rows / 2, _currentLevel.StartingSnakeLength);
+
         AddFood(_currentLevel.Apples);
 
         return true;
     }
+
+    private bool ShouldNotChangeLevel(int consumedApples) =>
+        GameOver || (_currentLevel.ApplesToComplete < 0 || consumedApples < _currentLevel.ApplesToComplete);
 }
