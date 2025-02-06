@@ -30,13 +30,9 @@ internal class GameState
     {
         Rows = rows;
         Cols = cols;
-        Grid = new GridValue[Rows, Cols];
+
         _currentLevel = _levelTracker.GetNextLevel();
-
-        Snake = new(Grid);
-        Snake.Add(Rows / 2, _currentLevel.StartingSnakeLength);
-
-        AddFood(_currentLevel.Apples);
+        InitializeForLevel();
     }
 
     private IEnumerable<Position> EmptyPositions()
@@ -114,17 +110,21 @@ internal class GameState
     {
         if (ShouldNotChangeLevel(_consumedApples)) return false;
 
+        _currentLevel = _levelTracker.GetNextLevel();
+        InitializeForLevel();
+        return true;
+    }
+
+    private void InitializeForLevel()
+    {
         Grid = new GridValue[Rows, Cols];
         _dirChanges.Clear();
         _consumedApples = 0;
-        _currentLevel = _levelTracker.GetNextLevel();
 
         Snake = new(Grid);
         Snake.Add(Rows / 2, _currentLevel.StartingSnakeLength);
 
         AddFood(_currentLevel.Apples);
-
-        return true;
     }
 
     private bool ShouldNotChangeLevel(int consumedApples) =>

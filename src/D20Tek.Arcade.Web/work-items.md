@@ -5,5 +5,6 @@
 - [x] Refactor snake game GameGrid code that should be separate classes.
 - [x] Add game image/logo to GameStart component.
 - [x] Add multiple levels to snake game.
+- [ ] Refactor GameState to separate helper classes.
 - [ ] Add rock placement to snake game.
 - [ ] Add rock check to hit test for game over.
