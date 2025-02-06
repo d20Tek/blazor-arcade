@@ -45,12 +45,10 @@ public partial class GameGrid
     {
         if (_engine is null) return null;
 
-        var rotation = _engine.GetHeadRotation(row, col);
-        var gridImage = _engine.GetGridImage(row, col);
-
-        return !string.IsNullOrEmpty(gridImage)
-            ? $"background-image: url('{gridImage}'); background-size: cover; transform: rotate({rotation}deg)"
-            : null;
+        var cell = _engine.GetGridCell(row, col);
+        return !string.IsNullOrEmpty(cell.ImageUrl)
+                    ? $"background-image: url('{cell.ImageUrl}'); background-size: cover; transform: rotate({cell.Rotation}deg)"
+                    : null;
     }
 
     private async Task OnLevelChanged(int newLevel)

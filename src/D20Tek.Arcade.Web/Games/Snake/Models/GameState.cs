@@ -4,7 +4,7 @@ namespace D20Tek.Arcade.Web.Games.Snake.Model;
 
 internal class GameState
 {
-    private readonly LinkedList<Direction> _dirChanges = new();
+    private readonly DirectionChanges _dirChanges = new();
     private readonly LinkedList<Position> _snakePositions = new();
     private readonly Random _random = new();
     private readonly LevelTracker _levelTracker = new();
@@ -82,11 +82,25 @@ internal class GameState
         }
     }
 
-    public Position HeadPosition() => _snakePositions.First!.Value;
+    private Position HeadPosition() => _snakePositions.First!.Value;
 
-    public Position TailPosition() => _snakePositions.Last!.Value;
+    private Position TailPosition() => _snakePositions.Last!.Value;
 
     public IEnumerable<Position> SnakePositions() => _snakePositions;
+
+    public int GetHeadRotation(int row, int column)
+    {
+        var headPos = HeadPosition();
+        return (row == headPos.Row && column == headPos.Col)
+                    ? HeadRotationMapper.GetRotation(Direction)
+                    : 0;
+    }
+
+    public void PlaceHead(string[,] gridImages)
+    {
+        var headPos = HeadPosition();
+        gridImages[headPos.Row, headPos.Col] = Images.Head;
+    }
 
     private void AddHead(Position pos)
     {
@@ -101,23 +115,7 @@ internal class GameState
         _snakePositions.RemoveLast();
     }
 
-    public void ChangeDirection(Direction direction)
-    {
-        if (CanChangeDirection(direction))
-        {
-            _dirChanges.AddLast(direction);
-        }
-    }
-
-    private Direction GetLastDirection() => _dirChanges.Count == 0 ? Direction : _dirChanges.Last!.Value;
-
-    private bool CanChangeDirection(Direction newDir)
-    {
-        if (_dirChanges.Count >= 2) return false;
-
-        var lastDir = GetLastDirection();
-        return newDir != lastDir && newDir != lastDir.Opposite();
-    }
+    public void ChangeDirection(Direction direction) => _dirChanges.ChangeDirection(direction, Direction);
 
     public bool OutsideGrid(Position pos) => pos.Row < 0 || pos.Row >= Rows || pos.Col < 0 || pos.Col >= Cols;
 
@@ -131,38 +129,35 @@ internal class GameState
 
     public void Move()
     {
-        if (_dirChanges.Count > 0)
-        {
-            Direction = _dirChanges.First!.Value;
-            _dirChanges.RemoveFirst();
-        }
-
+        Direction = _dirChanges.GetNextDirection() ?? Direction;
         var newHeadPos = HeadPosition().Translate(Direction);
-        var hit = WillHit(newHeadPos);
+        PerformMove(newHeadPos, WillHit(newHeadPos));
+    }
 
-        if (hit == GridValue.Outside || hit == GridValue.Snake)
+    private void PerformMove(Position newHeadPos, GridValue hit)
+    {
+        switch (hit)
         {
-            GameOver = true;
-        }
-        else if (hit == GridValue.Empty)
-        {
-            RemoveTail();
-            AddHead(newHeadPos);
-        }
-        else if (hit == GridValue.Food)
-        {
-            AddHead(newHeadPos);
-            Score += _currentLevel.PointMultiplier;
-            _consumedApples++;
-            AddFood(1);
+            case GridValue.Outside:
+            case GridValue.Snake:
+                GameOver = true;
+                break;
+            case GridValue.Empty:
+                RemoveTail();
+                AddHead(newHeadPos);
+                break;
+            case GridValue.Food:
+                AddHead(newHeadPos);
+                Score += _currentLevel.PointMultiplier;
+                _consumedApples++;
+                AddFood(1);
+                break;
         }
     }
 
     public bool ChangeLevel()
     {
-        if (GameOver) return false;
-
-        if (_currentLevel.ApplesToComplete < 0 || _consumedApples < _currentLevel.ApplesToComplete) return false;
+        if (GameOver || _levelTracker.ShouldChangeLevel(_consumedApples) is false) return false;
 
         Grid = new GridValue[Rows, Cols];
         Direction = Direction.Right;

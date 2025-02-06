@@ -19,4 +19,10 @@ internal class LevelTracker
     private int _currentLevel = 0;
 
     public Level GetNextLevel() => _levels[_currentLevel++];
+
+    public bool ShouldChangeLevel(int consumedApples)
+    {
+        var level = _levels[_currentLevel];
+        return !(level.ApplesToComplete < 0 || consumedApples < level.ApplesToComplete);
+    }
 }
