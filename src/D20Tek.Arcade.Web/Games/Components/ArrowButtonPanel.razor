@@ -1,0 +1,16 @@
+﻿<div class="button-panel">
+    <button class="left btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(ArrowLeft)"><i class="bi bi-arrow-left"></i></button>
+    <button class="up btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(ArrowUp)"><i class="bi bi-arrow-up"></i></button>
+    <button class="down btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(ArrowDown)"><i class="bi bi-arrow-down"></i></button>
+    <button class="right btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(ArrowRight)"><i class="bi bi-arrow-right"></i></button>
+</div>
+
+@code {
+    private const string ArrowLeft = "ArrowLeft";
+    private const string ArrowUp = "ArrowUp";
+    private const string ArrowDown = "ArrowDown";
+    private const string ArrowRight = "ArrowRight";
+
+    [Parameter]
+    public EventCallback<string> DirectionClicked { get; set; }
+}

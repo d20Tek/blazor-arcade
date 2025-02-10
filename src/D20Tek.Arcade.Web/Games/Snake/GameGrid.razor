@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime JS
+@using D20Tek.Arcade.Web.Games.Components;
 
 <div class="title fw-bold my-2">LEVEL: @_engine?.GetLevel() - SCORE: @_engine?.GetScore()</div>
 <div class="full-area">
@@ -16,6 +17,10 @@
 {
 <div class="title fw-bold my-2">@_levelText</div>
 }
+
+<div class="title py-2 float-end float-md-none">
+    <ArrowButtonPanel DirectionClicked=HandleKeydown />
+</div>
 
 <style>
     /* Center the entire grid using Flexbox */
