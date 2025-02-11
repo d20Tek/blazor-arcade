@@ -1,4 +1,5 @@
-﻿using D20Tek.Arcade.Web.Games.Snake.Model;
+﻿using D20Tek.Arcade.Web.Games.Components;
+using D20Tek.Arcade.Web.Games.Snake.Model;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -35,10 +36,10 @@ public partial class GameGrid
     [JSInvokable]
     public void HandleKeydown(string key)
     {
-        if (key == "ArrowUp") _engine?.ChangeDirection(Direction.Up);
-        if (key == "ArrowDown") _engine?.ChangeDirection(Direction.Down);
-        if (key == "ArrowLeft") _engine?.ChangeDirection(Direction.Left);
-        if (key == "ArrowRight") _engine?.ChangeDirection(Direction.Right);
+        if (key == KnownKeys.ArrowUp) _engine?.ChangeDirection(Direction.Up);
+        if (key == KnownKeys.ArrowDown) _engine?.ChangeDirection(Direction.Down);
+        if (key == KnownKeys.ArrowLeft) _engine?.ChangeDirection(Direction.Left);
+        if (key == KnownKeys.ArrowRight) _engine?.ChangeDirection(Direction.Right);
     }
 
     private string? GetCellStyle(int row, int col)
