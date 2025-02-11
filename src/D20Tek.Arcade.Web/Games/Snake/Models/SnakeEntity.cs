@@ -40,7 +40,7 @@ internal class SnakeEntity
                     : 0;
     }
 
-    public void PlaceHead(string[,] gridImages)
+    public void SubstituteHeadOnGrid(string[,] gridImages)
     {
         var headPos = HeadPosition();
         gridImages[headPos.Row, headPos.Col] = Images.Head;

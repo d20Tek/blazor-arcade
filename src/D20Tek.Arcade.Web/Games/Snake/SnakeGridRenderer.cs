@@ -7,7 +7,7 @@ internal static class SnakeGridRenderer
     public static void Draw(GameState state, string[,] gridImages, Action stateChanged)
     {
         DrawGrid(state, gridImages);
-        state.Snake.PlaceHead(gridImages);
+        state.Snake.SubstituteHeadOnGrid(gridImages);
         stateChanged();
     }
 

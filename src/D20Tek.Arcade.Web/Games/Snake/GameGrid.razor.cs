@@ -27,7 +27,7 @@ public partial class GameGrid
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
 
             _engine = new SnakeGameEngine(Rows, Columns, StateHasChanged, OnLevelChanged);
-            await _engine!.RunGameAsync();
+            await _engine.RunGameAsync();
             await GameEnded.InvokeAsync(_engine.GetScore());
         }
     }

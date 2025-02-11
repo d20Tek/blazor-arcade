@@ -8,4 +8,5 @@
 - [x] Refactor GameState to separate helper classes.
 - [x] Add rock placement to snake game.
 - [x] Add rock check to hit test for game over.
-- [ ] Add input arrow buttons for mobile gameplay.
+- [x] Add input arrow buttons for mobile gameplay.
+- [ ] Add KnownKeys class to Components to remove string constants from key and button handling.

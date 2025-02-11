@@ -4,25 +4,22 @@ namespace D20Tek.Arcade.Web.Games.Snake;
 
 internal class SnakeGameEngine
 {
-    private int _rows;
-    private int _columns;
-    private Action _stateChanged;
-    private Func<int, Task> _levelChanged;
-    private GameState _gameState = new(15, 15);
-    private string[,] _gridImages = new string[15, 15];
+    private readonly Action _stateChanged;
+    private readonly Func<int, Task> _levelChanged;
+    private readonly GameState _gameState;
+    private readonly string[,] _gridImages;
 
     public SnakeGameEngine(int rows, int columns, Action stateChangedAction, Func<int, Task> levelChanged)
     {
-        _rows = rows;
-        _columns = columns;
         _stateChanged = stateChangedAction;
         _levelChanged = levelChanged;
+
+        _gridImages = new string[rows, columns];
+        _gameState = new GameState(rows, columns);
     }
 
     public async Task RunGameAsync()
     {
-        Initialize();
-
         SnakeGridRenderer.Draw(_gameState, _gridImages, _stateChanged);
 
         await GameLoop();
@@ -38,12 +35,6 @@ internal class SnakeGameEngine
 
     public GridCellResponse GetGridCell(int row, int column) =>
         new(_gridImages[row, column], _gameState.Snake.GetHeadRotation(row, column));
-
-    private void Initialize()
-    {
-        _gridImages = new string[_rows, _columns];
-        _gameState = new GameState(_rows, _columns);
-    }
 
     private async Task GameLoop()
     {
