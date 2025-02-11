@@ -1,3 +1,8 @@
+Tetris
+======
+
+Snake game
+==========
 - [x] Initial snake game logic.
 - [x] Break out game grid to separate component.
 - [x] Refactor game start screen to a shared component.
