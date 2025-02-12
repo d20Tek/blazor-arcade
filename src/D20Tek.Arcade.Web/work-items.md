@@ -1,3 +1,11 @@
+Tetris
+======
+- [ ] Initial tetris setup for page, links, and state screens.
+- [ ] Layout the game grid for tetris.
+- [ ] Setup backing models and game state.
+
+Snake game
+==========
 - [x] Initial snake game logic.
 - [x] Break out game grid to separate component.
 - [x] Refactor game start screen to a shared component.

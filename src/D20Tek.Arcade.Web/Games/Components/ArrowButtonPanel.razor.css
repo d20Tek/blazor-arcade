@@ -1,7 +1,7 @@
 ﻿.button-panel {
     display: grid;
-    grid-template-columns: 40px 40px 40px;
-    grid-template-rows: 40px 40px 40px;
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px;
     gap: 4px;
     justify-content: center;
     align-items: center;
@@ -10,23 +10,23 @@
 .left {
     grid-column: 1;
     grid-row: 2;
-    height: 40px;
+    height: 50px;
 }
 
 .up {
     grid-column: 2;
     grid-row: 1;
-    height: 40px;
+    height: 50px;
 }
 
 .down {
     grid-column: 2;
     grid-row: 3;
-    height: 40px;
+    height: 50px;
 }
 
 .right {
     grid-column: 3;
     grid-row: 2;
-    height: 40px;
+    height: 50px;
 }
