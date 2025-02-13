@@ -1,7 +1,7 @@
 Tetris
 ======
-- [ ] Initial tetris setup for page, links, and state screens.
-- [ ] Layout the game grid for tetris.
+- [x] Initial tetris setup for page, links, and state screens.
+- [x] Layout the game grid for tetris.
 - [ ] Setup backing models and game state.
 
 Snake game
@@ -18,3 +18,4 @@ Snake game
 - [x] Add rock check to hit test for game over.
 - [x] Add input arrow buttons for mobile gameplay.
 - [x] Add KnownKeys class to Components to remove string constants from key and button handling.
+- [x] Fix up grid sizes on different screen sizes.

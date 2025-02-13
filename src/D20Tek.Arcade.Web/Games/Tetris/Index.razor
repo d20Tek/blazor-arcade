@@ -2,6 +2,32 @@
 
 <h3>Tetris</h3>
 
-@code {
+@switch(_currentStage)
+{
+    case GameStages.Start:
+        <GameStart GameMessage=_message GameStarted=OnGameStarted style="margin-top: 120px;" />
+        break;
+    case GameStages.Running:
+        <TetrisGrid Rows="20" Columns="10" GameEnded=OnGameEnded />
+        break;
+    case GameStages.GameOver:
+        <GameOver GameMessage=_message GameRestarted=OnGameStarted style="margin-top: 120px;" />
+        break;
+}
 
+@code {
+    private GameStages _currentStage = GameStages.Start;
+    private readonly GameMessage _message = new()
+    {
+        GameTitle = "TETRIS",
+        GameImageUrl = "assets/tetris/game-logo.png"
+    };
+
+    private void OnGameStarted() => _currentStage = GameStages.Running;
+
+    private void OnGameEnded(int score)
+    {
+        _message.Score = score.ToString();
+        _currentStage = GameStages.GameOver;
+    }
 }
