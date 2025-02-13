@@ -1,6 +1,4 @@
-﻿using D20Tek.Arcade.Web.Games.Snake.Model;
-
-namespace D20Tek.Arcade.Web.Games.Tetris.Models;
+﻿namespace D20Tek.Arcade.Web.Games.Tetris.Models;
 
 internal static class BlockFactory
 {
@@ -18,11 +16,61 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 1), new(2, 1), new(3, 1)]
             ],
             new(-1, 3)),
+        // JBlock definition
+        new(
+            2,
+            [
+                [new(0, 0), new(1, 0), new(1, 1), new(1, 2)],
+                [new(0, 1), new(0, 2), new(1, 1), new(2, 1)],
+                [new(1, 0), new(1, 1), new(1, 2), new(2, 2)],
+                [new(0, 1), new(1, 1), new(2, 0), new(2, 1)]
+            ],
+            new(0, 3)),
+        // LBlock definition
+        new(
+            3,
+            [
+                [new(0, 2), new(1, 0), new(1, 1), new(1, 2)],
+                [new(0, 1), new(1, 1), new(2, 1), new(2, 2)],
+                [new(1, 0), new(1, 1), new(1, 2), new(2, 0)],
+                [new(0, 0), new(0, 1), new(1, 1), new(2, 1)]
+            ],
+            new(0, 3)),
         // OBlock definition
         new(
             4,
             [ [new(0, 0), new(0, 1), new(1, 0), new(1, 1)] ],
             new(0, 4)),
+        // SBlock definition
+        new(
+            5,
+            [
+                [new(0, 1), new(0, 2), new(1, 0), new(1, 1)],
+                [new(0, 1), new(1, 1), new(1, 2), new(2, 2)],
+                [new(1, 1), new(1, 2), new(2, 0), new(2, 1)],
+                [new(0, 0), new(1, 0), new(1, 1), new(2, 1)]
+            ],
+            new(0, 3)),
+        // TBlock definition
+        new(
+            6,
+            [
+                [new(0, 1), new(1, 0), new(1, 1), new(1, 2)],
+                [new(0, 1), new(1, 1), new(1, 2), new(2, 1)],
+                [new(1, 0), new(1, 1), new(1, 2), new(2, 1)],
+                [new(0, 1), new(1, 0), new(1, 1), new(2, 1)]
+            ],
+            new(0, 3)),
+        // ZBlock definition
+        new(
+            7,
+            [
+                [new(0, 0), new(0, 1), new(1, 1), new(1, 2)],
+                [new(0, 2), new(1, 1), new(1, 2), new(2, 1)],
+                [new(1, 0), new(1, 1), new(2, 1), new(2, 2)],
+                [new(0, 1), new(1, 0), new(1, 1), new(2, 0)]
+            ],
+            new(0, 3)),
     ];
 
     public static Block Create(int blockId)
