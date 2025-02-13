@@ -1,7 +1,7 @@
 Tetris
 ======
-- [ ] Initial tetris setup for page, links, and state screens.
-- [ ] Layout the game grid for tetris.
+- [x] Initial tetris setup for page, links, and state screens.
+- [x] Layout the game grid for tetris.
 - [ ] Setup backing models and game state.
 
 Snake game
