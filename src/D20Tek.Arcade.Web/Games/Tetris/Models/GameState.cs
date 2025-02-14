@@ -2,6 +2,10 @@
 
 internal class GameState
 {
+    public int Rows { get; }
+
+    public int Columns { get; }
+
     public GameGrid GameGrid { get; }
 
     public BlockQueue BlockQueue { get; }
@@ -12,6 +16,8 @@ internal class GameState
 
     public GameState(int rows, int columns)
     {
+        Rows = rows;
+        Columns = columns;
         GameGrid = new(rows, columns);
         BlockQueue = new();
         CurrentBlock = BlockQueue.GetAndUpdate();
