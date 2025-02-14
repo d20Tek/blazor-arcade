@@ -14,6 +14,8 @@ internal class GameState
 
     public bool GameOver { get; private set; }
 
+    public int Score { get; private set; }
+
     public GameState(int rows, int columns)
     {
         Rows = rows;
@@ -92,7 +94,7 @@ internal class GameState
             GameGrid[p.Row, p.Column] = CurrentBlock.Id;
         }
 
-        GameGrid.ClearFullRows();
+        Score += GameGrid.ClearFullRows();
 
         if (IsGameOver())
         {

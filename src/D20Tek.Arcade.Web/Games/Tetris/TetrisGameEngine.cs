@@ -26,7 +26,7 @@ internal class TetrisGameEngine
         await GameLoop();
     }
 
-    public int GetScore() => 0;
+    public int GetScore() => _gameState.Score;
 
     public string GetTileImage(int row, int column) => _gridImages[row, column];
 
