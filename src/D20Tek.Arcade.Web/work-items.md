@@ -8,6 +8,7 @@ Tetris
 - [x] Add scoring based on lines cleared.
 - [ ] Add force drop ability.
 - [ ] Add levels that increase scoring and drop speed.
+- [ ] Refactor large code files.
 
 Snake game
 ==========
