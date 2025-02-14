@@ -2,7 +2,12 @@ Tetris
 ======
 - [x] Initial tetris setup for page, links, and state screens.
 - [x] Layout the game grid for tetris.
-- [ ] Setup backing models and game state.
+- [x] Setup backing models and game state.
+- [x] Setup movement and tie it to key presses and 
+- [x] Implement game loop to move block down at a certain speed.
+- [x] Add scoring based on lines cleared.
+- [ ] Add force drop ability.
+- [ ] Add levels that increase scoring and drop speed.
 
 Snake game
 ==========
