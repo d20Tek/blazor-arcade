@@ -18,8 +18,8 @@
 /* For screens larger than 600px (e.g., tablets and desktops) */
 @media (min-width: 600px) {
     .grid-container {
-        width: 300px; /* Increase width */
-        height: 600px; /* Increase height */
+        width: 360px; /* Increase width */
+        height: 720px; /* Increase height */
     }
 }
 
