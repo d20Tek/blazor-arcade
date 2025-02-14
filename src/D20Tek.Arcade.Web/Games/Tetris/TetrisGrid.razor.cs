@@ -1,5 +1,4 @@
 ﻿using D20Tek.Arcade.Web.Games.Components;
-using D20Tek.Arcade.Web.Games.Snake.Model;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -39,7 +38,7 @@ public partial class TetrisGrid
         if (_engine is null || _engine.GameOver) return;
 
         if (key == KnownKeys.ArrowUp) _engine.Rotate();
-        if (key == KnownKeys.Z) _engine.RotateCounter();
+        if (key == KnownKeys.Z || key == KnownKeys.z) _engine.RotateCounter();
         if (key == KnownKeys.ArrowDown) _engine.MoveDown();
         if (key == KnownKeys.ArrowLeft) _engine.MoveLeft();
         if (key == KnownKeys.ArrowRight) _engine.MoveRight();
@@ -61,7 +60,7 @@ public partial class TetrisGrid
     {
         _levelText = $"MOVING TO LEVEL {newLevel} ...";
         StateHasChanged();
-        await Task.Delay(300);
+        await Task.Delay(50);
         _levelText = null;
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-
-namespace D20Tek.Arcade.Web.Games.Tetris.Models;
+﻿namespace D20Tek.Arcade.Web.Games.Tetris.Models;
 
 internal class GameGrid
 {
