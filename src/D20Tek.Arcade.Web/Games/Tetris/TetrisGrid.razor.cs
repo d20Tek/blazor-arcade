@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using D20Tek.Arcade.Web.Games.Components;
+using D20Tek.Arcade.Web.Games.Snake.Model;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace D20Tek.Arcade.Web.Games.Tetris;
@@ -34,6 +36,15 @@ public partial class TetrisGrid
     [JSInvokable]
     public void HandleKeydown(string key)
     {
+        if (_engine is null || _engine.GameOver) return;
+
+        if (key == KnownKeys.ArrowUp) _engine.Rotate();
+        if (key == KnownKeys.Z) _engine.RotateCounter();
+        if (key == KnownKeys.ArrowDown) _engine.MoveDown();
+        if (key == KnownKeys.ArrowLeft) _engine.MoveLeft();
+        if (key == KnownKeys.ArrowRight) _engine.MoveRight();
+
+        _engine.Draw();
     }
 
     private string? GetCellStyle(int row, int col)

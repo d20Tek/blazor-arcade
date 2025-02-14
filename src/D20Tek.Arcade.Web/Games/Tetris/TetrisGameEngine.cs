@@ -18,6 +18,8 @@ internal class TetrisGameEngine
         _gameState = new GameState(rows, columns);
     }
 
+    public bool GameOver => _gameState.GameOver;
+
     public async Task RunGameAsync()
     {
         TetrisGridRenderer.Draw(_gameState, _gridImages, _stateChanged);
@@ -28,14 +30,26 @@ internal class TetrisGameEngine
 
     public string GetTileImage(int row, int column) => _gridImages[row, column];
 
+    public void MoveLeft() => _gameState.MoveBlockLeft();
+
+    public void MoveRight() => _gameState.MoveBlockRight();
+
+    public void MoveDown() => _gameState.MoveBlockDown();
+
+    public void Rotate() => _gameState.RotateClockwise();
+
+    public void RotateCounter() => _gameState.RotateCounterClockwise();
+
+    public void Draw() => TetrisGridRenderer.Draw(_gameState, _gridImages, _stateChanged);
+
     private async Task GameLoop()
     {
         while (!_gameState.GameOver)
         {
-            await Task.Delay(150);
+            await Task.Delay(250);
 
-            //_gameState.Move();
-            TetrisGridRenderer.Draw(_gameState, _gridImages, _stateChanged);
+            _gameState.MoveBlockDown();
+            Draw();
 
             //await HandleNewLevel();
         }

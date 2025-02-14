@@ -25,9 +25,17 @@ internal static class TetrisGridRenderer
 
     private static void DrawBlock(Block block, string[,] gridImages)
     {
-        foreach (var p in block.TilePositions())
+        try
         {
-            gridImages[p.Row, p.Column] = BlockFactory.GetTileImage(block.Id);
+            foreach (var p in block.TilePositions())
+            {
+                gridImages[p.Row, p.Column] = BlockFactory.GetTileImage(block.Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Block error for type: {block.Id}");
         }
     }
 }

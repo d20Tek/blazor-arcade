@@ -21,6 +21,12 @@ internal class Block
 
     public IEnumerable<Position> TilePositions()
     {
+        if (_rotationState < 0 || _rotationState >= Tiles.Length)
+        {
+            Console.WriteLine($"Invalid rotation state: {_rotationState}");
+            yield break;
+        }
+
         foreach (var p in Tiles[_rotationState])
         {
             yield return new(p.Row + _offset.Row, p.Column + _offset.Column);
