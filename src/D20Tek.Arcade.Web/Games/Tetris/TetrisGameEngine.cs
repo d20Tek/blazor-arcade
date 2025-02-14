@@ -30,6 +30,8 @@ internal class TetrisGameEngine
 
     public string GetTileImage(int row, int column) => _gridImages[row, column];
 
+    public string GetNextBlockImage() => BlockFactory.GetBlockImage(_gameState.BlockQueue.NextBlock.Id);
+
     public void MoveLeft() => _gameState.MoveBlockLeft();
 
     public void MoveRight() => _gameState.MoveBlockRight();
