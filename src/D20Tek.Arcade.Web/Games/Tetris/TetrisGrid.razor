@@ -2,23 +2,24 @@
 @using D20Tek.Arcade.Web.Games.Components;
 
 <div class="title fw-bold my-1">LEVEL: 1 - SCORE: 0</div>
-<div class="full-area">
-    <div class="grid-container">
-        @for (int row = 0; row < Rows; row++)
-        {
-            @for (int col = 0; col < Columns; col++)
+<div class="row">
+    <div class="col full-area">
+        <div class="grid-container">
+            @for (int row = 0; row < Rows; row++)
             {
-                <div class="grid-cell" style="@GetCellStyle(row, col)"></div>
+                @for (int col = 0; col < Columns; col++)
+                {
+                    <div class="grid-cell" style="@GetCellStyle(row, col)"></div>
+                }
             }
+        </div>
+        @if (_hasLevelText)
+        {
+        <div class="title fw-bold my-2">@_levelText</div>
         }
     </div>
-</div>
-
-@if (_hasLevelText)
-{
-<div class="title fw-bold my-2">@_levelText</div>
-}
-
-<div class="title py-1 float-end float-md-none me-3 me-md-0">
-    <ArrowButtonPanel DirectionClicked=HandleKeydown />
+    <div class="col">
+        <ArrowButtonPanel DirectionClicked=HandleKeydown
+                          style="justify-content: start; align-items: start;" />
+    </div>
 </div>
