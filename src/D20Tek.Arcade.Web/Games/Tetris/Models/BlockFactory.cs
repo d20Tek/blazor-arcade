@@ -18,7 +18,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 1), new(2, 1), new(3, 1)]
             ],
             new(-1, 3),
-            "assets/tetris/block-i.png",
+            "assets/tetris/blocko.png",
             "assets/tetris/tile-cyan.png"),
         // JBlock definition
         new(
@@ -30,7 +30,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 1), new(2, 0), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/block-j.png",
+            "assets/tetris/blocko.png",
             "assets/tetris/tile-blue.png"),
         // LBlock definition
         new(
@@ -42,14 +42,14 @@ internal static class BlockFactory
                 [new(0, 0), new(0, 1), new(1, 1), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/block-l.png",
+            "assets/tetris/blocko.png",
             "assets/tetris/tile-orange.png"),
         // OBlock definition
         new(
             4,
             [ [new(0, 0), new(0, 1), new(1, 0), new(1, 1)] ],
             new(0, 4),
-            "assets/tetris/block-o.png",
+            "assets/tetris/blocko.png",
             "assets/tetris/tile-yellow.png"),
         // SBlock definition
         new(
@@ -61,7 +61,7 @@ internal static class BlockFactory
                 [new(0, 0), new(1, 0), new(1, 1), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/block-s.png",
+            "assets/tetris/blocko.png",
             "assets/tetris/tile-green.png"),
 
         // TBlock definition
@@ -74,7 +74,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 0), new(1, 1), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/block-t.png",
+            "assets/tetris/blocko.png",
             "assets/tetris/tile-purple.png"),
         // ZBlock definition
         new(
@@ -86,7 +86,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 0), new(1, 1), new(2, 0)]
             ],
             new(0, 3),
-            "assets/tetris/block-z.png",
+            "assets/tetris/blocko.png",
             "assets/tetris/tile-red.png"),
     ];
 
