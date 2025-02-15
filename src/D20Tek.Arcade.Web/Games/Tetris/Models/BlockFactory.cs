@@ -18,7 +18,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 1), new(2, 1), new(3, 1)]
             ],
             new(-1, 3),
-            "assets/tetris/blocko.png",
+            "assets/tetris/blocki.png",
             "assets/tetris/tile-cyan.png"),
         // JBlock definition
         new(
@@ -30,7 +30,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 1), new(2, 0), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/blocko.png",
+            "assets/tetris/blockj.png",
             "assets/tetris/tile-blue.png"),
         // LBlock definition
         new(
@@ -42,7 +42,7 @@ internal static class BlockFactory
                 [new(0, 0), new(0, 1), new(1, 1), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/blocko.png",
+            "assets/tetris/blockl.png",
             "assets/tetris/tile-orange.png"),
         // OBlock definition
         new(
@@ -61,7 +61,7 @@ internal static class BlockFactory
                 [new(0, 0), new(1, 0), new(1, 1), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/blocko.png",
+            "assets/tetris/blocks.png",
             "assets/tetris/tile-green.png"),
 
         // TBlock definition
@@ -74,7 +74,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 0), new(1, 1), new(2, 1)]
             ],
             new(0, 3),
-            "assets/tetris/blocko.png",
+            "assets/tetris/blockt.png",
             "assets/tetris/tile-purple.png"),
         // ZBlock definition
         new(
@@ -86,7 +86,7 @@ internal static class BlockFactory
                 [new(0, 1), new(1, 0), new(1, 1), new(2, 0)]
             ],
             new(0, 3),
-            "assets/tetris/blocko.png",
+            "assets/tetris/blockz.png",
             "assets/tetris/tile-red.png"),
     ];
 
