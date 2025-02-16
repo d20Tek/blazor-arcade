@@ -9,8 +9,8 @@
 .grid-container {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    width: 250px;
-    height: 500px;
+    width: 220px;
+    height: 440px;
     border: 2px solid #4f4867;
     background-color: #312c40;
 }
@@ -18,8 +18,8 @@
 /* For screens larger than 600px (e.g., tablets and desktops) */
 @media (min-width: 600px) {
     .grid-container {
-        width: 360px; /* Increase width */
-        height: 720px; /* Increase height */
+        width: 350px; /* Increase width */
+        height: 700px; /* Increase height */
     }
 }
 
