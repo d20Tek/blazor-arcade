@@ -9,7 +9,7 @@ Tetris
 - [ ] Update scoring to follow Tetris.com recommendation.
 - [ ] Add force drop ability.
 - [ ] Add levels that increase scoring and drop speed.
-- [ ] Add separate button controls for this game.
+- [x] Add separate button controls for this game.
 - [ ] Refactor large code files.
 
 Snake game
