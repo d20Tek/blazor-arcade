@@ -1,0 +1,28 @@
+﻿<div class="button-panel" @attributes="AdditionalAttributes">
+    <button class="counter btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.Z)">
+        <i class="bi bi-arrow-counterclockwise"></i>
+    </button>
+    <button class="up btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowUp)">
+        <i class="bi bi-arrow-clockwise"></i>
+    </button>
+    <button class="left btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowLeft)">
+        <i class="bi bi-arrow-left"></i>
+    </button>
+    <button class="right btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowRight)">
+        <i class="bi bi-arrow-right"></i>
+    </button>
+    <button class="enter btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.Enter)">
+        <i class="bi bi-download"></i>
+    </button>
+    <button class="down btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowDown)">
+        <i class="bi bi-arrow-down"></i>
+    </button>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> DirectionClicked { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = new();
+}
