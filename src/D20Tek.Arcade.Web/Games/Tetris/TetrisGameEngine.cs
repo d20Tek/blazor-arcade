@@ -26,6 +26,8 @@ internal class TetrisGameEngine
         await GameLoop();
     }
 
+    public int GetLevel() => _gameState.Level;
+
     public int GetScore() => _gameState.Score;
 
     public string GetTileImage(int row, int column) => _gridImages[row, column];
@@ -48,12 +50,20 @@ internal class TetrisGameEngine
     {
         while (!_gameState.GameOver)
         {
-            await Task.Delay(250);
+            await Task.Delay(_gameState.Speed);
 
             _gameState.MoveBlockDown();
             Draw();
 
-            //await HandleNewLevel();
+            await HandleNewLevel();
+        }
+    }
+
+    private async Task HandleNewLevel()
+    {
+        if (_gameState.ChangeLevel())
+        {
+            await _levelChanged(_gameState.Level);
         }
     }
 }

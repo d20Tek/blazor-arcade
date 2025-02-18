@@ -60,7 +60,7 @@ public partial class TetrisGrid
     {
         _levelText = $"MOVING TO LEVEL {newLevel} ...";
         StateHasChanged();
-        await Task.Delay(50);
+        await Task.Delay(200);
         _levelText = null;
     }
 }

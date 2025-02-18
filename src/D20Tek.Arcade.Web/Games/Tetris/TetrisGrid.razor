@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col column-gap-0 column-gap-lg-2">
-        <div class="title fw-bold my-1">LEVEL: 1 - SCORE: @_engine?.GetScore()</div>
+        <div class="title fw-bold my-1">LEVEL: @_engine?.GetLevel() - SCORE: @_engine?.GetScore()</div>
         <div class="full-area">
             <div class="grid-container">
                 @for (int row = 0; row < Rows; row++)
@@ -14,11 +14,11 @@
                     }
                 }
             </div>
-            @if (_hasLevelText)
-            {
-            <div class="title fw-bold my-2">test - @_levelText</div>
-            }
         </div>
+        @if (_hasLevelText)
+        {
+        <div class="title fw-bold my-2">@_levelText</div>
+        }
     </div>
     <div class="col column-gap-0 column-gap-lg-2">
         <div>

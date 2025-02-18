@@ -2,6 +2,10 @@
 
 internal class GameState
 {
+    private readonly LevelTracker _levelTracker = new();
+    private Level _currentLevel;
+    private int _clearedRows = 0;
+
     public int Rows { get; }
 
     public int Columns { get; }
@@ -16,7 +20,9 @@ internal class GameState
 
     public int Score { get; private set; }
 
-    public int Level { get; private set; } = 1;
+    public int Level => _currentLevel.Id;
+
+    public int Speed => _currentLevel.Speed;
 
     public GameState(int rows, int columns)
     {
@@ -25,6 +31,7 @@ internal class GameState
         GameGrid = new(rows, columns);
         BlockQueue = new();
         CurrentBlock = BlockQueue.GetAndUpdate();
+        _currentLevel = _levelTracker.GetNextLevel();
     }
 
     private bool BlockFits() =>
@@ -83,7 +90,9 @@ internal class GameState
     {
         CurrentBlock.TilePositions().ToList().ForEach(p => GameGrid[p.Row, p.Column] = CurrentBlock.Id);
 
-        Score += ScoreTracker.Calculate(GameGrid.ClearFullRows(), Level);
+        var clearedRows = GameGrid.ClearFullRows();
+        Score += ScoreTracker.Calculate(clearedRows, Level);
+        _clearedRows += clearedRows;
 
         if (IsGameOver())
         {
@@ -94,4 +103,16 @@ internal class GameState
             CurrentBlock = BlockQueue.GetAndUpdate();
         }
     }
+
+    public bool ChangeLevel()
+    {
+        if (ShouldNotChangeLevel(_clearedRows)) return false;
+
+        _currentLevel = _levelTracker.GetNextLevel();
+        _clearedRows = 0;
+        return true;
+    }
+
+    private bool ShouldNotChangeLevel(int consumedApples) =>
+        GameOver || (_currentLevel.RowsToComplete < 0 || consumedApples < _currentLevel.RowsToComplete);
 }
