@@ -16,6 +16,8 @@ internal class GameState
 
     public int Score { get; private set; }
 
+    public int Level { get; private set; } = 1;
+
     public GameState(int rows, int columns)
     {
         Rows = rows;
@@ -25,18 +27,8 @@ internal class GameState
         CurrentBlock = BlockQueue.GetAndUpdate();
     }
 
-    private bool BlockFits()
-    {
-        foreach (var p in CurrentBlock.TilePositions())
-        {
-            if (!GameGrid.IsEmpty(p.Row, p.Column))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
+    private bool BlockFits() =>
+        CurrentBlock.TilePositions().All(p => GameGrid.IsEmpty(p.Row, p.Column));
 
     public void RotateClockwise()
     {
@@ -89,12 +81,9 @@ internal class GameState
 
     private void PlaceBlock()
     {
-        foreach (var p in CurrentBlock.TilePositions())
-        {
-            GameGrid[p.Row, p.Column] = CurrentBlock.Id;
-        }
+        CurrentBlock.TilePositions().ToList().ForEach(p => GameGrid[p.Row, p.Column] = CurrentBlock.Id);
 
-        Score += GameGrid.ClearFullRows();
+        Score += ScoreTracker.Calculate(GameGrid.ClearFullRows(), Level);
 
         if (IsGameOver())
         {
