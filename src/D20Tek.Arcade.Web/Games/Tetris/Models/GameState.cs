@@ -34,59 +34,7 @@ internal class GameState
         _currentLevel = _levelTracker.GetNextLevel();
     }
 
-    private bool BlockFits() =>
-        CurrentBlock.TilePositions().All(p => GameGrid.IsEmpty(p.Row, p.Column));
-
-    public void RotateClockwise()
-    {
-        CurrentBlock.RotateClockwise();
-        if (!BlockFits())
-        {
-            CurrentBlock.RotateCounterClockwise();
-        }
-    }
-
-    public void RotateCounterClockwise()
-    {
-        CurrentBlock.RotateCounterClockwise();
-        if (!BlockFits())
-        {
-            CurrentBlock.RotateClockwise();
-        }
-    }
-
-    public void MoveBlockLeft()
-    {
-        CurrentBlock.Move(0, -1);
-        if (!BlockFits())
-        {
-            CurrentBlock.Move(0, 1);
-        }
-    }
-
-    public void MoveBlockRight()
-    {
-        CurrentBlock.Move(0, 1);
-        if (!BlockFits())
-        {
-            CurrentBlock.Move(0, -1);
-        }
-    }
-
-    public void MoveBlockDown()
-    {
-        CurrentBlock.Move(1, 0);
-
-        if (!BlockFits())
-        {
-            CurrentBlock.Move(-1, 0);
-            PlaceBlock();
-        }
-    }
-
-    private bool IsGameOver() => !(GameGrid.IsRowEmpty(0) && GameGrid.IsRowEmpty(1));
-
-    private void PlaceBlock()
+    internal void PlaceBlock()
     {
         CurrentBlock.TilePositions().ToList().ForEach(p => GameGrid[p.Row, p.Column] = CurrentBlock.Id);
 
@@ -103,6 +51,8 @@ internal class GameState
             CurrentBlock = BlockQueue.GetAndUpdate();
         }
     }
+
+    private bool IsGameOver() => !(GameGrid.IsRowEmpty(0) && GameGrid.IsRowEmpty(1));
 
     public bool ChangeLevel()
     {

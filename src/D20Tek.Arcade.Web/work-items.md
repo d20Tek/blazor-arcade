@@ -8,7 +8,7 @@ Tetris
 - [x] Add scoring based on lines cleared.
 - [x] Update scoring to follow Tetris.com recommendation.
 - [ ] Add force drop ability.
-- [ ] Add levels that increase scoring and drop speed.
+- [x] Add levels that increase scoring and drop speed.
 - [x] Add separate button controls for this game.
 - [ ] Refactor large code files.
 
