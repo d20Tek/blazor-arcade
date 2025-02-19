@@ -2,9 +2,6 @@
 
 internal static class BlockMover
 {
-    private static bool BlockFits(this GameState state) =>
-        state.CurrentBlock.TilePositions().All(p => state.GameGrid.IsEmpty(p.Row, p.Column));
-
     public static void RotateClockwise(this GameState state)
     {
         state.CurrentBlock.RotateClockwise();
@@ -51,4 +48,12 @@ internal static class BlockMover
             state.PlaceBlock();
         }
     }
+
+    private static bool BlockFits(this GameState state) =>
+        state.CurrentBlock.TilePositions().All(p => state.GameGrid.IsEmpty(p.Row, p.Column));
+
+    private static int TileDropDistance(this GameState state, Position p) =>
+        Enumerable.Range(1, state.GameGrid.Rows - p.Row - 1)
+                  .TakeWhile(offset => state.GameGrid.IsEmpty(p.Row + offset, p.Column))
+                  .Count();
 }

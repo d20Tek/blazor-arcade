@@ -23,7 +23,6 @@ internal class Block
     {
         if (_rotationState < 0 || _rotationState >= Tiles.Length)
         {
-            Console.WriteLine($"Invalid rotation state: {_rotationState}");
             yield break;
         }
 
@@ -35,13 +34,7 @@ internal class Block
 
     public void RotateClockwise() => _rotationState = (_rotationState + 1) % Tiles.Length;
 
-    public void RotateCounterClockwise()
-    {
-        if (_rotationState == 0)
-            _rotationState = Tiles.Length - 1;
-        else
-            _rotationState--;
-    }
+    public void RotateCounterClockwise() => _rotationState = (_rotationState - 1 + Tiles.Length) % Tiles.Length;
 
     public void Move(int rows, int columns) => _offset.Move(rows, columns);
 

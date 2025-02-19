@@ -3,14 +3,11 @@
 internal class BlockQueue
 {
     private const int _numBlockTypes = 7;
-    private readonly Random _random = new Random();
+    private readonly Random _random = new();
 
     public Block NextBlock { get; private set; }
 
-    public BlockQueue()
-    {
-        NextBlock = RandomBlock();
-    }
+    public BlockQueue() => NextBlock = RandomBlock();
 
     private Block RandomBlock() => BlockFactory.Create(_random.Next(_numBlockTypes - 1) + 1);
 

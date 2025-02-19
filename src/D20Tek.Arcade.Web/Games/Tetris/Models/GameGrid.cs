@@ -40,7 +40,7 @@ internal class GameGrid
                 ClearRow(r);
                 cleared++;
             }
-            else if(cleared > 0)
+            else if (cleared > 0)
             {
                 MoveRowDown(r, cleared);
             }
