@@ -40,6 +40,8 @@ internal class TetrisGameEngine
 
     public void MoveDown() => _gameState.MoveBlockDown();
 
+    public void MoveDrop() => _gameState.MoveBlockDrop();
+
     public void Rotate() => _gameState.RotateClockwise();
 
     public void RotateCounter() => _gameState.RotateCounterClockwise();

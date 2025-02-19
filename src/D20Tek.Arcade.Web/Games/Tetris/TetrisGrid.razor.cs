@@ -42,6 +42,7 @@ public partial class TetrisGrid
         if (key == KnownKeys.ArrowDown) _engine.MoveDown();
         if (key == KnownKeys.ArrowLeft) _engine.MoveLeft();
         if (key == KnownKeys.ArrowRight) _engine.MoveRight();
+        if (key == KnownKeys.Space) _engine.MoveDrop();
 
         _engine.Draw();
     }
