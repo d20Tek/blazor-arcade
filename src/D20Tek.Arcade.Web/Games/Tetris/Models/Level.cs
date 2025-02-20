@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.Arcade.Web.Games.Tetris.Models;
 
-public record Level(
+internal record Level(
     int Id,
     int PointMultiplier,
     int RowsToComplete,

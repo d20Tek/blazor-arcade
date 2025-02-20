@@ -7,10 +7,10 @@ Tetris
 - [x] Implement game loop to move block down at a certain speed.
 - [x] Add scoring based on lines cleared.
 - [x] Update scoring to follow Tetris.com recommendation.
-- [ ] Add force drop ability.
+- [x] Add force drop ability.
 - [x] Add levels that increase scoring and drop speed.
 - [x] Add separate button controls for this game.
-- [ ] Refactor large code files.
+- [x] Refactor large code files.
 
 Snake game
 ==========
