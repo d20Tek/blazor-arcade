@@ -1,3 +1,11 @@
+TRexRunner
+==========
+- [ ] Initial setup for page, links, and state screens.
+- [x] Upload asset resources.
+- [ ] Setup a game grid and initial dino object.
+- [ ] Add user input for dino jumping.
+- [ ] Add scrolling background image.
+
 Tetris
 ======
 - [x] Initial tetris setup for page, links, and state screens.
