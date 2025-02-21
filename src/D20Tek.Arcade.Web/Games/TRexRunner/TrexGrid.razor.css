@@ -1,7 +1,13 @@
-﻿.game-container {
+﻿.full-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
     position: relative;
-    width: 600px;
-    height: 480px;
+    width: 400px;
+    height: 300px;
     border: 2px solid black;
     overflow: hidden;
     background-color: #cce7ff; /* Light blue sky */
@@ -29,3 +35,20 @@
         transform: translateX(-900px); /* Move left by one full image width */
     }
 }
+
+/* For screens larger than 600px (e.g., tablets and desktops) */
+@media (min-width: 600px) {
+    .game-container {
+        width: 480px; /* Increase width */
+        height: 360px; /* Increase height */
+    }
+}
+
+/* For even larger screens (e.g., desktops) */
+@media (min-width: 1024px) {
+    .game-container {
+        width: 600px;
+        height: 480px;
+    }
+}
+
