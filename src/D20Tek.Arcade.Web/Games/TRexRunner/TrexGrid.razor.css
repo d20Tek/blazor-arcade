@@ -1,0 +1,31 @@
+﻿.game-container {
+    position: relative;
+    width: 600px;
+    height: 480px;
+    border: 2px solid black;
+    overflow: hidden;
+    background-color: #cce7ff; /* Light blue sky */
+}
+
+/* Background elements for parallax effect */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1800px; /* Twice the image width for looping */
+    height: 100%;
+    background: url("assets/trex/bgPixels.png") repeat-x;
+    background-size: auto 100%; /* Maintain original size */
+    animation: moveBackground 15s linear infinite;
+}
+
+/* Slower movement for parallax effect */
+@keyframes moveBackground {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-900px); /* Move left by one full image width */
+    }
+}

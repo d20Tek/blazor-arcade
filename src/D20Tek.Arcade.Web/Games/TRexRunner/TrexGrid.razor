@@ -1,6 +1,13 @@
-﻿<h3>TRex Grid</h3>
+﻿<div class="game-container">
+    <!-- Background layer for parallax effect -->
+    <div class="background"></div>
+
+    <div class="score">Score: @_score</div>
+</div>
 
 @code {
+    private int _score = 0;
+
     [Parameter]
     public EventCallback<int> GameEnded { get; set; }
 
