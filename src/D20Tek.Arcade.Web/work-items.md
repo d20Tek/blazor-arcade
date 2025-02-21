@@ -1,6 +1,6 @@
 TRexRunner
 ==========
-- [ ] Initial setup for page, links, and state screens.
+- [x] Initial setup for page, links, and state screens.
 - [x] Upload asset resources.
 - [ ] Setup a game grid and initial dino object.
 - [ ] Add user input for dino jumping.
