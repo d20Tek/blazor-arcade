@@ -13,6 +13,19 @@
     background-color: #cce7ff; /* Light blue sky */
 }
 
+.dino {
+    position: absolute;
+    left: 40px;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.dino-img {
+    width: 100%;
+    height: 100%;
+}
+
 /* Background elements for parallax effect */
 .background {
     position: absolute;
@@ -42,6 +55,12 @@
         width: 480px; /* Increase width */
         height: 360px; /* Increase height */
     }
+
+    .dino {
+        left: 52px;
+        width: 52px;
+        height: 52px;
+    }
 }
 
 /* For even larger screens (e.g., desktops) */
@@ -50,5 +69,10 @@
         width: 600px;
         height: 480px;
     }
-}
 
+    .dino {
+        left: 64px;
+        width: 64px;
+        height: 64px;
+    }
+}

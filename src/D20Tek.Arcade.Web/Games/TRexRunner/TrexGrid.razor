@@ -1,18 +1,41 @@
-﻿<div class="title fw-bold my-1">LEVEL: @_engine.Level - SCORE: @_engine.Score</div>
+﻿@using D20Tek.Arcade.Web.Games.TRexRunner.Models
+@inject IJSRuntime JS
+
+<div class="title fw-bold my-1">LEVEL: @_engine.Level - SCORE: @_engine.Score</div>
 <div class="full-area">
     <div class="game-container">
         <!-- Background layer for parallax effect -->
         <div class="background"></div>
 
-        <DinoPlayer @ref=_dino />
-        <Obstacle />
+        <div class="dino" style="bottom: @(_engine.Dino.Bottom)px">
+            <img class="dino-img" src="@_engine.Dino.GetImage()" />
+        </div>
     </div>
 </div>
 
 @code {
     private TrexGameEngine _engine = new();
-    private DinoPlayer? _dino;
 
     [Parameter]
     public EventCallback<int> GameEnded { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var dotNetRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
+
+            await _engine.GameLoop(StateHasChanged);
+            await GameEnded.InvokeAsync(_engine.Score);
+        }
+    }
+
+    [JSInvokable]
+    public async Task HandleKeydown(string key)
+    {
+        if (key == "q") await _engine.EndGame();
+        if (key == KnownKeys.ArrowUp) _engine.Dino.Jump();
+        if (key == KnownKeys.ArrowDown) _engine.Dino.Crouch();
+    }
 }

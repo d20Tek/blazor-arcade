@@ -5,6 +5,7 @@ TRex Runner
 - [x] Setup a game container and initial dino object.
 - [x] Add user input for dino jumping.
 - [x] Add parallax scrolling background image.
+- [x] Refactor dino jumping based on C# code rather than CSS animation.
 - [ ] Add obstacle with multiple types (single cactus, double, ptery) moving across screen.
 - [ ] Add hit detection between dino and obstacles.
 - [ ] Add crouch ability to dino.
