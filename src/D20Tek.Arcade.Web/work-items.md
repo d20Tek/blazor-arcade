@@ -2,9 +2,15 @@ TRex Runner
 ===========
 - [x] Initial setup for page, links, and state screens.
 - [x] Upload asset resources.
-- [ ] Setup a game grid and initial dino object.
-- [ ] Add user input for dino jumping.
+- [x] Setup a game container and initial dino object.
+- [x] Add user input for dino jumping.
 - [x] Add parallax scrolling background image.
+- [ ] Add obstacle with multiple types (single cactus, double, ptery) moving across screen.
+- [ ] Add hit detection between dino and obstacles.
+- [ ] Add crouch ability to dino.
+- [ ] Add scoring for jumping obstacle.
+- [ ] Add levels that control speed, spawn intervals, and types of obstacles.
+- [ ] Refactor large code files.
 
 Tetris
 ======

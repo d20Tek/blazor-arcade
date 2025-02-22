@@ -1,16 +1,17 @@
-﻿<div class="title fw-bold my-1">LEVEL: @_level - SCORE: @_score</div>
+﻿<div class="title fw-bold my-1">LEVEL: @_engine.Level - SCORE: @_engine.Score</div>
 <div class="full-area">
     <div class="game-container">
         <!-- Background layer for parallax effect -->
         <div class="background"></div>
+
+        <DinoPlayer @ref=_dino />
     </div>
 </div>
 
 @code {
-    private int _score = 0;
-    private int _level = 1;
+    private TrexGameEngine _engine = new();
+    private DinoPlayer? _dino;
 
     [Parameter]
     public EventCallback<int> GameEnded { get; set; }
-
 }
