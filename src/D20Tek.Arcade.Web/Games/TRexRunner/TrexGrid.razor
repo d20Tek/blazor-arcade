@@ -10,6 +10,13 @@
         <div class="dino" style="bottom: @(_engine.Dino.Bottom)px">
             <img class="dino-img" src="@_engine.Dino.GetImage()" />
         </div>
+
+        @foreach(var o in _engine.Obstacles.ToList())
+        {
+        <div class="obstacle" style="left: @(o.Left)px;">
+            <img class="dino-img" src="@o.GetImage()" />
+        </div>
+        }
     </div>
 </div>
 

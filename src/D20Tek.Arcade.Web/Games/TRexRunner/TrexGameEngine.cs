@@ -12,13 +12,16 @@ internal class TrexGameEngine
 
     public DinoPlayer Dino { get; } = new();
 
+    public Obstacles Obstacles { get; } = new();
+
     public async Task GameLoop(Action stateChangedAction)
     {
         while (!GameOver)
         {
             Dino.Move();
-            // todo: spawn new obstacles.
-            // todo: move obstacles.
+            Obstacles.GenerateObstacles(600);
+            Obstacles.Move();
+
             // todo: hit detection.
 
             stateChangedAction();
