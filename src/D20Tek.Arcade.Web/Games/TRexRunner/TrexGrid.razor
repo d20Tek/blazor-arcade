@@ -8,14 +8,14 @@
         <div class="background"></div>
 
         <div class="dino" style="top: @(_engine.Dino.Bounds.Y)px; left: @(_engine.Dino.Bounds.X)px; width: @(_engine.Dino.Bounds.Width)px; height: @(_engine.Dino.Bounds.Height)px">
-            <img class="dino-img" src="@_engine.Dino.GetImage()" />
+            <img class="img-full" src="@_engine.Dino.GetImage()" />
         </div>
 
         @foreach(var o in _engine.Obstacles.ToList())
         {
-            <div class="obstacle" style="left: @(o.Left)px;">
-                <img class="dino-img" src="@o.GetImage()" />
-            </div>
+        <div class="obstacle" style="top: @(o.Bounds.Y)px; left: @(o.Bounds.X)px; width: @(o.Bounds.Width)px; height: @(o.Bounds.Height)px">
+            <img class="img-full" src="@o.GetImage()" />
+        </div>
         }
     </div>
 </div>

@@ -12,19 +12,20 @@ internal class Obstacles
             _obstacles[i].Move();
 
             // Remove obstacles that go off-screen
-            if (_obstacles[i].Left < -20)
+            if (_obstacles[i].Bounds.X < -_obstacles[i].Bounds.Width)
             {
                 _obstacles.RemoveAt(i);
             }
         }
     }
 
-    public void GenerateObstacles(int gameWidth)
+    public void GenerateObstacles(GameState state)
     {
-        if (_obstacles.Count == 0 || (gameWidth - _obstacles.Last().Left) > _rnd.Next(300, 550))
+        var gameWidth = state.Layout.Viewport.Width;
+        if (_obstacles.Count == 0 || (gameWidth - _obstacles.Last().Bounds.X) > _rnd.Next(300, 550))
         {
-
-            _obstacles.Add(new(gameWidth, _rnd.Next(1, 4)));
+            var rndType = _rnd.Next(0, 4);
+            _obstacles.Add(new(state, rndType));
         }
     }
 

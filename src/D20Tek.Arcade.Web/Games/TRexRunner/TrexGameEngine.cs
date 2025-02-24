@@ -27,7 +27,7 @@ internal class TrexGameEngine
         while (!GameOver)
         {
             Dino.Move();
-            Obstacles.GenerateObstacles(600);
+            Obstacles.GenerateObstacles(_state);
             Obstacles.Move();
 
             // todo: hit detection.

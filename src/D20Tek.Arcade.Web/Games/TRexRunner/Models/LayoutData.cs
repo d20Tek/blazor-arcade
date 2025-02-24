@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
+﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
 internal enum LayoutSize
 {
@@ -14,4 +12,6 @@ internal class LayoutData
     public Size Viewport { get; init; }
 
     public Size Dino { get; init; }
+
+    public Size[] Obstacles { get; init; } = [];
 }
