@@ -13,36 +13,12 @@
 
         @foreach(var o in _engine.Obstacles.ToList())
         {
-        <div class="obstacle" style="left: @(o.Left)px;">
-            <img class="dino-img" src="@o.GetImage()" />
-        </div>
+            <div class="obstacle" style="left: @(o.Left)px;">
+                <img class="dino-img" src="@o.GetImage()" />
+            </div>
         }
     </div>
 </div>
 
 @code {
-    private TrexGameEngine _engine = new();
-
-    [Parameter]
-    public EventCallback<int> GameEnded { get; set; }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            var dotNetRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
-
-            await _engine.GameLoop(StateHasChanged);
-            await GameEnded.InvokeAsync(_engine.Score);
-        }
-    }
-
-    [JSInvokable]
-    public async Task HandleKeydown(string key)
-    {
-        if (key == "q") await _engine.EndGame();
-        if (key == KnownKeys.ArrowUp) _engine.Dino.Jump();
-        if (key == KnownKeys.ArrowDown) _engine.Dino.Crouch();
-    }
 }
