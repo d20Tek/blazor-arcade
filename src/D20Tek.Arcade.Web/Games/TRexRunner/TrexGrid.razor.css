@@ -15,10 +15,6 @@
 
 .dino {
     position: absolute;
-    left: 40px;
-    bottom: 0;
-    width: 40px;
-    height: 40px;
 }
 
 .dino-img {
@@ -63,12 +59,6 @@
         width: 480px; /* Increase width */
         height: 360px; /* Increase height */
     }
-
-    .dino {
-        left: 52px;
-        width: 52px;
-        height: 52px;
-    }
 }
 
 /* For even larger screens (e.g., desktops) */
@@ -76,11 +66,5 @@
     .game-container {
         width: 600px;
         height: 480px;
-    }
-
-    .dino {
-        left: 64px;
-        width: 64px;
-        height: 64px;
     }
 }

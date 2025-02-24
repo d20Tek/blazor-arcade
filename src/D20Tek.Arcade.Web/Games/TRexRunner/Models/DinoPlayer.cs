@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
+﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
 internal class DinoPlayer
 {
@@ -14,20 +12,19 @@ internal class DinoPlayer
     private int _jumpSpeed = 10;
     private States _state;
     private Rectangle _hitBox;
+    private int _bottom = 20;
 
-    public int Bottom { get; private set; } = 20;
-
-    public Rectangle Location { get; }
+    public Rectangle Bounds { get; private set; }
 
     public DinoPlayer(GameState state)
     {
-        Location = new(
+        Bounds = new(
             state.Layout.Dino.Width,
             state.Layout.Viewport.Height - LayoutConstants.BottomMargin - state.Layout.Dino.Height,
             state.Layout.Dino.Width,
             state.Layout.Dino.Height);
 
-        _hitBox = Rectangle.Inflate(Location, -(Location.Width / 4), -5);
+        _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
     }
 
     public string GetImage() => (_state == States.Crouching) ? "assets/trex/dino-crouch.gif" : "assets/trex/dino-run.gif";
@@ -48,16 +45,17 @@ internal class DinoPlayer
     {
         if (_state == States.Jumping)
         {
-            Bottom += _jumpSpeed;
+            _bottom += _jumpSpeed;
+            Bounds.Translate(0, -_jumpSpeed);
 
-            if (Bottom > 150)
+            if (_bottom > 150)
             {
                 _jumpSpeed = -10;
             }
-            if (Bottom <= 20)
+            if (_bottom <= 20)
             {
                 _state = States.Running;
-                Bottom = 20;
+                _bottom = 20;
                 _jumpSpeed = 10;
             }
         }

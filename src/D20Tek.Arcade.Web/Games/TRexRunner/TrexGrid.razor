@@ -7,7 +7,7 @@
         <!-- Background layer for parallax effect -->
         <div class="background"></div>
 
-        <div class="dino" style="bottom: @(_engine.Dino.Bottom)px">
+        <div class="dino" style="top: @(_engine.Dino.Bounds.Y)px; left: @(_engine.Dino.Bounds.X)px; width: @(_engine.Dino.Bounds.Width)px; height: @(_engine.Dino.Bounds.Height)px">
             <img class="dino-img" src="@_engine.Dino.GetImage()" />
         </div>
 
