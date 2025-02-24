@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
+﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
 internal class GameState
 {
