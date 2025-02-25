@@ -13,5 +13,7 @@ internal class LayoutData
 
     public Size Dino { get; init; }
 
+    public Size Crouched { get; init; }
+
     public Size[] Obstacles { get; init; } = [];
 }

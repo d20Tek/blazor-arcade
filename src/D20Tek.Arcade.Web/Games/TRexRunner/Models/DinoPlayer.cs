@@ -12,6 +12,8 @@ internal class DinoPlayer
 
     private int _jumpSpeed = 10;
     private States _state;
+    private Rectangle _resetBounds;
+    private Rectangle _crouchedBounds;
     private Rectangle _hitBox;
     private int _bottom = 20;
 
@@ -19,11 +21,19 @@ internal class DinoPlayer
 
     public DinoPlayer(GameState state)
     {
-        Bounds = new(
+        _resetBounds = new(
             state.Layout.Dino.Width,
             state.Layout.Viewport.Height - LayoutConstants.BottomMargin - state.Layout.Dino.Height,
             state.Layout.Dino.Width,
             state.Layout.Dino.Height);
+
+        _crouchedBounds = new(
+            state.Layout.Crouched.Width,
+            state.Layout.Viewport.Height - LayoutConstants.BottomMargin - state.Layout.Crouched.Height,
+            state.Layout.Crouched.Width,
+            state.Layout.Crouched.Height);
+
+        Bounds = new(_resetBounds);
 
         _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
     }
@@ -40,14 +50,30 @@ internal class DinoPlayer
         
     public void Jump()
     {
-        if (_state == States.Running) _state = States.Jumping;
-        if (_state == States.Crouching) _state = States.Running;
+        if (_state == States.Crouching)
+        {
+            Reset();
+            _state = States.Running;
+        }
+        else if (_state == States.Running)
+        {
+            _state = States.Jumping;
+        }
     }
 
     public void Crouch()
     {
-        if (_state == States.Jumping) _state = States.Running;
-        if (_state == States.Running) _state = States.Crouching;
+        if (_state == States.Jumping)
+        {
+            Reset();
+            _state = States.Running;
+        }
+        else if (_state == States.Running)
+        {
+            Bounds = new(_crouchedBounds);
+            _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
+            _state = States.Crouching;
+        }
     }
 
     public void Move()
@@ -80,5 +106,13 @@ internal class DinoPlayer
         if (collided is true) _state = States.Dead;
 
         return collided;
+    }
+
+    private void Reset()
+    {
+        Bounds = new(_resetBounds);
+        _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
+        _jumpSpeed = 10;
+        _bottom = 20;
     }
 }

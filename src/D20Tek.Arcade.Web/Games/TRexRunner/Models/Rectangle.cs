@@ -20,10 +20,24 @@ internal class Rectangle
         Height = height;
     }
 
+    public Rectangle(Rectangle other)
+    {
+        X = other.X;
+        Y = other.Y;
+        Width = other.Width;
+        Height = other.Height;
+    }
+
     public void Translate(int x, int y)
     {
         X += x;
         Y += y;
+    }
+
+    public void SetPosition(int x, int y)
+    {
+        X = x;
+        Y = y;
     }
 
     public bool IntersectsWith(Rectangle rect) =>
