@@ -25,8 +25,7 @@ internal class Obstacles
         var gameWidth = state.Layout.Viewport.Width;
         if (_obstacles.Count == 0 || (gameWidth - _obstacles.Last().Bounds.X) > _rnd.Next(300, 550))
         {
-            var rndType = _rnd.Next(0, 4);
-            _obstacles.Add(new(state, rndType));
+            _obstacles.Add(Obstacle.Create(state));
         }
     }
 

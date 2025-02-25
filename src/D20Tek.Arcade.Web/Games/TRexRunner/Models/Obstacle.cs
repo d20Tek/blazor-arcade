@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
+﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
 internal class Obstacle
 {
@@ -13,21 +11,14 @@ internal class Obstacle
     }
 
     private int _speed = 5;
-    private Type _type;
+    private Type _type = Type.Cactus1;
 
     public Rectangle Bounds { get; private set; }
 
-    public Obstacle(GameState state, int type)
+    private Obstacle(Rectangle bounds, Type type)
     {
-        Debug.Assert(type >= 0 && type <= 3);
-        _type = (Type)type;
-
-        var typeSize = state.Layout.Obstacles[type];
-        Bounds = new(
-            state.Layout.Viewport.Width,
-            state.Layout.Viewport.Height - LayoutConstants.BottomMargin - typeSize.Height,
-            typeSize.Width,
-            typeSize.Height);
+        Bounds = bounds;
+        _type = type;
     }
 
     public string GetImage() =>
@@ -44,4 +35,8 @@ internal class Obstacle
     {
         Bounds.Translate(-_speed, 0);
     }
+
+    public static Obstacle Create(GameState state) => ObstacleGenerator.Create(state);
+
+    internal static Obstacle Create(Rectangle bounds, Type type) => new(bounds, type);
 }

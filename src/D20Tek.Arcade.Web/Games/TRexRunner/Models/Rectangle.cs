@@ -1,9 +1,9 @@
-﻿using System.Drawing;
-
-namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
+﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
 internal class Rectangle
 {
+    public static readonly Rectangle Empty = new(0, 0, 0, 0);
+
     public int X { get; private set; }
 
     public int Y { get; private set; }

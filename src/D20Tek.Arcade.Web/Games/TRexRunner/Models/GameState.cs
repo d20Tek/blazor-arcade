@@ -4,11 +4,14 @@ internal class GameState
 {
     public LayoutData Layout { get; }
 
+    public Random Rnd { get; }
+
     public int Score { get; private set; }
 
     public GameState()
     {
         Layout = LayoutConstants.GetLayout(LayoutSize.Large);
+        Rnd = new();
         Score = 0;
     }
 
