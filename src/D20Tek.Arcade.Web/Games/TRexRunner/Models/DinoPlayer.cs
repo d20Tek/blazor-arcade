@@ -34,7 +34,6 @@ internal class DinoPlayer
             state.Layout.Crouched.Height);
 
         Bounds = new(_resetBounds);
-
         _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
     }
 
@@ -52,7 +51,7 @@ internal class DinoPlayer
     {
         if (_state == States.Crouching)
         {
-            Reset();
+            Reset(_resetBounds);
             _state = States.Running;
         }
         else if (_state == States.Running)
@@ -65,13 +64,12 @@ internal class DinoPlayer
     {
         if (_state == States.Jumping)
         {
-            Reset();
+            Reset(_resetBounds);
             _state = States.Running;
         }
         else if (_state == States.Running)
         {
-            Bounds = new(_crouchedBounds);
-            _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
+            Reset(_crouchedBounds);
             _state = States.Crouching;
         }
     }
@@ -108,9 +106,9 @@ internal class DinoPlayer
         return collided;
     }
 
-    private void Reset()
+    private void Reset(Rectangle bounds)
     {
-        Bounds = new(_resetBounds);
+        Bounds = new(bounds);
         _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
         _jumpSpeed = 10;
         _bottom = 20;

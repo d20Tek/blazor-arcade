@@ -35,7 +35,7 @@ internal class Obstacle
         {
             Type.Cactus1 => "assets/trex/cactus1.png",
             Type.Cactus2 => "assets/trex/cactus2.png",
-            Type.Cactus3 => "assets/trex/cactus2.png",
+            Type.Cactus3 => "assets/trex/cactus3.png",
             Type.Pterodactyl => "assets/trex/pteryl-flying.gif",
             _ => throw new InvalidOperationException(),
         };
