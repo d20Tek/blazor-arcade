@@ -8,9 +8,10 @@ TRex Runner
 - [x] Refactor dino jumping based on C# code rather than CSS animation.
 - [x] Add obstacle with multiple types (single cactus, double, ptery) moving across screen.
 - [x] Add hit detection between dino and obstacles.
+- [x] Add wider three cactus obstacle.
 - [ ] Add flying pteryls.
 - [x] Add crouch ability to dino.
-- [ ] Add scoring for jumping obstacle.
+- [x] Add scoring for jumping obstacle.
 - [ ] Add ability for reactive sizing of game play.
 - [ ] Figure out how to stop parallax scrolling on game over.
 - [ ] Add levels that control speed, spawn intervals, and types of obstacles.

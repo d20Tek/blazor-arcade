@@ -5,7 +5,7 @@ internal class Obstacles
     private readonly Random _rnd = new();
     private readonly List<Obstacle> _obstacles = new();
 
-    public void Move()
+    public void Move(GameState state)
     {
         for (int i = _obstacles.Count - 1; i >= 0; i--)
         {
@@ -15,6 +15,7 @@ internal class Obstacles
             if (_obstacles[i].Bounds.X < -_obstacles[i].Bounds.Width)
             {
                 _obstacles.RemoveAt(i);
+                state.IncrementScore(1);
             }
         }
     }

@@ -28,7 +28,7 @@ internal class TrexGameEngine
         {
             Dino.Move();
             Obstacles.GenerateObstacles(_state);
-            Obstacles.Move();
+            Obstacles.Move(_state);
 
             GameOver = Dino.DetectCollision(Obstacles);
 
