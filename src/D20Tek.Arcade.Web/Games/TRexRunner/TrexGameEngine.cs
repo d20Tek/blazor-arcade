@@ -8,7 +8,7 @@ internal class TrexGameEngine
 
     public int Level { get; private set; } = 1;
 
-    public int Score { get; private set; } = 0;
+    public int Score => _state.Score;
 
     public bool GameOver { get; private set; } = false;
 
@@ -30,7 +30,7 @@ internal class TrexGameEngine
             Obstacles.GenerateObstacles(_state);
             Obstacles.Move();
 
-            // todo: hit detection.
+            GameOver = Dino.DetectCollision(Obstacles);
 
             stateChangedAction();
             await Task.Delay(30);

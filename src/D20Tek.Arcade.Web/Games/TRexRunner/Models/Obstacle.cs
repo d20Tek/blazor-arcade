@@ -37,7 +37,7 @@ internal class Obstacle
             Type.Cactus2 => "assets/trex/cactus2.png",
             Type.Cactus3 => "assets/trex/cactus2.png",
             Type.Pterodactyl => "assets/trex/pteryl-flying.gif",
-            _ => throw new NotImplementedException(),
+            _ => throw new InvalidOperationException(),
         };
 
     public void Move()

@@ -6,7 +6,8 @@ internal class DinoPlayer
     {
         Running,
         Jumping,
-        Crouching
+        Crouching,
+        Dead
     }
 
     private int _jumpSpeed = 10;
@@ -27,8 +28,16 @@ internal class DinoPlayer
         _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
     }
 
-    public string GetImage() => (_state == States.Crouching) ? "assets/trex/dino-crouch.gif" : "assets/trex/dino-run.gif";
-
+    public string GetImage() =>
+        _state switch
+        {
+            States.Running => "assets/trex/dino-run.gif",
+            States.Jumping => "assets/trex/dino-run.gif",
+            States.Crouching => "assets/trex/dino-crouch.gif",
+            States.Dead => "assets/trex/dino-dead.png",
+            _ => throw new InvalidOperationException(),
+        };
+        
     public void Jump()
     {
         if (_state == States.Running) _state = States.Jumping;
@@ -47,6 +56,7 @@ internal class DinoPlayer
         {
             _bottom += _jumpSpeed;
             Bounds.Translate(0, -_jumpSpeed);
+            _hitBox.Translate(0, -_jumpSpeed);
 
             if (_bottom > 150)
             {
@@ -59,5 +69,16 @@ internal class DinoPlayer
                 _jumpSpeed = 10;
             }
         }
+    }
+
+    public bool DetectCollision(Obstacles obstacles)
+    {
+        var obstacle = obstacles.First();
+        if (obstacle is null) return false;
+
+        var collided = _hitBox.IntersectsWith(obstacle.Bounds);
+        if (collided is true) _state = States.Dead;
+
+        return collided;
     }
 }

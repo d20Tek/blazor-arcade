@@ -27,6 +27,7 @@ public partial class TrexGrid
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
 
             await _engine.GameLoop(StateHasChanged);
+            await Task.Delay(300);
             await GameEnded.InvokeAsync(_engine.Score);
         }
     }

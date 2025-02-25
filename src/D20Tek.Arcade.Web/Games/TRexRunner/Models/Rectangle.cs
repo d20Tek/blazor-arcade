@@ -1,4 +1,6 @@
-﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
+﻿using System.Drawing;
+
+namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
 internal class Rectangle
 {
@@ -23,6 +25,10 @@ internal class Rectangle
         X += x;
         Y += y;
     }
+
+    public bool IntersectsWith(Rectangle rect) =>
+        (rect.X < X + Width) && (X < rect.X + rect.Width) &&
+        (rect.Y < Y + Height) && (Y < rect.Y + rect.Height);
 
     public static Rectangle Inflate(Rectangle rect, int width, int height)
     {

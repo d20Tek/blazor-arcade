@@ -30,4 +30,6 @@ internal class Obstacles
     }
 
     public IReadOnlyList<Obstacle> ToList() => _obstacles;
+
+    public Obstacle? First() => _obstacles.FirstOrDefault();
 }
