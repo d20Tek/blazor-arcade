@@ -12,6 +12,7 @@ TRex Runner
 - [x] Add flying pteryls.
 - [x] Add crouch ability to dino.
 - [x] Add scoring for jumping obstacle.
+- [ ] Add InputController to handle key/button presses.
 - [ ] Add ability for reactive sizing of game play.
 - [ ] Figure out how to stop parallax scrolling on game over.
 - [ ] Add levels that control speed, spawn intervals, score multiplier, and types of obstacles.

@@ -13,6 +13,8 @@ internal class TrexGameEngine
 
     public bool GameOver { get; private set; } = false;
 
+    public InputController Input { get; }
+
     public DinoPlayer Dino { get; }
 
     public Obstacles Obstacles { get; } = new();
@@ -20,6 +22,7 @@ internal class TrexGameEngine
     public TrexGameEngine(GameState state)
     {
         _state = state;
+        Input = new InputController(this);
         Dino = new(_state);
     }
 

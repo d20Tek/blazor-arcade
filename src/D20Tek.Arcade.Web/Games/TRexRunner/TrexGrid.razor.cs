@@ -1,5 +1,4 @@
 ﻿using D20Tek.Arcade.Web.Common;
-using D20Tek.Arcade.Web.Games.Components;
 using D20Tek.Arcade.Web.Games.TRexRunner.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -36,10 +35,5 @@ public partial class TrexGrid
     }
 
     [JSInvokable]
-    public async Task HandleKeydown(string key)
-    {
-        if (key == KnownKeys.Q || key == KnownKeys.q) await _engine.EndGame();
-        if (key == KnownKeys.ArrowUp) _engine.Dino.Jump();
-        if (key == KnownKeys.ArrowDown) _engine.Dino.Crouch();
-    }
+    public async Task HandleKeydown(string key) => await _engine.Input.ProcessKey(key);
 }
