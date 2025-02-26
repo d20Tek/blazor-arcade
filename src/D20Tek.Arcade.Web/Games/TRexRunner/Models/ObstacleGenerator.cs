@@ -9,7 +9,7 @@ internal static class ObstacleGenerator
     private const int _flyingMultiplier = 3;
     private static readonly int _numObstacleTypes = EnumExtensions.Count<Obstacle.Type>();
 
-    public static Obstacle Create(GameState state)
+    public static IGameEntity Create(GameState state)
     {
         var type = GenerateRandomType(state);
         var typeSize = state.Layout.Obstacles[(int)type];

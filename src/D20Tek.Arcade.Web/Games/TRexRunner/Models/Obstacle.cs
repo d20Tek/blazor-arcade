@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
-internal class Obstacle
+internal class Obstacle : IGameEntity
 {
     internal enum Type
     {
@@ -36,7 +36,7 @@ internal class Obstacle
         Bounds.Translate(-_speed, 0);
     }
 
-    public static Obstacle Create(GameState state) => ObstacleGenerator.Create(state);
+    public static IGameEntity Create(GameState state) => ObstacleGenerator.Create(state);
 
     internal static Obstacle Create(Rectangle bounds, Type type) => new(bounds, type);
 }

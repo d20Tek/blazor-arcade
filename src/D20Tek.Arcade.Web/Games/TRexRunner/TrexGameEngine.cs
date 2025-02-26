@@ -34,7 +34,7 @@ internal class TrexGameEngine
             Obstacles.GenerateObstacles(_state);
             Obstacles.Move(_state);
 
-            GameOver = Dino.DetectCollision(Obstacles);
+            GameOver = Dino.DetectCollision(Obstacles.ToList());
 
             stateChangedAction();
             await Task.Delay(_defaultRefreshRate);

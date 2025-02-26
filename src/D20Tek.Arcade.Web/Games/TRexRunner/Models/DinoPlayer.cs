@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
-internal class DinoPlayer
+internal class DinoPlayer : IGameEntity, IPlayerEntity
 {
     internal enum States
     {
@@ -95,9 +95,9 @@ internal class DinoPlayer
         }
     }
 
-    public bool DetectCollision(Obstacles obstacles)
+    public bool DetectCollision(IReadOnlyList<IGameEntity> obstacles)
     {
-        var obstacle = obstacles.First();
+        var obstacle = obstacles.FirstOrDefault();
         if (obstacle is null) return false;
 
         var collided = _hitBox.IntersectsWith(obstacle.Bounds);

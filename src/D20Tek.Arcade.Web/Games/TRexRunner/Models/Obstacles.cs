@@ -3,7 +3,7 @@
 internal class Obstacles
 {
     private readonly Random _rnd = new();
-    private readonly List<Obstacle> _obstacles = new();
+    private readonly List<IGameEntity> _obstacles = new();
 
     public void Move(GameState state)
     {
@@ -29,7 +29,7 @@ internal class Obstacles
         }
     }
 
-    public IReadOnlyList<Obstacle> ToList() => _obstacles;
+    public IReadOnlyList<IGameEntity> ToList() => _obstacles;
 
-    public Obstacle? First() => _obstacles.FirstOrDefault();
+    public IGameEntity? First() => _obstacles.FirstOrDefault();
 }
