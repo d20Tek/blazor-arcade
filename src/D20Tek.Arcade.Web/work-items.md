@@ -12,7 +12,8 @@ TRex Runner
 - [x] Add flying pteryls.
 - [x] Add crouch ability to dino.
 - [x] Add scoring for jumping obstacle.
-- [ ] Add InputController to handle key/button presses.
+- [x] Add InputController to handle key/button presses.
+- [x] Add buttons to handle jump/crouch actions.
 - [ ] Add ability for reactive sizing of game play.
 - [ ] Figure out how to stop parallax scrolling on game over.
 - [ ] Add levels that control speed, spawn intervals, score multiplier, and types of obstacles.
@@ -31,6 +32,7 @@ Tetris
 - [x] Add levels that increase scoring and drop speed.
 - [x] Add separate button controls for this game.
 - [x] Refactor large code files.
+- [ ] Change button handlers to work onbuttondown rather than onclick to be more responsive.
 
 Snake game
 ==========
@@ -47,3 +49,4 @@ Snake game
 - [x] Add input arrow buttons for mobile gameplay.
 - [x] Add KnownKeys class to Components to remove string constants from key and button handling.
 - [x] Fix up grid sizes on different screen sizes.
+- [ ] Change button handlers to work onbuttondown rather than onclick to be more responsive.

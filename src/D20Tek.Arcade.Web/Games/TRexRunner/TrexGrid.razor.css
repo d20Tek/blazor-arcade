@@ -13,6 +13,11 @@
     background-color: #cce7ff; /* Light blue sky */
 }
 
+.button-container {
+    position: relative;
+    width: 400px;
+}
+
 .dino {
     position: absolute;
     /*    background-color: green;*/
@@ -54,8 +59,12 @@
 /* For screens larger than 600px (e.g., tablets and desktops) */
 @media (min-width: 600px) {
     .game-container {
-        width: 480px; /* Increase width */
-        height: 360px; /* Increase height */
+        width: 480px;
+        height: 360px;
+    }
+
+    .button-container {
+        width: 480px;
     }
 }
 
@@ -64,5 +73,9 @@
     .game-container {
         width: 600px;
         height: 480px;
+    }
+
+    .button-container {
+        width: 600px;
     }
 }
