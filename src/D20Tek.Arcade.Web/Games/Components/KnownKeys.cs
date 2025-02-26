@@ -7,6 +7,8 @@ internal static class KnownKeys
     public const string ArrowDown = "ArrowDown";
     public const string ArrowRight = "ArrowRight";
     public const string Space = " ";
+    public const string Q = "Q";
+    public const string q = "q";
     public const string Z = "Z";
     public const string z = "z";
 }

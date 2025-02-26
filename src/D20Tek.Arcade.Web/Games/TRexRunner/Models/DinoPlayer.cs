@@ -11,11 +11,11 @@ internal class DinoPlayer
     }
 
     private int _jumpSpeed = 10;
+    private int _bottom = 20;
     private States _state;
     private Rectangle _resetBounds;
     private Rectangle _crouchedBounds;
     private Rectangle _hitBox;
-    private int _bottom = 20;
 
     public Rectangle Bounds { get; private set; }
 
@@ -34,7 +34,7 @@ internal class DinoPlayer
             state.Layout.Crouched.Height);
 
         Bounds = new(_resetBounds);
-        _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
+        _hitBox = CaclulateHitBox();
     }
 
     public string GetImage() =>
@@ -106,10 +106,12 @@ internal class DinoPlayer
         return collided;
     }
 
+    private Rectangle CaclulateHitBox() => Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
+
     private void Reset(Rectangle bounds)
     {
         Bounds = new(bounds);
-        _hitBox = Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
+        _hitBox = CaclulateHitBox();
         _jumpSpeed = 10;
         _bottom = 20;
     }

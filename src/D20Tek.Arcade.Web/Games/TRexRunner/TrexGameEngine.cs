@@ -4,6 +4,7 @@ namespace D20Tek.Arcade.Web.Games.TRexRunner;
 
 internal class TrexGameEngine
 {
+    private const int _defaultRefreshRate = 30;
     private readonly GameState _state;
 
     public int Level { get; private set; } = 1;
@@ -33,7 +34,7 @@ internal class TrexGameEngine
             GameOver = Dino.DetectCollision(Obstacles);
 
             stateChangedAction();
-            await Task.Delay(30);
+            await Task.Delay(_defaultRefreshRate);
         }
     }
 
