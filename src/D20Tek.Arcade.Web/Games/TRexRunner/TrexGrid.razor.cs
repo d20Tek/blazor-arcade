@@ -8,15 +8,9 @@ namespace D20Tek.Arcade.Web.Games.TRexRunner;
 public partial class TrexGrid
 {
     private const int _endGameDelay = 300;
-
-    private GameState _state;
     private TrexGameEngine _engine;
 
-    public TrexGrid()
-    {
-        _state = GameState.Create(new RandomRoller());
-        _engine = new(_state);
-    }
+    public TrexGrid() => _engine = TrexGameEngine.Create(GameState.Create(new RandomRoller()));
 
     [Parameter]
     public EventCallback<int> GameEnded { get; set; }
@@ -25,22 +19,27 @@ public partial class TrexGrid
     {
         if (firstRender)
         {
-            var dotNetRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
-            await JS.InvokeVoidAsync("gameResizeHandler.init", dotNetRef);
-
-            var width = await JS.InvokeAsync<int>("getGameContainerWidth", ".game-container");
-            _engine.UpdateLayout(width);
-
+            await RegisterJSCallbacks();
+            await GetInitialGameWidth();
             await RunGame();
         }
     }
 
     [JSInvokable]
-    public async Task HandleKeydown(string key) => await _engine.Input.ProcessKey(key);
+    public void HandleKeydown(string key) => _engine.Input.ProcessKey(key);
 
     [JSInvokable]
     public void UpdateGameWidth(int newWidth) => _engine.UpdateLayout(newWidth);
+
+    private async Task RegisterJSCallbacks()
+    {
+        var dotNetRef = DotNetObjectReference.Create(this);
+        await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
+        await JS.InvokeVoidAsync("gameResizeHandler.init", dotNetRef);
+    }
+
+    private async Task GetInitialGameWidth() =>
+        _engine.UpdateLayout(await JS.InvokeAsync<int>("getGameContainerWidth", ".game-container"));
 
     private async Task RunGame()
     {

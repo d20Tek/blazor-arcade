@@ -20,7 +20,7 @@ TRex Runner
 - [x] Add max jump height that changes for the 3 layout size.
 - [ ] Figure out how to stop parallax scrolling on game over.
 - [ ] Add levels that control speed, spawn intervals, score multiplier, and types of obstacles.
-- [ ] Refactor to make code more functional style.
+- [x] Refactor to make code more functional style.
 - [ ] Refactor large code files.
 
 Tetris

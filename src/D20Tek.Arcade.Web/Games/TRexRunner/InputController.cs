@@ -10,9 +10,9 @@ internal class InputController
 
     public static InputController Create(TrexGameEngine engine) => new(engine);
 
-    public async Task ProcessKey(string key)
+    public void ProcessKey(string key)
     {
-        if (key == KnownKeys.Q || key == KnownKeys.q) await _engine.EndGame();
+        if (key == KnownKeys.Q || key == KnownKeys.q) _engine.EndGame();
         if (key == KnownKeys.ArrowUp) _engine.Dino.Jump();
         if (key == KnownKeys.ArrowDown) _engine.Dino.Crouch();
     }

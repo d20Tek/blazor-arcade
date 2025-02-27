@@ -19,13 +19,15 @@ internal class TrexGameEngine
 
     public Obstacles Obstacles { get; }
 
-    public TrexGameEngine(GameState state)
+    private TrexGameEngine(GameState state)
     {
         _state = state;
         Input = InputController.Create(this);
         Dino = DinoPlayer.Create(_state);
         Obstacles = Obstacles.Create();
     }
+
+    public static TrexGameEngine Create(GameState state) => new(state);
 
     public async Task GameLoop(Action stateChangedAction)
     {
@@ -42,20 +44,17 @@ internal class TrexGameEngine
         }
     }
 
-    public void UpdateLayout(int width)
-    {
-        var oldWidth = _state.Layout.Viewport.Width;
-        var layoutData = _state.LayoutUpdated(LayoutConstants.LayoutSizeFromWidth(width));
-        if (oldWidth != layoutData.Viewport.Width)
-        {
-            Dino.LayoutUpdated(layoutData);
-            Obstacles.LayoutUpdated(layoutData);
-        }
-    }
+    public void EndGame() => GameOver = true;
 
-    public Task EndGame()
+    public void UpdateLayout(int width) =>
+        UpdateEntitiesLayout(_state.Layout.Viewport.Width, _state.LayoutUpdated(LayoutConstants.LayoutSizeFromWidth(width)));
+
+    private void UpdateEntitiesLayout(int oldWidth, LayoutData newLayout)
     {
-        GameOver = true;
-        return Task.CompletedTask;
+        if (oldWidth != newLayout.Viewport.Width)
+        {
+            Dino.LayoutUpdated(newLayout);
+            Obstacles.LayoutUpdated(newLayout);
+        }
     }
 }
