@@ -13,28 +13,13 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
     private int _jumpSpeed = 10;
     private int _bottom = 20;
     private States _state;
-    private Rectangle _resetBounds;
-    private Rectangle _crouchedBounds;
-    private Rectangle _hitBox;
+    private BoundingBox _boundingBox;
 
-    public Rectangle Bounds { get; private set; }
+    public Rectangle Bounds => _boundingBox.Bounds;
 
     public DinoPlayer(GameState state)
     {
-        _resetBounds = new(
-            state.Layout.Dino.Width,
-            state.Layout.Viewport.Height - LayoutConstants.BottomMargin - state.Layout.Dino.Height,
-            state.Layout.Dino.Width,
-            state.Layout.Dino.Height);
-
-        _crouchedBounds = new(
-            state.Layout.Crouched.Width,
-            state.Layout.Viewport.Height - LayoutConstants.BottomMargin - state.Layout.Crouched.Height,
-            state.Layout.Crouched.Width,
-            state.Layout.Crouched.Height);
-
-        Bounds = new(_resetBounds);
-        _hitBox = CaclulateHitBox();
+        _boundingBox = new(state.Layout);
     }
 
     public string GetImage() =>
@@ -51,7 +36,7 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
     {
         if (_state == States.Crouching)
         {
-            Reset(_resetBounds);
+            Reset();
             _state = States.Running;
         }
         else if (_state == States.Running)
@@ -64,12 +49,12 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
     {
         if (_state == States.Jumping)
         {
-            Reset(_resetBounds);
+            Reset();
             _state = States.Running;
         }
         else if (_state == States.Running)
         {
-            Reset(_crouchedBounds);
+            Reset(false);
             _state = States.Crouching;
         }
     }
@@ -79,8 +64,7 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
         if (_state == States.Jumping)
         {
             _bottom += _jumpSpeed;
-            Bounds.Translate(0, -_jumpSpeed);
-            _hitBox.Translate(0, -_jumpSpeed);
+            _boundingBox.Translate(0, -_jumpSpeed);
 
             if (_bottom > 150)
             {
@@ -100,18 +84,19 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
         var obstacle = obstacles.FirstOrDefault();
         if (obstacle is null) return false;
 
-        var collided = _hitBox.IntersectsWith(obstacle.Bounds);
+        var collided = _boundingBox.IntersectsWith(obstacle.Bounds);
         if (collided is true) _state = States.Dead;
 
         return collided;
     }
 
-    private Rectangle CaclulateHitBox() => Rectangle.Inflate(Bounds, -(Bounds.Width / 4), -5);
-
-    private void Reset(Rectangle bounds)
+    private void Reset(bool useOriginal = true)
     {
-        Bounds = new(bounds);
-        _hitBox = CaclulateHitBox();
+        if (useOriginal)
+            _boundingBox.SetOriginal();
+        else
+            _boundingBox.SetCrouch();
+
         _jumpSpeed = 10;
         _bottom = 20;
     }
