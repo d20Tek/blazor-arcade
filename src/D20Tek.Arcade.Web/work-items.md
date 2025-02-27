@@ -14,6 +14,7 @@ TRex Runner
 - [x] Add scoring for jumping obstacle.
 - [x] Add InputController to handle key/button presses.
 - [x] Add buttons to handle jump/crouch actions.
+- [x] Refactor multiple DinoPlayer bounding rectangles into a helper class to manage all of the changes.
 - [ ] Add ability for reactive sizing of game play.
 - [ ] Figure out how to stop parallax scrolling on game over.
 - [ ] Add levels that control speed, spawn intervals, score multiplier, and types of obstacles.
