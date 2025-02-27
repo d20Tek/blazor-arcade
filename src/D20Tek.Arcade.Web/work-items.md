@@ -16,10 +16,11 @@ TRex Runner
 - [x] Add buttons to handle jump/crouch actions.
 - [x] Refactor multiple DinoPlayer bounding rectangles into a helper class to manage all of the changes.
 - [x] Add ability for reactive sizing of game play on component start.
-- [ ] Respond to window resizes during game play.
+- [x] Respond to window resizes during game play.
 - [ ] Add max jump height that changes for the 3 layout size.
 - [ ] Figure out how to stop parallax scrolling on game over.
 - [ ] Add levels that control speed, spawn intervals, score multiplier, and types of obstacles.
+- [ ] Refactor to make code more functional style.
 - [ ] Refactor large code files.
 
 Tetris

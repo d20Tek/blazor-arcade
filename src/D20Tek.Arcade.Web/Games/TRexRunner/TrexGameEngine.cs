@@ -44,9 +44,13 @@ internal class TrexGameEngine
 
     public void UpdateLayout(int width)
     {
+        var oldWidth = _state.Layout.Viewport.Width;
         var layoutData = _state.LayoutUpdated(LayoutConstants.LayoutSizeFromWidth(width));
-        Dino.LayoutUpdated(layoutData);
-        Obstacles.LayoutUpdated(layoutData);
+        if (oldWidth != layoutData.Viewport.Width)
+        {
+            Dino.LayoutUpdated(layoutData);
+            Obstacles.LayoutUpdated(layoutData);
+        }
     }
 
     public Task EndGame()

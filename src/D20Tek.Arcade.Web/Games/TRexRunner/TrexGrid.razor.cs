@@ -27,6 +27,7 @@ public partial class TrexGrid
         {
             var dotNetRef = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
+            await JS.InvokeVoidAsync("gameResizeHandler.init", dotNetRef);
 
             var width = await JS.InvokeAsync<int>("getGameContainerWidth", ".game-container");
             _engine.UpdateLayout(width);
@@ -37,6 +38,9 @@ public partial class TrexGrid
 
     [JSInvokable]
     public async Task HandleKeydown(string key) => await _engine.Input.ProcessKey(key);
+
+    [JSInvokable]
+    public void UpdateGameWidth(int newWidth) => _engine.UpdateLayout(newWidth);
 
     private async Task RunGame()
     {
