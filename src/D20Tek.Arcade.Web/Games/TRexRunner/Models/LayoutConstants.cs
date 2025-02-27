@@ -8,6 +8,7 @@ internal static class LayoutConstants
         {
             Viewport = new(400, 300),
             Dino = new(40, 40),
+            MaxJumpHeight = 120,
             Crouched = new(40, 26),
             Obstacles = [new(16, 30), new(30, 30), new(36, 30), new(33, 16)]
         },
@@ -15,6 +16,7 @@ internal static class LayoutConstants
         {
             Viewport = new(480, 360),
             Dino = new(52, 52),
+            MaxJumpHeight = 130,
             Crouched = new(52, 32),
             Obstacles = [new(18, 35), new(34, 35), new(40, 35), new(37, 20)]
         },
@@ -22,6 +24,7 @@ internal static class LayoutConstants
         {
             Viewport = new(600, 480),
             Dino = new(64, 64),
+            MaxJumpHeight = 150,
             Crouched = new(64, 42),
             Obstacles = [new(20, 40), new(38, 40), new(46, 40), new(34, 24)]
         }

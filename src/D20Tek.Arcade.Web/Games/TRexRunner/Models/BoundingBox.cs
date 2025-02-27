@@ -8,6 +8,8 @@ internal class BoundingBox
 
     public Rectangle Bounds { get; private set; }
 
+    public int MaxJump { get; private set; }
+
     public BoundingBox(LayoutData layoutData)
     {
         _resetBounds = new(
@@ -24,6 +26,8 @@ internal class BoundingBox
 
         Bounds = new(_resetBounds);
         _hitBox = CaclulateHitBox();
+
+        MaxJump = layoutData.MaxJumpHeight;
     }
 
     public bool IntersectsWith(Rectangle other) => _hitBox.IntersectsWith(other);

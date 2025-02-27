@@ -11,7 +11,7 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
     }
 
     private int _jumpSpeed = 10;
-    private int _bottom = 20;
+    private int _bottom = LayoutConstants.BottomMargin;
     private States _state;
     private BoundingBox _boundingBox;
 
@@ -65,14 +65,14 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
             _bottom += _jumpSpeed;
             _boundingBox.Translate(0, -_jumpSpeed);
 
-            if (_bottom > 150)
+            if (_bottom > _boundingBox.MaxJump)
             {
                 _jumpSpeed = -10;
             }
-            if (_bottom <= 20)
+            if (_bottom <= LayoutConstants.BottomMargin)
             {
                 _state = States.Running;
-                _bottom = 20;
+                _bottom = LayoutConstants.BottomMargin;
                 _jumpSpeed = 10;
             }
         }
@@ -99,6 +99,6 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
             _boundingBox.SetCrouch();
 
         _jumpSpeed = 10;
-        _bottom = 20;
+        _bottom = LayoutConstants.BottomMargin;
     }
 }
