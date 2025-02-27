@@ -20,12 +20,5 @@
     </div>
 </div>
 <div class="full-area">
-    <div class="button-container">
-        <button class="btn btn-outline-light" style="width: 49%" @onmousedown="() => HandleKeydown(KnownKeys.ArrowDown)">
-            <i class="bi bi-arrow-down"></i>
-        </button>
-        <button class="btn btn-outline-light" style="width: 49%" @onmousedown="() => HandleKeydown(KnownKeys.ArrowUp)">
-            <i class="bi bi-arrow-up"></i>
-        </button>
-    </div>
+    <ButtonPanel DirectionClicked=HandleKeydown />
 </div>
