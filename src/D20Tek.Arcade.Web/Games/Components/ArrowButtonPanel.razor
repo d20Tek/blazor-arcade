@@ -1,14 +1,14 @@
 ﻿<div class="button-panel" @attributes="AdditionalAttributes">
-    <button class="left btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowLeft)">
+    <button class="left btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowLeft)">
         <i class="bi bi-arrow-left"></i>
     </button>
-    <button class="up btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowUp)">
+    <button class="up btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowUp)">
         <i class="bi bi-arrow-up"></i>
     </button>
-    <button class="down btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowDown)">
+    <button class="down btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowDown)">
         <i class="bi bi-arrow-down"></i>
     </button>
-    <button class="right btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowRight)">
+    <button class="right btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowRight)">
         <i class="bi bi-arrow-right"></i>
     </button>
 </div>

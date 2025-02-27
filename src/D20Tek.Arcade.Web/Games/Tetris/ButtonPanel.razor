@@ -1,20 +1,20 @@
 ﻿<div class="button-panel" @attributes="AdditionalAttributes">
-    <button class="counter btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.Z)">
+    <button class="counter btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.Z)">
         <i class="bi bi-arrow-counterclockwise"></i>
     </button>
-    <button class="up btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowUp)">
+    <button class="up btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowUp)">
         <i class="bi bi-arrow-clockwise"></i>
     </button>
-    <button class="left btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowLeft)">
+    <button class="left btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowLeft)">
         <i class="bi bi-arrow-left"></i>
     </button>
-    <button class="right btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowRight)">
+    <button class="right btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowRight)">
         <i class="bi bi-arrow-right"></i>
     </button>
-    <button class="enter btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.Space)">
+    <button class="enter btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.Space)">
         <i class="bi bi-download"></i>
     </button>
-    <button class="down btn-outline-light" @onclick="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowDown)">
+    <button class="down btn-outline-light" @onmousedown="() => DirectionClicked.InvokeAsync(KnownKeys.ArrowDown)">
         <i class="bi bi-arrow-down"></i>
     </button>
 </div>
