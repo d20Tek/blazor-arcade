@@ -17,10 +17,12 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
 
     public Rectangle Bounds => _boundingBox.Bounds;
 
-    public DinoPlayer(GameState state)
+    private DinoPlayer(GameState state)
     {
         _boundingBox = new(state.Layout);
     }
+
+    public static DinoPlayer Create(GameState state) => new(state);
 
     public string GetImage() =>
         _state switch

@@ -17,13 +17,14 @@ internal class TrexGameEngine
 
     public DinoPlayer Dino { get; }
 
-    public Obstacles Obstacles { get; } = new();
+    public Obstacles Obstacles { get; }
 
     public TrexGameEngine(GameState state)
     {
         _state = state;
-        Input = new InputController(this);
-        Dino = new(_state);
+        Input = InputController.Create(this);
+        Dino = DinoPlayer.Create(_state);
+        Obstacles = Obstacles.Create();
     }
 
     public async Task GameLoop(Action stateChangedAction)

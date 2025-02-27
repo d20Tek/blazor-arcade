@@ -28,12 +28,17 @@ public partial class TrexGrid
             var dotNetRef = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
 
-            await _engine.GameLoop(StateHasChanged);
-            await Task.Delay(_endGameDelay);
-            await GameEnded.InvokeAsync(_engine.Score);
+            await RunGame();
         }
     }
 
     [JSInvokable]
     public async Task HandleKeydown(string key) => await _engine.Input.ProcessKey(key);
+
+    private async Task RunGame()
+    {
+        await _engine.GameLoop(StateHasChanged);
+        await Task.Delay(_endGameDelay);
+        await GameEnded.InvokeAsync(_engine.Score);
+    }
 }

@@ -6,7 +6,9 @@ internal class InputController
 {
     private readonly TrexGameEngine _engine;
 
-    public InputController(TrexGameEngine engine) => _engine = engine;
+    private InputController(TrexGameEngine engine) => _engine = engine;
+
+    public static InputController Create(TrexGameEngine engine) => new(engine);
 
     public async Task ProcessKey(string key)
     {
