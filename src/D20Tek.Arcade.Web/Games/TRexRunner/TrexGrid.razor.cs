@@ -28,6 +28,9 @@ public partial class TrexGrid
             var dotNetRef = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
 
+            var width = await JS.InvokeAsync<int>("getGameContainerWidth", ".game-container");
+            _engine.UpdateLayout(width);
+
             await RunGame();
         }
     }

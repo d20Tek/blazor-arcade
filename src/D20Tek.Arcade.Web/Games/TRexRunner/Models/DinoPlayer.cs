@@ -17,10 +17,7 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
 
     public Rectangle Bounds => _boundingBox.Bounds;
 
-    private DinoPlayer(GameState state)
-    {
-        _boundingBox = new(state.Layout);
-    }
+    private DinoPlayer(GameState state) => _boundingBox = new(state.Layout);
 
     public static DinoPlayer Create(GameState state) => new(state);
 
@@ -33,7 +30,7 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
             States.Dead => "assets/trex/dino-dead.png",
             _ => throw new InvalidOperationException(),
         };
-        
+
     public void Jump()
     {
         if (_state == States.Crouching)
@@ -91,6 +88,8 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
 
         return collided;
     }
+
+    public void LayoutUpdated(LayoutData layout) => _boundingBox = new (layout);
 
     private void Reset(bool useOriginal = true)
     {

@@ -30,4 +30,12 @@ internal static class LayoutConstants
     public const int BottomMargin = 20;
 
     public static LayoutData GetLayout(LayoutSize layout) => _layouts[(int)layout];
+
+    public static LayoutSize LayoutSizeFromWidth(int width) =>
+        width switch
+        {
+            <= 400 => LayoutSize.Small,
+            >= 597 => LayoutSize.Large,
+            _ => LayoutSize.Medium
+        };
 }

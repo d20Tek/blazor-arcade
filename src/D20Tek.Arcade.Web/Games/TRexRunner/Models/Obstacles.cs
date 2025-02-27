@@ -23,6 +23,8 @@ internal class Obstacles
         }
     }
 
+    public void LayoutUpdated(LayoutData layout) => _obstacles.ForEach(o => o.LayoutUpdated(layout));
+
     public void GenerateObstacles(GameState state)
     {
         var gameWidth = state.Layout.Viewport.Width;

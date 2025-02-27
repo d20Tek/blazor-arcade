@@ -6,5 +6,7 @@ internal interface IGameEntity
 
     public string GetImage();
 
+    public void LayoutUpdated(LayoutData layout);
+
     public void Move();
 }

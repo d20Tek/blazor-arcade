@@ -36,6 +36,9 @@ internal class Obstacle : IGameEntity
         Bounds.Translate(-_speed, 0);
     }
 
+    public void LayoutUpdated(LayoutData layout) =>
+        Bounds.SetPosition(Bounds.X, layout.Viewport.Height - LayoutConstants.BottomMargin - Bounds.Height);
+
     public static IGameEntity Create(GameState state) => ObstacleGenerator.Create(state);
 
     internal static Obstacle Create(Rectangle bounds, Type type) => new(bounds, type);
