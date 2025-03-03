@@ -33,7 +33,7 @@ internal class TrexGameEngine
     {
         while (!_state.GameOver)
         {
-            Dino.Move();
+            Dino.Move(_state);
             Obstacles.GenerateObstacles(_state);
             Obstacles.Move(_state);
 

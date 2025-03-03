@@ -8,5 +8,5 @@ internal interface IGameEntity
 
     public void LayoutUpdated(LayoutData layout);
 
-    public void Move();
+    public void Move(GameState gameState);
 }

@@ -58,7 +58,7 @@ internal class DinoPlayer : IGameEntity, IPlayerEntity
         }
     }
 
-    public void Move()
+    public void Move(GameState gameState)
     {
         if (_state == States.Jumping)
         {

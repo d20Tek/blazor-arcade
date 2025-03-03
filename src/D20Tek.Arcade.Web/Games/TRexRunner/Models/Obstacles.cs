@@ -12,7 +12,7 @@ internal class Obstacles
     {
         for (int i = _obstacles.Count - 1; i >= 0; i--)
         {
-            _obstacles[i].Move();
+            _obstacles[i].Move(state);
 
             // Remove obstacles that go off-screen
             if (_obstacles[i].Bounds.X < -_obstacles[i].Bounds.Width)

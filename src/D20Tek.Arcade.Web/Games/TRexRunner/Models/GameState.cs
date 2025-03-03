@@ -16,6 +16,8 @@ internal class GameState
 
     public int Level => _currentLevel.Id;
 
+    public int Speed => _currentLevel.Speed;
+
     public bool GameOver { get; private set; }
 
     private GameState(IRandomRoller rnd, LayoutSize layoutSize)

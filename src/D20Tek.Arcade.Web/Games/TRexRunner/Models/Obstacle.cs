@@ -31,9 +31,9 @@ internal class Obstacle : IGameEntity
             _ => throw new InvalidOperationException(),
         };
 
-    public void Move()
+    public void Move(GameState gameState)
     {
-        Bounds.Translate(-_speed, 0);
+        Bounds.Translate(-gameState.Speed, 0);
     }
 
     public void LayoutUpdated(LayoutData layout) =>
