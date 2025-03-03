@@ -6,4 +6,4 @@ internal record Level(
     bool HasPterodactyl,
     int PointMultiplier,
     int ObstaclesToComplete,
-    int Speed);
+    int ObstacleSpeed);

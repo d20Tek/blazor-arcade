@@ -1,9 +1,11 @@
 ﻿using D20Tek.Arcade.Web.Common;
+using System.Diagnostics;
 
 namespace D20Tek.Arcade.Web.Games.TRexRunner.Models;
 
 internal class GameState
 {
+    private static readonly int _numObstacleTypes = EnumExtensions.Count<Obstacle.Type>();
     private readonly LevelTracker _levelTracker = new();
     private Level _currentLevel;
     private int _clearedObstacles = 0;
@@ -16,7 +18,7 @@ internal class GameState
 
     public int Level => _currentLevel.Id;
 
-    public int Speed => _currentLevel.Speed;
+    public int Speed => _currentLevel.ObstacleSpeed;
 
     public bool GameOver { get; private set; }
 
@@ -41,6 +43,14 @@ internal class GameState
     public void SetGameOver(bool isGameOver) => GameOver = isGameOver;
 
     public int RollObstableSpawnRange() => Rnd.Next(300, _currentLevel.SpawnInterval);
+
+    public Obstacle.Type RollObstacleType()
+    {
+        var maxTypes = _currentLevel.HasPterodactyl ? _numObstacleTypes : _numObstacleTypes - 1;
+        var type = Rnd.Next(0, maxTypes);
+        Debug.Assert(type >= 0 && type <= _numObstacleTypes - 1);
+        return (Obstacle.Type)type;
+    }
 
     public bool ChangeLevel()
     {
