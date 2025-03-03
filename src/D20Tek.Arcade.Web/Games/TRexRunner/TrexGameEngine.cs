@@ -6,7 +6,6 @@ internal class TrexGameEngine
 {
     private const int _defaultRefreshRate = 30;
     private readonly GameState _state;
-    private readonly Func<int, Task> _levelChanged;
 
     public int Level => _state.Level;
 
@@ -20,16 +19,15 @@ internal class TrexGameEngine
 
     public Obstacles Obstacles { get; }
 
-    private TrexGameEngine(GameState state, Func<int, Task> levelChanged)
+    private TrexGameEngine(GameState state)
     {
         _state = state;
         Input = InputController.Create(this);
         Dino = DinoPlayer.Create(_state);
         Obstacles = Obstacles.Create();
-        _levelChanged = levelChanged;
     }
 
-    public static TrexGameEngine Create(GameState state, Func<int, Task> levelChanged) => new(state, levelChanged);
+    public static TrexGameEngine Create(GameState state) => new(state);
 
     public async Task GameLoop(Action stateChangedAction)
     {
@@ -40,10 +38,10 @@ internal class TrexGameEngine
             Obstacles.Move(_state);
 
             _state.SetGameOver(Dino.DetectCollision(Obstacles.ToList()));
+            _state.ChangeLevel();
 
             stateChangedAction();
 
-            await HandleNewLevel();
             await Task.Delay(_defaultRefreshRate);
         }
     }
@@ -59,14 +57,6 @@ internal class TrexGameEngine
         {
             Dino.LayoutUpdated(newLayout);
             Obstacles.LayoutUpdated(newLayout);
-        }
-    }
-
-    private async Task HandleNewLevel()
-    {
-        if (_state.ChangeLevel())
-        {
-            await _levelChanged(_state.Level);
         }
     }
 }
