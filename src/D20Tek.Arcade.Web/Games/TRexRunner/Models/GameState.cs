@@ -32,13 +32,15 @@ internal class GameState
 
     public void IncrementScore(int amount)
     {
-        Score += amount;
+        Score += amount * _currentLevel.PointMultiplier;
         _clearedObstacles++;
     }
 
     public LayoutData LayoutUpdated(LayoutSize layoutSize) => Layout = LayoutConstants.GetLayout(layoutSize);
 
     public void SetGameOver(bool isGameOver) => GameOver = isGameOver;
+
+    public int RollObstableSpawnRange() => Rnd.Next(300, _currentLevel.SpawnInterval);
 
     public bool ChangeLevel()
     {

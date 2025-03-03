@@ -28,7 +28,7 @@ internal class Obstacles
     public void GenerateObstacles(GameState state)
     {
         var gameWidth = state.Layout.Viewport.Width;
-        if (_obstacles.Count == 0 || (gameWidth - _obstacles.Last().Bounds.X) > state.Rnd.Next(300, 550))
+        if (_obstacles.Count == 0 || (gameWidth - _obstacles.Last().Bounds.X) > state.RollObstableSpawnRange())
         {
             _obstacles.Add(Obstacle.Create(state));
         }
