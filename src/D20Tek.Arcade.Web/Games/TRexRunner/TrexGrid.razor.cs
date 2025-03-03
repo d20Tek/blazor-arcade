@@ -10,7 +10,7 @@ public partial class TrexGrid
     private const int _endGameDelay = 300;
     private TrexGameEngine _engine;
 
-    public TrexGrid() => _engine = TrexGameEngine.Create(GameState.Create(new RandomRoller()));
+    public TrexGrid() => _engine = TrexGameEngine.Create(GameState.Create(new RandomRoller()), OnLevelChanged);
 
     [Parameter]
     public EventCallback<int> GameEnded { get; set; }
@@ -46,5 +46,10 @@ public partial class TrexGrid
         await _engine.GameLoop(StateHasChanged);
         await Task.Delay(_endGameDelay);
         await GameEnded.InvokeAsync(_engine.Score);
+    }
+
+    private Task OnLevelChanged(int newLevel)
+    {
+        return Task.CompletedTask;
     }
 }
