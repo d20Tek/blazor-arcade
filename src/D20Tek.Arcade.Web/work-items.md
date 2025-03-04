@@ -19,10 +19,9 @@ TRex Runner
 - [x] Respond to window resizes during game play.
 - [x] Add max jump height that changes for the 3 layout size.
 - [x] Fix error with resize handling after TrexGrid component is deleted.
-- [ ] Figure out how to stop parallax scrolling on game over.
 - [x] Add levels that control speed, spawn intervals, score multiplier, and types of obstacles.
 - [x] Refactor to make code more functional style.
-- [ ] Refactor large code files.
+- [x] Refactor large code files.
 
 Tetris
 ======

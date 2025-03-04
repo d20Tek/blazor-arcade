@@ -38,7 +38,7 @@ internal static class LayoutConstants
         width switch
         {
             <= 400 => LayoutSize.Small,
-            >= 597 => LayoutSize.Large,
+            >= 590 => LayoutSize.Large,
             _ => LayoutSize.Medium
         };
 }

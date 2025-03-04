@@ -2,9 +2,9 @@
 
 internal interface IPlayerEntity
 {
-    public bool DetectCollision(IReadOnlyList<IGameEntity> obstacles);
-
     public void Crouch();
+
+    public bool DetectCollision(IReadOnlyList<IGameEntity> obstacles);
 
     public void Jump();
 }

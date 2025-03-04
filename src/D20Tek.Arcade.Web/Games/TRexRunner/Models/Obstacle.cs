@@ -10,7 +10,6 @@ internal class Obstacle : IGameEntity
         Pterodactyl
     }
 
-    private int _speed = 5;
     private Type _type = Type.Cactus1;
 
     public Rectangle Bounds { get; private set; }
@@ -31,10 +30,7 @@ internal class Obstacle : IGameEntity
             _ => throw new InvalidOperationException(),
         };
 
-    public void Move(GameState gameState)
-    {
-        Bounds.Translate(-gameState.Speed, 0);
-    }
+    public void Move(GameState gameState) => Bounds.Translate(-gameState.Speed, 0);
 
     public void LayoutUpdated(LayoutData layout) =>
         Bounds.SetPosition(Bounds.X, layout.Viewport.Height - LayoutConstants.BottomMargin - Bounds.Height);
