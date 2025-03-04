@@ -11,9 +11,21 @@ window.getGameContainerWidth = (cssSelector) => {
 
 window.gameResizeHandler = {
     init: (dotnetHelper) => {
-        window.addEventListener("resize", () => {
-            let width = document.querySelector(".game-container")?.clientWidth;
+        const resizeListener = () => {
+            let width = document.querySelector(".game-container")?.clientWidth || 0;
             dotnetHelper.invokeMethodAsync("UpdateGameWidth", width);
-        });
+        };
+
+        window.addEventListener("resize", resizeListener);
+
+        // Store reference so we can remove it later
+        window.gameResizeHandler._resizeListener = resizeListener;
+    },
+
+    dispose: () => {
+        if (window.gameResizeHandler._resizeListener) {
+            window.removeEventListener("resize", window.gameResizeHandler._resizeListener);
+            window.gameResizeHandler._resizeListener = null;
+        }
     }
 };

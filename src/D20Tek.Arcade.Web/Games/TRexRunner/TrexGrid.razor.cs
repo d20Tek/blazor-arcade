@@ -1,13 +1,13 @@
 ﻿using D20Tek.Arcade.Web.Common;
 using D20Tek.Arcade.Web.Games.TRexRunner.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace D20Tek.Arcade.Web.Games.TRexRunner;
 
 public partial class TrexGrid
 {
     private const int _endGameDelay = 300;
+    private TrexJsAdaptor? _jsAdaptor;
     private TrexGameEngine _engine;
 
     public TrexGrid() => _engine = TrexGameEngine.Create(GameState.Create(new RandomRoller()));
@@ -19,27 +19,13 @@ public partial class TrexGrid
     {
         if (firstRender)
         {
-            await RegisterJSCallbacks();
-            await GetInitialGameWidth();
+            _jsAdaptor = await TrexJsAdaptor.Create(JS, _engine.Input.ProcessKey, _engine.UpdateLayout);
+            _engine.UpdateLayout(await _jsAdaptor.GetInitialGameWidth());
             await RunGame();
         }
     }
 
-    [JSInvokable]
     public void HandleKeydown(string key) => _engine.Input.ProcessKey(key);
-
-    [JSInvokable]
-    public void UpdateGameWidth(int newWidth) => _engine.UpdateLayout(newWidth);
-
-    private async Task RegisterJSCallbacks()
-    {
-        var dotNetRef = DotNetObjectReference.Create(this);
-        await JS.InvokeVoidAsync("addKeyListener", dotNetRef);
-        await JS.InvokeVoidAsync("gameResizeHandler.init", dotNetRef);
-    }
-
-    private async Task GetInitialGameWidth() =>
-        _engine.UpdateLayout(await JS.InvokeAsync<int>("getGameContainerWidth", ".game-container"));
 
     private async Task RunGame()
     {
